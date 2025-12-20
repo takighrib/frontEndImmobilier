@@ -1,0 +1,162 @@
+<div class="about-page">
+  <!-- Hero Section -->
+  <section class="about-hero">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <h1>À Propos de Nous</h1>
+      <p>Votre partenaire immobilier de confiance depuis plus de 10 ans</p>
+    </div>
+  </section>
+
+  <!-- Qui Sommes Nous -->
+  <section class="who-we-are">
+    <div class="container">
+      <div class="content-grid">
+        <div class="text-content">
+          <h2>Qui Sommes-Nous ?</h2>
+          <p class="lead">
+            Agence Immobilière Premium est votre partenaire de confiance pour tous vos projets immobiliers en Tunisie.
+          </p>
+          <p>
+            Depuis plus de 10 ans, nous accompagnons nos clients dans la réalisation de leurs rêves immobiliers. 
+            Que vous souhaitiez acheter, vendre ou louer un bien, notre équipe d'experts est à votre écoute 
+            pour vous offrir un service personnalisé et professionnel.
+          </p>
+          <p>
+            Notre connaissance approfondie du marché tunisien, combinée à notre réseau étendu de partenaires, 
+            nous permet de vous proposer les meilleures opportunités et de maximiser la valeur de vos transactions.
+          </p>
+          <div class="cta-buttons">
+            <a routerLink="/contact" class="btn btn-primary">
+              <i class="fas fa-envelope"></i>
+              Contactez-nous
+            </a>
+            <a routerLink="/biens" class="btn btn-outline">
+              <i class="fas fa-home"></i>
+              Voir nos biens
+            </a>
+          </div>
+        </div>
+        <div class="image-content">
+          <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=800&fit=crop" alt="Notre agence">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Statistiques -->
+  <section class="stats-section">
+    <div class="container">
+      <h2 class="section-title">Nos Chiffres Clés</h2>
+      <div class="stats-grid">
+        <div *ngFor="let stat of stats" class="stat-card">
+          <div class="stat-icon">
+            <i class="fas" [ngClass]="stat.icon"></i>
+          </div>
+          <div class="stat-number">{{ stat.number }}</div>
+          <div class="stat-label">{{ stat.label }}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nos Services -->
+  <section class="services-section">
+    <div class="container">
+      <h2 class="section-title">Nos Services</h2>
+      <p class="section-subtitle">Un accompagnement complet pour tous vos besoins immobiliers</p>
+      
+      <div class="services-grid">
+        <div *ngFor="let service of services" class="service-card">
+          <div class="service-icon">
+            <i class="fas" [ngClass]="service.icon"></i>
+          </div>
+          <h3>{{ service.title }}</h3>
+          <p>{{ service.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nos Valeurs -->
+  <section class="values-section">
+    <div class="container">
+      <h2 class="section-title">Nos Valeurs</h2>
+      <p class="section-subtitle">Les principes qui guident notre action au quotidien</p>
+      
+      <div class="values-grid">
+        <div *ngFor="let value of values" class="value-card">
+          <div class="value-icon">
+            <i class="fas" [ngClass]="value.icon"></i>
+          </div>
+          <h3>{{ value.title }}</h3>
+          <p>{{ value.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Notre Équipe -->
+  <section class="team-section">
+    <div class="container">
+      <h2 class="section-title">Notre Équipe</h2>
+      <p class="section-subtitle">Des professionnels passionnés à votre service</p>
+      
+      <div class="team-grid">
+        <div class="team-member">
+          <div class="member-image">
+            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop" alt="Directeur">
+          </div>
+          <h3>Mohamed Salah</h3>
+          <p class="role">Directeur Général</p>
+          <p class="bio">Plus de 15 ans d'expérience dans l'immobilier</p>
+        </div>
+
+        <div class="team-member">
+          <div class="member-image">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop" alt="Responsable">
+          </div>
+          <h3>Amira Ben Ali</h3>
+          <p class="role">Responsable Commercial</p>
+          <p class="bio">Experte en transactions immobilières</p>
+        </div>
+
+        <div class="team-member">
+          <div class="member-image">
+            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop" alt="Conseiller">
+          </div>
+          <h3>Karim Trabelsi</h3>
+          <p class="role">Conseiller Senior</p>
+          <p class="bio">Spécialiste en biens de prestige</p>
+        </div>
+
+        <div class="team-member">
+          <div class="member-image">
+            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop" alt="Conseillère">
+          </div>
+          <h3>Leila Gharbi</h3>
+          <p class="role">Conseillère Immobilier</p>
+          <p class="bio">Experte en location et gestion</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Prêt à Concrétiser Votre Projet ?</h2>
+      <p>Contactez-nous dès aujourd'hui pour un accompagnement personnalisé</p>
+      <div class="cta-buttons">
+        <a routerLink="/contact" class="btn btn-white">
+          <i class="fas fa-envelope"></i>
+          Nous contacter
+        </a>
+        <a href="tel:+21670123456" class="btn btn-outline-white">
+          <i class="fas fa-phone"></i>
+          +216 70 123 456
+        </a>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,133 @@
+<div class="biens-list-page">
+  <div class="container">
+    <!-- Header -->
+    <div class="page-header">
+      <h1>Nos Biens Immobiliers</h1>
+      <p>Découvrez notre catalogue complet de propriétés</p>
+    </div>
+
+    <!-- Filtres -->
+    <div class="filters-section">
+      <h3><i class="fas fa-filter"></i> Filtrer les résultats</h3>
+      <div class="filters-form">
+        <div class="filter-group">
+          <label>Ville</label>
+          <input 
+            type="text" 
+            [(ngModel)]="villeFilter" 
+            placeholder="Ex: Tunis, La Marsa..."
+            (keyup.enter)="rechercher()">
+        </div>
+
+        <div class="filter-group">
+          <label>Type de transaction</label>
+          <select [(ngModel)]="typeTransactionFilter" (change)="rechercher()">
+            <option value="">Tous</option>
+            <option value="VENTE">Vente</option>
+            <option value="LOCATION">Location</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Prix maximum (DT)</label>
+          <input 
+            type="number" 
+            [(ngModel)]="prixMaxFilter" 
+            placeholder="Ex: 500000"
+            (keyup.enter)="rechercher()">
+        </div>
+
+        <div class="filter-actions">
+          <button class="btn btn-primary" (click)="rechercher()">
+            <i class="fas fa-search"></i> Rechercher
+          </button>
+          <button class="btn btn-outline" (click)="resetFilters()">
+            <i class="fas fa-redo"></i> Réinitialiser
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Résultats Count -->
+    <div class="results-count" *ngIf="!loading">
+      <p>{{ biens.length }} bien(s) trouvé(s)</p>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Chargement des biens...</p>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="error-message">
+      <i class="fas fa-exclamation-triangle"></i>
+      <p>{{ error }}</p>
+      <button class="btn btn-primary" (click)="loadBiens()">Réessayer</button>
+    </div>
+
+    <!-- Liste des biens -->
+    <div *ngIf="!loading && !error" class="biens-grid">
+      <div *ngFor="let bien of biens" class="bien-card" [routerLink]="['/bien', bien.id]">
+        <div class="bien-image">
+          <img [src]="bienService.getImagePrincipale(bien)" [alt]="bien.titre">
+          <span class="bien-badge" [class.badge-location]="bien.typeTransaction === 'LOCATION'">
+            {{ bien.typeTransaction === 'VENTE' ? 'À Vendre' : 'À Louer' }}
+          </span>
+        </div>
+        <div class="bien-content">
+          <h3 class="bien-title">{{ bien.titre }}</h3>
+          <div class="bien-location">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>{{ bien.ville }}{{ bien.quartier ? ', ' + bien.quartier : '' }}</span>
+          </div>
+          <div class="bien-details">
+            <div class="detail-item">
+              <i class="fas fa-ruler-combined"></i>
+              <span>{{ bien.surface }}m²</span>
+            </div>
+            <div class="detail-item" *ngIf="bien.nombreChambres">
+              <i class="fas fa-bed"></i>
+              <span>{{ bien.nombreChambres }} ch.</span>
+            </div>
+            <div class="detail-item" *ngIf="bien.nombreSallesBain">
+              <i class="fas fa-bath"></i>
+              <span>{{ bien.nombreSallesBain }} sdb</span>
+            </div>
+          </div>
+          
+          <!-- Caractéristiques supplémentaires -->
+          <div class="bien-features" *ngIf="bien.jardin || bien.garage || bien.piscine || bien.parking">
+            <span class="feature" *ngIf="bien.jardin">
+              <i class="fas fa-tree"></i> Jardin
+            </span>
+            <span class="feature" *ngIf="bien.garage">
+              <i class="fas fa-warehouse"></i> Garage
+            </span>
+            <span class="feature" *ngIf="bien.piscine">
+              <i class="fas fa-swimming-pool"></i> Piscine
+            </span>
+            <span class="feature" *ngIf="bien.parking">
+              <i class="fas fa-parking"></i> Parking
+            </span>
+          </div>
+
+          <div class="bien-prix">
+            {{ bienService.formatPrix(bien.prix) }} 
+            {{ bien.typeTransaction === 'LOCATION' ? 'DT/mois' : 'DT' }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Aucun résultat -->
+    <div *ngIf="!loading && !error && biens.length === 0" class="no-results">
+      <i class="fas fa-search"></i>
+      <h3>Aucun bien trouvé</h3>
+      <p>Essayez de modifier vos critères de recherche</p>
+      <button class="btn btn-primary" (click)="resetFilters()">
+        Voir tous les biens
+      </button>
+    </div>
+  </div>
+</div>

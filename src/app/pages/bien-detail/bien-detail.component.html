@@ -1,0 +1,157 @@
+<div class="bien-detail-page">
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Chargement...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="error-container">
+    <i class="fas fa-exclamation-triangle"></i>
+    <h2>{{ error }}</h2>
+    <a routerLink="/biens" class="btn btn-primary">Retour aux biens</a>
+  </div>
+
+  <!-- Bien Detail -->
+  <div *ngIf="!loading && !error && bien" class="container">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <a routerLink="/">Accueil</a>
+      <i class="fas fa-chevron-right"></i>
+      <a routerLink="/biens">Biens</a>
+      <i class="fas fa-chevron-right"></i>
+      <span>{{ bien.titre }}</span>
+    </div>
+
+    <!-- Main Content -->
+    <div class="detail-content">
+      <!-- Gallery -->
+      <div class="gallery-section">
+        <div class="main-image">
+          <img [src]="bien.images[currentImageIndex]" [alt]="bien.titre">
+          <span class="bien-badge" [class.badge-location]="bien.typeTransaction === 'LOCATION'">
+            {{ bien.typeTransaction === 'VENTE' ? 'À Vendre' : 'À Louer' }}
+          </span>
+          
+          <!-- Navigation Arrows -->
+          <button class="arrow arrow-left" (click)="prevImage()" *ngIf="bien.images.length > 1">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="arrow arrow-right" (click)="nextImage()" *ngIf="bien.images.length > 1">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+
+        <!-- Thumbnails -->
+        <div class="thumbnails" *ngIf="bien.images.length > 1">
+          <div 
+            *ngFor="let image of bien.images; let i = index" 
+            class="thumbnail"
+            [class.active]="i === currentImageIndex"
+            (click)="selectImage(i)">
+            <img [src]="image" [alt]="'Image ' + (i + 1)">
+          </div>
+        </div>
+      </div>
+
+      <!-- Info Section -->
+      <div class="info-section">
+        <h1>{{ bien.titre }}</h1>
+        
+        <div class="location">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>{{ bien.adresse }}, {{ bien.ville }}</span>
+        </div>
+
+        <div class="prix-container">
+          <div class="prix">
+            {{ bienService.formatPrix(bien.prix) }} 
+            {{ bien.typeTransaction === 'LOCATION' ? 'DT/mois' : 'DT' }}
+          </div>
+        </div>
+
+        <!-- Caractéristiques principales -->
+        <div class="caracteristiques-grid">
+          <div class="carac-item">
+            <i class="fas fa-ruler-combined"></i>
+            <div>
+              <div class="label">Surface</div>
+              <div class="value">{{ bien.surface }}m²</div>
+            </div>
+          </div>
+          <div class="carac-item" *ngIf="bien.nombreChambres">
+            <i class="fas fa-bed"></i>
+            <div>
+              <div class="label">Chambres</div>
+              <div class="value">{{ bien.nombreChambres }}</div>
+            </div>
+          </div>
+          <div class="carac-item" *ngIf="bien.nombreSallesBain">
+            <i class="fas fa-bath"></i>
+            <div>
+              <div class="label">Salles de bain</div>
+              <div class="value">{{ bien.nombreSallesBain }}</div>
+            </div>
+          </div>
+          <div class="carac-item" *ngIf="bien.nombrePieces">
+            <i class="fas fa-home"></i>
+            <div>
+              <div class="label">Pièces</div>
+              <div class="value">{{ bien.nombrePieces }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Équipements -->
+        <div class="equipements" *ngIf="bien.jardin || bien.garage || bien.piscine || bien.climatisation || bien.parking || bien.balcon">
+          <h3>Équipements</h3>
+          <div class="equipements-grid">
+            <div class="equipement" *ngIf="bien.jardin">
+              <i class="fas fa-tree"></i> Jardin
+            </div>
+            <div class="equipement" *ngIf="bien.garage">
+              <i class="fas fa-warehouse"></i> Garage
+            </div>
+            <div class="equipement" *ngIf="bien.piscine">
+              <i class="fas fa-swimming-pool"></i> Piscine
+            </div>
+            <div class="equipement" *ngIf="bien.climatisation">
+              <i class="fas fa-snowflake"></i> Climatisation
+            </div>
+            <div class="equipement" *ngIf="bien.parking">
+              <i class="fas fa-parking"></i> Parking
+            </div>
+            <div class="equipement" *ngIf="bien.balcon">
+              <i class="fas fa-building"></i> Balcon
+            </div>
+            <div class="equipement" *ngIf="bien.meuble">
+              <i class="fas fa-couch"></i> Meublé
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Buttons -->
+        <div class="contact-buttons">
+          <a href="tel:+21670123456" class="btn btn-primary">
+            <i class="fas fa-phone"></i>
+            Appeler
+          </a>
+          <a [href]="getWhatsAppLink()" class="btn btn-success" target="_blank">
+            <i class="fab fa-whatsapp"></i>
+            WhatsApp
+          </a>
+          <a routerLink="/contact" [queryParams]="{bienId: bien.id}" class="btn btn-outline">
+            <i class="fas fa-envelope"></i>
+            Email
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="description-section">
+      <h2>Description</h2>
+      <p>{{ bien.description }}</p>
+    </div>
+  </div>
+</div>

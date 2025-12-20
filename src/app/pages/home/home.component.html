@@ -1,0 +1,137 @@
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1 class="hero-title">Trouvez la Propriété de Vos Rêves</h1>
+    <p class="hero-subtitle">Découvrez notre sélection exclusive de biens immobiliers en Tunisie</p>
+    <a routerLink="/biens" class="btn btn-hero">
+      Voir tous les biens
+      <i class="fas fa-arrow-right"></i>
+    </a>
+  </div>
+</section>
+
+<!-- Biens à la Une -->
+<section class="featured-section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Biens à la Une</h2>
+      <p>Découvrez notre sélection de propriétés exceptionnelles</p>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Chargement des biens...</p>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="error-message">
+      <i class="fas fa-exclamation-triangle"></i>
+      <p>{{ error }}</p>
+      <button class="btn" (click)="loadBiens()">Réessayer</button>
+    </div>
+
+    <!-- Biens Grid -->
+    <div *ngIf="!loading && !error" class="biens-grid">
+      <div *ngFor="let bien of biensFeatured" class="bien-card" [routerLink]="['/bien', bien.id]">
+        <div class="bien-image">
+          <img [src]="bienService.getImagePrincipale(bien)" [alt]="bien.titre">
+          <span class="bien-badge" [class.badge-location]="bien.typeTransaction === 'LOCATION'">
+            {{ bien.typeTransaction === 'VENTE' ? 'À Vendre' : 'À Louer' }}
+          </span>
+        </div>
+        <div class="bien-content">
+          <h3 class="bien-title">{{ bien.titre }}</h3>
+          <div class="bien-location">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>{{ bien.ville }}{{ bien.quartier ? ', ' + bien.quartier : '' }}</span>
+          </div>
+          <div class="bien-details">
+            <div class="detail-item">
+              <i class="fas fa-ruler-combined"></i>
+              <span>{{ bien.surface }}m²</span>
+            </div>
+            <div class="detail-item" *ngIf="bien.nombreChambres">
+              <i class="fas fa-bed"></i>
+              <span>{{ bien.nombreChambres }} ch.</span>
+            </div>
+            <div class="detail-item" *ngIf="bien.nombreSallesBain">
+              <i class="fas fa-bath"></i>
+              <span>{{ bien.nombreSallesBain }} sdb</span>
+            </div>
+          </div>
+          <div class="bien-prix">
+            {{ bienService.formatPrix(bien.prix) }} 
+            {{ bien.typeTransaction === 'LOCATION' ? 'DT/mois' : 'DT' }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Message si aucun bien -->
+    <div *ngIf="!loading && !error && biensFeatured.length === 0" class="no-results">
+      <i class="fas fa-home"></i>
+      <p>Aucun bien disponible pour le moment</p>
+    </div>
+
+    <!-- Bouton Voir Plus -->
+    <div *ngIf="biensFeatured.length > 0" class="text-center" style="margin-top: 3rem;">
+      <a routerLink="/biens" class="btn btn-primary btn-lg">
+        Voir tous les biens
+        <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Section À Propos (optionnel) -->
+<section class="about-preview">
+  <div class="container">
+    <div class="about-content">
+      <div class="about-text">
+        <h2>Votre Partenaire Immobilier de Confiance</h2>
+        <p>
+          Avec plus de 10 ans d'expérience dans le secteur immobilier tunisien, 
+          nous vous accompagnons dans tous vos projets : achat, vente ou location.
+        </p>
+        <div class="stats">
+          <div class="stat-item">
+            <div class="stat-number">500+</div>
+            <div class="stat-label">Biens vendus</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">1000+</div>
+            <div class="stat-label">Clients satisfaits</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">10+</div>
+            <div class="stat-label">Années d'expérience</div>
+          </div>
+        </div>
+        <a routerLink="/about" class="btn btn-outline">En savoir plus</a>
+      </div>
+      <div class="about-image">
+        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600" alt="Agence">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section Contact -->
+<section class="contact-cta">
+  <div class="container">
+    <h2>Une Question ? Contactez-nous !</h2>
+    <p>Notre équipe est à votre disposition pour répondre à toutes vos questions</p>
+    <div class="cta-buttons">
+      <a href="tel:+21670123456" class="btn btn-white">
+        <i class="fas fa-phone"></i>
+        +216 70 123 456
+      </a>
+      <a routerLink="/contact" class="btn btn-outline-white">
+        <i class="fas fa-envelope"></i>
+        Nous contacter
+      </a>
+    </div>
+  </div>
+</section>
