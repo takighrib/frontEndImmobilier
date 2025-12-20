@@ -1,56 +1,18 @@
 <div class="biens-list-page">
   <div class="container">
-    <!-- Header -->
+    <!-- Header avec bouton filtres -->
     <div class="page-header">
-      <h1>Nos Biens Immobiliers</h1>
-      <p>Découvrez notre catalogue complet de propriétés</p>
-    </div>
-
-    <!-- Filtres -->
-    <div class="filters-section">
-      <h3><i class="fas fa-filter"></i> Filtrer les résultats</h3>
-      <div class="filters-form">
-        <div class="filter-group">
-          <label>Ville</label>
-          <input 
-            type="text" 
-            [(ngModel)]="villeFilter" 
-            placeholder="Ex: Tunis, La Marsa..."
-            (keyup.enter)="rechercher()">
+      <div class="header-content">
+        <div>
+          <h1>Nos Biens Immobiliers</h1>
+          <p>Découvrez notre catalogue complet de {{ biens.length }} propriété(s)</p>
         </div>
-
-        <div class="filter-group">
-          <label>Type de transaction</label>
-          <select [(ngModel)]="typeTransactionFilter" (change)="rechercher()">
-            <option value="">Tous</option>
-            <option value="VENTE">Vente</option>
-            <option value="LOCATION">Location</option>
-          </select>
-        </div>
-
-        <div class="filter-group">
-          <label>Prix maximum (DT)</label>
-          <input 
-            type="number" 
-            [(ngModel)]="prixMaxFilter" 
-            placeholder="Ex: 500000"
-            (keyup.enter)="rechercher()">
-        </div>
-
-        <div class="filter-actions">
-          <button class="btn btn-primary" (click)="rechercher()">
-            <i class="fas fa-search"></i> Rechercher
-          </button>
-          <button class="btn btn-outline" (click)="resetFilters()">
-            <i class="fas fa-redo"></i> Réinitialiser
-          </button>
-        </div>
+        <button class="btn-filters" (click)="toggleFilterSidebar()">
+          <i class="fas fa-sliders-h"></i>
+          <span>Filtres</span>
+          <span class="filter-badge" *ngIf="activeFiltersCount > 0">{{ activeFiltersCount }}</span>
+        </button>
       </div>
-    </div>
-
-    <!-- Résultats Count -->
-    <div class="results-count" *ngIf="!loading">
-      <p>{{ biens.length }} bien(s) trouvé(s)</p>
     </div>
 
     <!-- Loading -->
@@ -126,8 +88,245 @@
       <h3>Aucun bien trouvé</h3>
       <p>Essayez de modifier vos critères de recherche</p>
       <button class="btn btn-primary" (click)="resetFilters()">
-        Voir tous les biens
+        Réinitialiser les filtres
       </button>
     </div>
   </div>
+</div>
+
+<!-- Sidebar Filtres -->
+<aside class="filter-sidebar" [class.active]="isFilterSidebarOpen">
+  <div class="sidebar-content">
+    <!-- En-tête -->
+    <div class="sidebar-header">
+      <h2>
+        <i class="fas fa-sliders-h"></i>
+        Filtres de recherche
+      </h2>
+      <button class="btn-close" (click)="closeFilterSidebar()" aria-label="Fermer les filtres">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Formulaire de filtres -->
+    <form class="filters-form" (ngSubmit)="rechercher()">
+      
+      <!-- Filtres de base -->
+      <div class="filter-section">
+        <h3 class="section-title">
+          <i class="fas fa-search"></i>
+          Recherche rapide
+        </h3>
+
+        <div class="form-group">
+          <label for="ville">
+            <i class="fas fa-map-marker-alt"></i>
+            Ville
+          </label>
+          <input 
+            type="text" 
+            id="ville"
+            [(ngModel)]="villeFilter"
+            name="ville"
+            placeholder="Ex: Tunis, La Marsa..."
+            class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="typeTransaction">
+            <i class="fas fa-exchange-alt"></i>
+            Type de transaction
+          </label>
+          <select 
+            id="typeTransaction"
+            [(ngModel)]="typeTransactionFilter"
+            name="typeTransaction"
+            class="form-control">
+            <option value="">Tous</option>
+            <option value="VENTE">Vente</option>
+            <option value="LOCATION">Location</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Filtres Prix -->
+      <div class="filter-section">
+        <h3 class="section-title">
+          <i class="fas fa-euro-sign"></i>
+          Fourchette de prix (DT)
+        </h3>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="prixMin">Prix minimum</label>
+            <input 
+              type="number" 
+              id="prixMin"
+              [(ngModel)]="prixMinFilter"
+              name="prixMin"
+              placeholder="Min"
+              class="form-control"
+              min="0">
+          </div>
+
+          <div class="form-group">
+            <label for="prixMax">Prix maximum</label>
+            <input 
+              type="number" 
+              id="prixMax"
+              [(ngModel)]="prixMaxFilter"
+              name="prixMax"
+              placeholder="Max"
+              class="form-control"
+              min="0">
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtres Surface -->
+      <div class="filter-section">
+        <h3 class="section-title">
+          <i class="fas fa-ruler-combined"></i>
+          Surface (m²)
+        </h3>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="surfaceMin">Surface min</label>
+            <input 
+              type="number" 
+              id="surfaceMin"
+              [(ngModel)]="surfaceMinFilter"
+              name="surfaceMin"
+              placeholder="Min"
+              class="form-control"
+              min="0">
+          </div>
+
+          <div class="form-group">
+            <label for="surfaceMax">Surface max</label>
+            <input 
+              type="number" 
+              id="surfaceMax"
+              [(ngModel)]="surfaceMaxFilter"
+              name="surfaceMax"
+              placeholder="Max"
+              class="form-control"
+              min="0">
+          </div>
+        </div>
+      </div>
+
+      <!-- Nombre de chambres -->
+      <div class="filter-section">
+        <h3 class="section-title">
+          <i class="fas fa-bed"></i>
+          Nombre de chambres
+        </h3>
+
+        <div class="form-group">
+          <select 
+            id="nombreChambres"
+            [(ngModel)]="nombreChambresFilter"
+            name="nombreChambres"
+            class="form-control">
+            <option [ngValue]="null">Tous</option>
+            <option [ngValue]="1">1 chambre</option>
+            <option [ngValue]="2">2 chambres</option>
+            <option [ngValue]="3">3 chambres</option>
+            <option [ngValue]="4">4 chambres</option>
+            <option [ngValue]="5">5+ chambres</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Équipements -->
+      <div class="filter-section">
+        <h3 class="section-title">
+          <i class="fas fa-check-circle"></i>
+          Équipements
+        </h3>
+
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input 
+              type="checkbox" 
+              [(ngModel)]="jardinFilter"
+              name="jardin">
+            <span class="checkbox-custom"></span>
+            <i class="fas fa-tree"></i>
+            <span>Jardin</span>
+          </label>
+
+          <label class="checkbox-label">
+            <input 
+              type="checkbox" 
+              [(ngModel)]="garageFilter"
+              name="garage">
+            <span class="checkbox-custom"></span>
+            <i class="fas fa-warehouse"></i>
+            <span>Garage</span>
+          </label>
+
+          <label class="checkbox-label">
+            <input 
+              type="checkbox" 
+              [(ngModel)]="piscineFilter"
+              name="piscine">
+            <span class="checkbox-custom"></span>
+            <i class="fas fa-swimming-pool"></i>
+            <span>Piscine</span>
+          </label>
+
+          <label class="checkbox-label">
+            <input 
+              type="checkbox" 
+              [(ngModel)]="parkingFilter"
+              name="parking">
+            <span class="checkbox-custom"></span>
+            <i class="fas fa-parking"></i>
+            <span>Parking</span>
+          </label>
+
+          <label class="checkbox-label">
+            <input 
+              type="checkbox" 
+              [(ngModel)]="climatisationFilter"
+              name="climatisation">
+            <span class="checkbox-custom"></span>
+            <i class="fas fa-snowflake"></i>
+            <span>Climatisation</span>
+          </label>
+
+          <label class="checkbox-label">
+            <input 
+              type="checkbox" 
+              [(ngModel)]="meubleFilter"
+              name="meuble">
+            <span class="checkbox-custom"></span>
+            <i class="fas fa-couch"></i>
+            <span>Meublé</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="filter-actions">
+        <button type="submit" class="btn btn-primary btn-block">
+          <i class="fas fa-search"></i>
+          Rechercher
+        </button>
+        <button type="button" class="btn btn-outline btn-block" (click)="resetFilters()">
+          <i class="fas fa-redo"></i>
+          Réinitialiser
+        </button>
+      </div>
+    </form>
+  </div>
+</aside>
+
+<!-- Overlay -->
+<div class="filter-overlay" 
+     [class.active]="isFilterSidebarOpen" 
+     (click)="closeFilterSidebar()">
 </div>

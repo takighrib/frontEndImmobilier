@@ -11,24 +11,24 @@ import { RouterModule } from '@angular/router';
 })
 export class NavbarComponent {
   isScrolled = false;
-  isMobileMenuOpen = false;
+  isSidebarOpen = false;
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     this.isScrolled = window.pageYOffset > 50;
   }
 
-  toggleMobileMenu(): void {
-    this.isMobileMenuOpen = !this.isMobileMenuOpen;
-    if (this.isMobileMenuOpen) {
+  toggleSidebar(): void {
+    this.isSidebarOpen = !this.isSidebarOpen;
+    if (this.isSidebarOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
     }
   }
 
-  closeMobileMenu(): void {
-    this.isMobileMenuOpen = false;
+  closeSidebar(): void {
+    this.isSidebarOpen = false;
     document.body.style.overflow = '';
   }
 }
