@@ -2,156 +2,175 @@
   <div class="container">
     <div class="nav-content">
       <!-- Logo -->
-      <a routerLink="/" class="logo" (click)="closeSidebar()">
+      <a routerLink="/" class="logo">
         <i class="fas fa-home"></i>
         <span>Agence Premium</span>
       </a>
       
+      <!-- Navigation Desktop -->
+      <ul class="nav-links desktop-nav">
+        <li>
+          <a routerLink="/" 
+             routerLinkActive="active" 
+             [routerLinkActiveOptions]="{exact: true}">
+            <i class="fas fa-home"></i>
+            <span>Accueil</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/biens" 
+             routerLinkActive="active">
+            <i class="fas fa-building"></i>
+            <span>Nos Biens</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/about" 
+             routerLinkActive="active">
+            <i class="fas fa-info-circle"></i>
+            <span>À Propos</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/contact" 
+             routerLinkActive="active">
+            <i class="fas fa-envelope"></i>
+            <span>Contact</span>
+          </a>
+        </li>
+      </ul>
+
       <!-- Actions Desktop -->
       <div class="nav-actions">
-        <a href="tel:+21670123456" class="btn-contact">
-          <i class="fas fa-phone"></i>
-          <span>+216 70 123 456</span>
-        </a>
-        <button class="btn-menu" (click)="toggleSidebar()" [attr.aria-label]="isSidebarOpen ? 'Fermer le menu' : 'Ouvrir le menu'">
-          <i class="fas" [ngClass]="isSidebarOpen ? 'fa-times' : 'fa-bars'"></i>
+        <!-- Contact Dropdown -->
+        <div class="dropdown-wrapper">
+          <button class="btn-contact-dropdown" (click)="toggleContactDropdown()">
+            <i class="fas fa-phone"></i>
+            <span>Contact</span>
+            <i class="fas fa-chevron-down" [class.rotated]="isContactDropdownOpen"></i>
+          </button>
+          
+          <div class="contact-dropdown" [class.active]="isContactDropdownOpen">
+            <a href="tel:+21670123456" class="dropdown-item phone">
+              <div class="icon-wrapper">
+                <i class="fas fa-phone"></i>
+              </div>
+              <div class="contact-details">
+                <span class="label">Téléphone</span>
+                <span class="value">+216 70 123 456</span>
+              </div>
+            </a>
+
+            <a href="mailto:contact&#64;agence-premium.tn" class="dropdown-item email">
+              <div class="icon-wrapper">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div class="contact-details">
+                <span class="label">Email</span>
+                <span class="value">contact&#64;agence-premium.tn</span>
+              </div>
+            </a>
+
+            <a href="https://wa.me/21670123456" target="_blank" class="dropdown-item whatsapp">
+              <div class="icon-wrapper">
+                <i class="fab fa-whatsapp"></i>
+              </div>
+              <div class="contact-details">
+                <span class="label">WhatsApp</span>
+                <span class="value">+216 70 123 456</span>
+              </div>
+            </a>
+
+            <div class="social-links">
+              <a href="#" aria-label="Facebook" target="_blank" class="social-btn facebook">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" aria-label="Instagram" target="_blank" class="social-btn instagram">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="#" aria-label="LinkedIn" target="_blank" class="social-btn linkedin">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a href="https://wa.me/21670123456" aria-label="WhatsApp" target="_blank" class="social-btn whatsapp">
+                <i class="fab fa-whatsapp"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Menu Mobile -->
+        <button class="btn-menu" (click)="toggleMobileMenu()" [attr.aria-label]="isMobileMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'">
+          <i class="fas" [ngClass]="isMobileMenuOpen ? 'fa-times' : 'fa-bars'"></i>
         </button>
       </div>
     </div>
-  </div>
-</nav>
 
-<!-- Sidebar -->
-<aside class="sidebar" [class.active]="isSidebarOpen">
-  <div class="sidebar-content">
-    <!-- En-tête Sidebar -->
-    <div class="sidebar-header">
-      <div class="sidebar-logo">
-        <i class="fas fa-home"></i>
-        <span>Agence Premium</span>
-      </div>
-      <button class="btn-close" (click)="closeSidebar()" aria-label="Fermer le menu">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-
-    <!-- Navigation Principale -->
-    <nav class="sidebar-nav">
-      <h3 class="nav-section-title">
-        <i class="fas fa-compass"></i>
-        Navigation
-      </h3>
-      <ul class="nav-links">
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" [class.active]="isMobileMenuOpen">
+      <ul class="mobile-nav-links">
         <li>
           <a routerLink="/" 
              routerLinkActive="active" 
              [routerLinkActiveOptions]="{exact: true}"
-             (click)="closeSidebar()">
+             (click)="closeMobileMenu()">
             <i class="fas fa-home"></i>
             <span>Accueil</span>
-            <i class="fas fa-chevron-right arrow"></i>
           </a>
         </li>
         <li>
           <a routerLink="/biens" 
              routerLinkActive="active"
-             (click)="closeSidebar()">
+             (click)="closeMobileMenu()">
             <i class="fas fa-building"></i>
             <span>Nos Biens</span>
-            <i class="fas fa-chevron-right arrow"></i>
           </a>
         </li>
         <li>
           <a routerLink="/about" 
              routerLinkActive="active"
-             (click)="closeSidebar()">
+             (click)="closeMobileMenu()">
             <i class="fas fa-info-circle"></i>
             <span>À Propos</span>
-            <i class="fas fa-chevron-right arrow"></i>
           </a>
         </li>
         <li>
           <a routerLink="/contact" 
              routerLinkActive="active"
-             (click)="closeSidebar()">
+             (click)="closeMobileMenu()">
             <i class="fas fa-envelope"></i>
             <span>Contact</span>
-            <i class="fas fa-chevron-right arrow"></i>
           </a>
         </li>
       </ul>
-    </nav>
 
-    <!-- Informations de Contact -->
-    <div class="sidebar-contact">
-      <h3 class="nav-section-title">
-        <i class="fas fa-headset"></i>
-        Contactez-nous
-      </h3>
-      
-      <a href="tel:+21670123456" class="contact-item phone">
-        <div class="icon-wrapper">
+      <div class="mobile-contact">
+        <h3>Contactez-nous</h3>
+        <a href="tel:+21670123456" class="mobile-contact-item">
           <i class="fas fa-phone"></i>
-        </div>
-        <div class="contact-details">
-          <span class="label">Téléphone</span>
-          <span class="value">+216 70 123 456</span>
-        </div>
-      </a>
-
-      <a href="mailto:contactagence-premium.tn" class="contact-item email">
-        <div class="icon-wrapper">
+          <span>+216 70 123 456</span>
+        </a>
+        <a href="mailto:contact&#64;agence-premium.tn" class="mobile-contact-item">
           <i class="fas fa-envelope"></i>
-        </div>
-        <div class="contact-details">
-          <span class="label">Email</span>
-          <span class="value">contactagence-premium.tn</span>
-        </div>
-      </a>
-
-      <a href="https://wa.me/21670123456" target="_blank" class="contact-item whatsapp">
-        <div class="icon-wrapper">
+          <span>contact&#64;agence-premium.tn</span>
+        </a>
+        <a href="https://wa.me/21670123456" target="_blank" class="mobile-contact-item">
           <i class="fab fa-whatsapp"></i>
-        </div>
-        <div class="contact-details">
-          <span class="label">WhatsApp</span>
-          <span class="value">+216 70 123 456</span>
-        </div>
-      </a>
-    </div>
-
-    <!-- Réseaux Sociaux -->
-    <div class="sidebar-social">
-      <h3 class="nav-section-title">
-        <i class="fas fa-share-nodes"></i>
-        Suivez-nous
-      </h3>
-      <div class="social-links">
-        <a href="#" aria-label="Facebook" target="_blank" class="social-btn facebook">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="#" aria-label="Instagram" target="_blank" class="social-btn instagram">
-          <i class="fab fa-instagram"></i>
-        </a>
-        <a href="#" aria-label="LinkedIn" target="_blank" class="social-btn linkedin">
-          <i class="fab fa-linkedin-in"></i>
-        </a>
-        <a href="https://wa.me/21670123456" aria-label="WhatsApp" target="_blank" class="social-btn whatsapp">
-          <i class="fab fa-whatsapp"></i>
+          <span>WhatsApp</span>
         </a>
       </div>
-    </div>
 
-    <!-- Footer Sidebar -->
-    <div class="sidebar-footer">
-      <p> Agence Premium</p>
-      <p>Tous droits réservés</p>
+      <div class="mobile-social">
+        <a href="#" class="social-btn facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-btn instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://wa.me/21670123456" class="social-btn whatsapp"><i class="fab fa-whatsapp"></i></a>
+      </div>
     </div>
   </div>
-</aside>
+</nav>
 
 <!-- Overlay -->
-<div class="sidebar-overlay" 
-     [class.active]="isSidebarOpen" 
-     (click)="closeSidebar()">
+<div class="navbar-overlay" 
+     [class.active]="isMobileMenuOpen || isContactDropdownOpen" 
+     (click)="closeAll()">
 </div>

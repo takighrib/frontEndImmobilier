@@ -11,24 +11,44 @@ import { RouterModule } from '@angular/router';
 })
 export class NavbarComponent {
   isScrolled = false;
-  isSidebarOpen = false;
+  isMobileMenuOpen = false;
+  isContactDropdownOpen = false;
 
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     this.isScrolled = window.pageYOffset > 50;
   }
 
-  toggleSidebar(): void {
-    this.isSidebarOpen = !this.isSidebarOpen;
-    if (this.isSidebarOpen) {
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.dropdown-wrapper')) {
+      this.isContactDropdownOpen = false;
+    }
+  }
+
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    this.isContactDropdownOpen = false;
+    if (this.isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
     }
   }
 
-  closeSidebar(): void {
-    this.isSidebarOpen = false;
+  closeMobileMenu(): void {
+    this.isMobileMenuOpen = false;
+    document.body.style.overflow = '';
+  }
+
+  toggleContactDropdown(): void {
+    this.isContactDropdownOpen = !this.isContactDropdownOpen;
+  }
+
+  closeAll(): void {
+    this.isMobileMenuOpen = false;
+    this.isContactDropdownOpen = false;
     document.body.style.overflow = '';
   }
 }
