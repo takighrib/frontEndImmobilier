@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -26,6 +27,20 @@ export const routes: Routes = [
     path: 'about',
     loadComponent: () => import('./pages/about/about.component').then(m => m.AboutComponent),
     title: 'À Propos - Agence Immobilière Premium'
+  },
+
+  {
+    path: 'admin/login',
+    loadComponent: () => import('./pages/admin-login/admin-login.component')
+      .then(m => m.AdminLoginComponent),
+    title: 'Connexion Admin - Agence Immobilière'
+  },
+  {
+    path: 'admin/dashboard',
+    loadComponent: () => import('./pages/admin-dashboard/admin-dashboard.component')
+      .then(m => m.AdminDashboardComponent),
+    canActivate: [AuthGuard],
+    title: 'Dashboard Admin - Agence Immobilière'
   },
   {
     path: '**',

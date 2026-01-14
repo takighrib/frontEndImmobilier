@@ -1,0 +1,125 @@
+<div class="dashboard">
+  <!-- Navbar Admin -->
+  <nav class="admin-navbar">
+    <div class="nav-brand">
+      <i class="fas fa-shield-alt"></i>
+      <span>Admin Panel</span>
+    </div>
+    <div class="nav-user">
+      <span class="user-name">{{ currentUser?.prenom }} {{ currentUser?.nom }}</span>
+      <button class="btn-logout" (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+        Déconnexion
+      </button>
+    </div>
+  </nav>
+
+  <!-- Contenu Dashboard -->
+  <div class="dashboard-content">
+    <div class="welcome-section">
+      <h1>Bienvenue, {{ currentUser?.prenom }} !</h1>
+      <p>Voici un aperçu de votre agence immobilière</p>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Chargement des statistiques...</p>
+    </div>
+
+    <!-- Statistiques -->
+    <div *ngIf="!loading" class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-home"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">{{ stats.totalBiens }}</div>
+          <div class="stat-label">Biens totaux</div>
+        </div>
+      </div>
+      
+      <div class="stat-card stat-vente">
+        <div class="stat-icon">
+          <i class="fas fa-tag"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">{{ stats.biensVente }}</div>
+          <div class="stat-label">À vendre</div>
+        </div>
+      </div>
+      
+      <div class="stat-card stat-location">
+        <div class="stat-icon">
+          <i class="fas fa-key"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">{{ stats.biensLocation }}</div>
+          <div class="stat-label">À louer</div>
+        </div>
+      </div>
+      
+      <div class="stat-card stat-contact">
+        <div class="stat-icon">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">{{ stats.contactsNonTraites }}</div>
+          <div class="stat-label">Contacts en attente</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions Rapides -->
+    <div class="section-header">
+      <h2>Actions Rapides</h2>
+      <p>Accédez rapidement aux fonctionnalités principales</p>
+    </div>
+
+    <div class="quick-actions">
+      <a routerLink="/admin/biens" class="action-card">
+        <div class="action-icon">
+          <i class="fas fa-building"></i>
+        </div>
+        <div class="action-content">
+          <h3>Gérer les biens</h3>
+          <p>Ajouter, modifier ou supprimer des biens</p>
+        </div>
+        <i class="fas fa-arrow-right action-arrow"></i>
+      </a>
+
+      <a routerLink="/admin/contacts" class="action-card">
+        <div class="action-icon">
+          <i class="fas fa-inbox"></i>
+        </div>
+        <div class="action-content">
+          <h3>Demandes de contact</h3>
+          <p>Consulter et traiter les demandes</p>
+        </div>
+        <i class="fas fa-arrow-right action-arrow"></i>
+      </a>
+
+      <a routerLink="/admin/config" class="action-card">
+        <div class="action-icon">
+          <i class="fas fa-cog"></i>
+        </div>
+        <div class="action-content">
+          <h3>Configuration</h3>
+          <p>Paramètres de l'agence</p>
+        </div>
+        <i class="fas fa-arrow-right action-arrow"></i>
+      </a>
+
+      <a routerLink="/" class="action-card action-view-site">
+        <div class="action-icon">
+          <i class="fas fa-eye"></i>
+        </div>
+        <div class="action-content">
+          <h3>Voir le site</h3>
+          <p>Aperçu du site public</p>
+        </div>
+        <i class="fas fa-arrow-right action-arrow"></i>
+      </a>
+    </div>
+  </div>
+</div>
