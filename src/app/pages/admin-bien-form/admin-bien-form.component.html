@@ -1,0 +1,376 @@
+<div class="admin-form-page">
+  <!-- Navbar -->
+  <nav class="admin-navbar">
+    <div class="container">
+      <div class="nav-content">
+        <div class="nav-brand">
+          <i class="fas fa-edit"></i>
+          <span>{{ isEditMode ? 'Modifier le Bien' : 'Nouveau Bien' }}</span>
+        </div>
+        <button class="btn btn-outline" routerLink="/admin/biens">
+          <i class="fas fa-arrow-left"></i>
+          Retour à la liste
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Chargement...</p>
+    </div>
+
+    <!-- Formulaire -->
+    <form *ngIf="!loading" (ngSubmit)="onSubmit()" #bienForm="ngForm" class="bien-form">
+      
+      <!-- Informations de base -->
+      <div class="form-section">
+        <h3 class="section-title">
+          <i class="fas fa-info-circle"></i>
+          Informations de base
+        </h3>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="titre">Titre du bien *</label>
+            <input 
+              type="text" 
+              id="titre"
+              name="titre"
+              [(ngModel)]="bien.titre"
+              required
+              placeholder="Ex: Villa de Luxe avec Piscine"
+              class="form-control">
+          </div>
+        </div>
+<div class="form-group">
+  <label for="typeBien">Type de bien *</label>
+  <select 
+    id="typeBien"
+    name="typeBien"
+    [(ngModel)]="bien.typeBien"
+    required
+    class="form-control">
+    <option value="" disabled selected>Choisissez un type</option>
+    <option value="Appartement">Appartement</option>
+    <option value="Maison">Maison</option>
+    <option value="Villa">Villa</option>
+    <option value="Terrain">Terrain</option>
+    <option value="Bureau">Bureau</option>
+  </select>
+</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="typeTransaction">Type de transaction *</label>
+            <select 
+              id="typeTransaction"
+              name="typeTransaction"
+              [(ngModel)]="bien.typeTransaction"
+              required
+              class="form-control">
+              <option value="VENTE">Vente</option>
+              <option value="LOCATION">Location</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="statut">Statut *</label>
+            <select 
+              id="statut"
+              name="statut"
+              [(ngModel)]="bien.statut"
+              required
+              class="form-control">
+              <option value="DISPONIBLE">Disponible</option>
+              <option value="VENDU">Vendu</option>
+              <option value="LOUE">Loué</option>
+              <option value="RESERVE">Réservé</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea 
+            id="description"
+            name="description"
+            [(ngModel)]="bien.description"
+            rows="5"
+            placeholder="Décrivez le bien en détail..."
+            class="form-control"></textarea>
+        </div>
+      </div>
+
+      <!-- Localisation -->
+      <div class="form-section">
+        <h3 class="section-title">
+          <i class="fas fa-map-marker-alt"></i>
+          Localisation
+        </h3>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="ville">Ville *</label>
+            <input 
+              type="text" 
+              id="ville"
+              name="ville"
+              [(ngModel)]="bien.ville"
+              required
+              placeholder="Ex: Tunis"
+              class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="quartier">Quartier</label>
+            <input 
+              type="text" 
+              id="quartier"
+              name="quartier"
+              [(ngModel)]="bien.quartier"
+              placeholder="Ex: Les Berges du Lac"
+              class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="adresse">Adresse *</label>
+          <input 
+            type="text" 
+            id="adresse"
+            name="adresse"
+            [(ngModel)]="bien.adresse"
+            required
+            placeholder="Ex: Avenue Habib Bourguiba"
+            class="form-control">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="codePostal">Code postal</label>
+            <input 
+              type="text" 
+              id="codePostal"
+              name="codePostal"
+              [(ngModel)]="bien.codePostal"
+              placeholder="Ex: 1053"
+              class="form-control">
+          </div>
+
+          
+        </div>
+      </div>
+
+      <!-- Caractéristiques -->
+      <div class="form-section">
+        <h3 class="section-title">
+          <i class="fas fa-ruler-combined"></i>
+          Caractéristiques
+        </h3>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="surface">Surface (m²) *</label>
+            <input 
+              type="number" 
+              id="surface"
+              name="surface"
+              [(ngModel)]="bien.surface"
+              required
+              min="1"
+              placeholder="Ex: 150"
+              class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="prix">Prix (DT) *</label>
+            <input 
+              type="number" 
+              id="prix"
+              name="prix"
+              [(ngModel)]="bien.prix"
+              required
+              min="0"
+              placeholder="Ex: 320000"
+              class="form-control">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nombrePieces">Nombre de pièces</label>
+            <input 
+              type="number" 
+              id="nombrePieces"
+              name="nombrePieces"
+              [(ngModel)]="bien.nombrePieces"
+              min="0"
+              placeholder="Ex: 4"
+              class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="nombreChambres">Nombre de chambres</label>
+            <input 
+              type="number" 
+              id="nombreChambres"
+              name="nombreChambres"
+              [(ngModel)]="bien.nombreChambres"
+              min="0"
+              placeholder="Ex: 3"
+              class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="nombreSallesBain">Salles de bain</label>
+            <input 
+              type="number" 
+              id="nombreSallesBain"
+              name="nombreSallesBain"
+              [(ngModel)]="bien.nombreSallesBain"
+              min="0"
+              placeholder="Ex: 2"
+              class="form-control">
+          </div>
+        </div>
+      </div>
+
+      <!-- Équipements -->
+      <div class="form-section">
+        <h3 class="section-title">
+          <i class="fas fa-check-circle"></i>
+          Équipements
+        </h3>
+
+        <div class="checkboxes-grid">
+          <label class="checkbox-label">
+            <input type="checkbox" name="jardin" [(ngModel)]="bien.jardin">
+            <span class="checkbox-custom"></span>
+            <i class="fas fa-tree"></i>
+            <span>Jardin</span>
+          </label>
+
+          <label class="checkbox-label">
+            <input type="checkbox" name="garage" [(ngModel)]="bien.garage">
+            <span class="checkbox-custom"></span>
+            <i class="fas fa-warehouse"></i>
+            <span>Garage</span>
+          </label>
+
+          <label class="checkbox-label">
+            <input type="checkbox" name="piscine" [(ngModel)]="bien.piscine">
+            <span class="checkbox-custom"></span>
+            <i class="fas fa-swimming-pool"></i>
+            <span>Piscine</span>
+          </label>
+
+          <label class="checkbox-label">
+            <input type="checkbox" name="climatisation" [(ngModel)]="bien.climatisation">
+            <span class="checkbox-custom"></span>
+            <i class="fas fa-snowflake"></i>
+            <span>Climatisation</span>
+          </label>
+
+          <label class="checkbox-label">
+            <input type="checkbox" name="parking" [(ngModel)]="bien.parking">
+            <span class="checkbox-custom"></span>
+            <i class="fas fa-parking"></i>
+            <span>Parking</span>
+          </label>
+
+          <label class="checkbox-label">
+            <input type="checkbox" name="balcon" [(ngModel)]="bien.balcon">
+            <span class="checkbox-custom"></span>
+            <i class="fas fa-building"></i>
+            <span>Balcon</span>
+          </label>
+
+          <label class="checkbox-label">
+            <input type="checkbox" name="meuble" [(ngModel)]="bien.meuble">
+            <span class="checkbox-custom"></span>
+            <i class="fas fa-couch"></i>
+            <span>Meublé</span>
+          </label>
+
+          <label class="checkbox-label">
+            <input type="checkbox" name="ascenseur" [(ngModel)]="bien.ascenseur">
+            <span class="checkbox-custom"></span>
+            <i class="fas fa-elevator"></i>
+            <span>Ascenseur</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Images (URLs) -->
+      <div class="form-section">
+        <h3 class="section-title">
+          <i class="fas fa-image"></i>
+          Images (URLs)
+        </h3>
+
+        <div class="images-container">
+          <div *ngFor="let url of imageUrls; let i = index" class="image-input-group">
+            <input 
+              type="url" 
+              [(ngModel)]="imageUrls[i]"
+              [name]="'image' + i"
+              placeholder="https://exemple.com/image.jpg"
+              class="form-control">
+            <button 
+              type="button" 
+              class="btn-remove-image"
+              (click)="removeImageUrl(i)"
+              *ngIf="imageUrls.length > 1">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+
+        <button 
+          type="button" 
+          class="btn btn-outline"
+          (click)="addImageUrl()">
+          <i class="fas fa-plus"></i>
+          Ajouter une image
+        </button>
+      </div>
+
+      <!-- Options -->
+      <div class="form-section">
+        <h3 class="section-title">
+          <i class="fas fa-cog"></i>
+          Options
+        </h3>
+
+        <label class="checkbox-label">
+          <input type="checkbox" name="misEnAvant" [(ngModel)]="bien.misEnAvant">
+          <span class="checkbox-custom"></span>
+          <i class="fas fa-star"></i>
+          <span>Mettre en avant sur la page d'accueil</span>
+        </label>
+      </div>
+
+      <!-- Actions -->
+      <div class="form-actions">
+        <button 
+          type="submit" 
+          class="btn btn-primary btn-lg"
+          [disabled]="submitting || !bienForm.valid">
+          <i class="fas" [ngClass]="submitting ? 'fa-spinner fa-spin' : 'fa-save'"></i>
+          {{ submitting ? 'Enregistrement...' : (isEditMode ? 'Mettre à jour' : 'Créer le bien') }}
+        </button>
+        <button 
+          type="button" 
+          class="btn btn-outline btn-lg"
+          routerLink="/admin/biens"
+          [disabled]="submitting">
+          <i class="fas fa-times"></i>
+          Annuler
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -71,10 +71,10 @@ export class BienService {
   /**
    * Obtenir l'image principale
    */
-  getImagePrincipale(bien: Bien): string {
-    if (!bien.images || bien.images.length === 0) {
-      return 'assets/images/placeholder.jpg';
-    }
-    return bien.images[0];
+ getImagePrincipale(bien: Bien): string {
+  if (!bien.images || bien.images.length === 0) {
+    return 'assets/images/placeholder.jpg';
   }
+  return bien.images[0].urlImage;
+}
 }

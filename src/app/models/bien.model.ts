@@ -5,6 +5,7 @@
 export interface Bien {
   id: number;
   titre: string;
+  
   description: string;
   adresse: string;
   ville: string;
@@ -16,7 +17,10 @@ export interface Bien {
   typeTransaction: 'VENTE' | 'LOCATION';
   datePublication?: string;
   misEnAvant: boolean;
-  images: string[];
+  images: ImageBien[];
+  
+  // IMPORTANT : Type de bien pour le backend (APPARTEMENT, VILLA, MAISON, TERRAIN, BUREAU)
+  typeBien?: 'Appartement' | 'Maison' | 'Villa' | 'Terrain' | 'Bureau';
   
   // Propriétés optionnelles
   nombrePieces?: number;
@@ -27,6 +31,8 @@ export interface Bien {
   piscine?: boolean;
   climatisation?: boolean;
   etage?: number;
+  longitude?: number;
+  latitude?: number;
   ascenseur?: boolean;
   balcon?: boolean;
   parking?: boolean;
@@ -49,4 +55,9 @@ export interface Agence {
   adresse: string;
   description?: string;
   whatsappNumber?: string;
+}
+export interface ImageBien {
+  urlImage: string;
+  ordre: number;
+  estPrincipale: boolean;
 }

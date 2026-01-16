@@ -1,0 +1,198 @@
+<div class="admin-biens-page">
+  <!-- Header avec navbar admin -->
+  <nav class="admin-navbar">
+    <div class="container">
+      <div class="nav-content">
+        <div class="nav-brand">
+          <i class="fas fa-shield-alt"></i>
+          <span>Gestion des Biens</span>
+        </div>
+        <div class="nav-actions">
+          <button class="btn btn-primary" routerLink="/admin/biens/nouveau">
+            <i class="fas fa-plus"></i>
+            Nouveau Bien
+          </button>
+          <button class="btn btn-outline" routerLink="/admin/dashboard">
+            <i class="fas fa-arrow-left"></i>
+            Retour
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Stats rapides -->
+    <div class="stats-cards" *ngIf="!loading">
+      <div class="stat-card">
+        <div class="stat-icon blue">
+          <i class="fas fa-home"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">{{ biens.length }}</div>
+          <div class="stat-label">Total Biens</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon yellow">
+          <i class="fas fa-tag"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">{{ biensVente }}</div>
+          <div class="stat-label">À Vendre</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon green">
+          <i class="fas fa-key"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">{{ biensLocation }}</div>
+          <div class="stat-label">À Louer</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filtres -->
+    <div class="filters-bar" *ngIf="!loading">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input 
+          type="text" 
+          placeholder="Rechercher par titre ou ville..."
+          [(ngModel)]="searchTerm"
+          (input)="filterBiens()">
+      </div>
+      
+      <select [(ngModel)]="filterStatut" (change)="filterBiens()" class="filter-select">
+        <option value="">Tous les statuts</option>
+        <option value="DISPONIBLE">Disponible</option>
+        <option value="VENDU">Vendu</option>
+        <option value="LOUE">Loué</option>
+        <option value="RESERVE">Réservé</option>
+      </select>
+
+      <select [(ngModel)]="filterType" (change)="filterBiens()" class="filter-select">
+        <option value="">Tous les types</option>
+        <option value="VENTE">Vente</option>
+        <option value="LOCATION">Location</option>
+      </select>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Chargement des biens...</p>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="error-box">
+      <i class="fas fa-exclamation-triangle"></i>
+      <p>{{ error }}</p>
+      <button class="btn btn-primary" (click)="loadBiens()">Réessayer</button>
+    </div>
+
+    <!-- Table des biens -->
+    <div *ngIf="!loading && !error" class="biens-table-container">
+      <table class="biens-table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Titre</th>
+            <th>Ville</th>
+            <th>Type</th>
+            <th>Prix</th>
+            <th>Statut</th>
+            <th>Mis en avant</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let bien of biensFiltered" class="table-row">
+            <td>
+              <div class="bien-image-cell">
+                <img [src]="bien.images[0] || 'assets/placeholder.jpg'" [alt]="bien.titre">
+              </div>
+            </td>
+            <td>
+              <div class="bien-title">{{ bien.titre }}</div>
+              <div class="bien-subtitle">{{ bien.surface }}m²</div>
+            </td>
+            <td>
+              <div class="bien-ville">
+                <i class="fas fa-map-marker-alt"></i>
+                {{ bien.ville }}
+              </div>
+            </td>
+            <td>
+              <span class="badge" [class.badge-vente]="bien.typeTransaction === 'VENTE'" 
+                    [class.badge-location]="bien.typeTransaction === 'LOCATION'">
+                {{ bien.typeTransaction }}
+              </span>
+            </td>
+            <td>
+              <div class="bien-prix">
+                {{ formatPrix(bien.prix) }}
+                <span class="prix-unit">{{ bien.typeTransaction === 'LOCATION' ? 'DT/mois' : 'DT' }}</span>
+              </div>
+            </td>
+            <td>
+              <select 
+                class="statut-select" 
+                [(ngModel)]="bien.statut" 
+                (change)="updateStatut(bien)"
+                [class.statut-disponible]="bien.statut === 'DISPONIBLE'"
+                [class.statut-vendu]="bien.statut === 'VENDU'"
+                [class.statut-loue]="bien.statut === 'LOUE'"
+                [class.statut-reserve]="bien.statut === 'RESERVE'">
+                <option value="DISPONIBLE">Disponible</option>
+                <option value="VENDU">Vendu</option>
+                <option value="LOUE">Loué</option>
+                <option value="RESERVE">Réservé</option>
+              </select>
+            </td>
+            <td>
+              <button 
+                class="btn-toggle" 
+                [class.active]="bien.misEnAvant"
+                (click)="toggleFeatured(bien)"
+                [title]="bien.misEnAvant ? 'Retirer de la une' : 'Mettre en avant'">
+                <i class="fas fa-star"></i>
+              </button>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <button 
+                  class="btn-action btn-view" 
+                  [routerLink]="['/bien', bien.id]"
+                  title="Voir">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button 
+                  class="btn-action btn-edit" 
+                  [routerLink]="['/admin/biens/modifier', bien.id]"
+                  title="Modifier">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button 
+                  class="btn-action btn-delete" 
+                  (click)="deleteBien(bien)"
+                  title="Supprimer">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Aucun résultat -->
+      <div *ngIf="biensFiltered.length === 0" class="no-results">
+        <i class="fas fa-search"></i>
+        <p>Aucun bien trouvé</p>
+      </div>
+    </div>
+  </div>
+</div>

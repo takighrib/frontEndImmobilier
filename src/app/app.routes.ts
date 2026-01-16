@@ -43,6 +43,28 @@ export const routes: Routes = [
     title: 'Dashboard Admin - Agence Immobilière'
   },
   {
+    path: 'admin/biens',
+    loadComponent: () => import('./pages/admin-biens/admin-biens.component')
+      .then(m => m.AdminBiensComponent),
+    canActivate: [AuthGuard],
+    title: 'Gestion des Biens - Admin'
+  },
+  {
+    path: 'admin/biens/nouveau',
+    loadComponent: () => import('./pages/admin-bien-form/admin-bien-form.component')
+      .then(m => m.AdminBienFormComponent),
+    canActivate: [AuthGuard],
+    title: 'Nouveau Bien - Admin'
+  },
+  {
+    path: 'admin/biens/modifier/:id',
+    loadComponent: () => import('./pages/admin-bien-form/admin-bien-form.component')
+      .then(m => m.AdminBienFormComponent),
+    canActivate: [AuthGuard],
+    title: 'Modifier Bien - Admin'
+  },
+
+  {
     path: '**',
     redirectTo: '',
     pathMatch: 'full'
