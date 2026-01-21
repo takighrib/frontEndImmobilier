@@ -32,35 +32,34 @@
           Informations de base
         </h3>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="titre">Titre du bien *</label>
-            <input 
-              type="text" 
-              id="titre"
-              name="titre"
-              [(ngModel)]="bien.titre"
-              required
-              placeholder="Ex: Villa de Luxe avec Piscine"
-              class="form-control">
-          </div>
+        <div class="form-group">
+          <label for="titre">Titre du bien *</label>
+          <input 
+            type="text" 
+            id="titre"
+            name="titre"
+            [(ngModel)]="bien.titre"
+            required
+            placeholder="Ex: Villa de Luxe avec Piscine"
+            class="form-control">
         </div>
-<div class="form-group">
-  <label for="typeBien">Type de bien *</label>
-  <select 
-    id="typeBien"
-    name="typeBien"
-    [(ngModel)]="bien.typeBien"
-    required
-    class="form-control">
-    <option value="" disabled selected>Choisissez un type</option>
-    <option value="Appartement">Appartement</option>
-    <option value="Maison">Maison</option>
-    <option value="Villa">Villa</option>
-    <option value="Terrain">Terrain</option>
-    <option value="Bureau">Bureau</option>
-  </select>
-</div>
+
+        <div class="form-group">
+          <label for="typeBien">Type de bien *</label>
+          <select 
+            id="typeBien"
+            name="typeBien"
+            [(ngModel)]="bien.typeBien"
+            required
+            class="form-control">
+            <option value="" disabled selected>Choisissez un type</option>
+            <option value="Appartement">Appartement</option>
+            <option value="Maison">Maison</option>
+            <option value="Villa">Villa</option>
+            <option value="Terrain">Terrain</option>
+            <option value="Bureau">Bureau</option>
+          </select>
+        </div>
 
         <div class="form-row">
           <div class="form-group">
@@ -148,19 +147,15 @@
             class="form-control">
         </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="codePostal">Code postal</label>
-            <input 
-              type="text" 
-              id="codePostal"
-              name="codePostal"
-              [(ngModel)]="bien.codePostal"
-              placeholder="Ex: 1053"
-              class="form-control">
-          </div>
-
-          
+        <div class="form-group">
+          <label for="codePostal">Code postal</label>
+          <input 
+            type="text" 
+            id="codePostal"
+            name="codePostal"
+            [(ngModel)]="bien.codePostal"
+            placeholder="Ex: 1053"
+            class="form-control">
         </div>
       </div>
 
@@ -304,39 +299,80 @@
         </div>
       </div>
 
-      <!-- Images (URLs) -->
-      <div class="form-section">
-        <h3 class="section-title">
-          <i class="fas fa-image"></i>
-          Images (URLs)
-        </h3>
+      <!-- Images -->
+      <!-- Images -->
+<div class="form-section">
+  <h3 class="section-title">
+    <i class="fas fa-image"></i>
+    Images
+  </h3>
 
-        <div class="images-container">
-          <div *ngFor="let url of imageUrls; let i = index" class="image-input-group">
-            <input 
-              type="url" 
-              [(ngModel)]="imageUrls[i]"
-              [name]="'image' + i"
-              placeholder="https://exemple.com/image.jpg"
-              class="form-control">
-            <button 
-              type="button" 
-              class="btn-remove-image"
-              (click)="removeImageUrl(i)"
-              *ngIf="imageUrls.length > 1">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-        </div>
-
-        <button 
-          type="button" 
-          class="btn btn-outline"
-          (click)="addImageUrl()">
-          <i class="fas fa-plus"></i>
-          Ajouter une image
-        </button>
+  <div class="images-container">
+    <div *ngFor="let image of images; let i = index" class="image-input-group">
+      
+      <!-- Prévisualisation de l'image -->
+      <div *ngIf="image.url" class="image-preview">
+        <img [src]="image.url" [alt]="'Aperçu image ' + (i + 1)" />
       </div>
+
+      <!-- Input file caché -->
+      <input 
+        type="file" 
+        [id]="'fileInput' + i"
+        (change)="onFileSelected($event, i)"
+        accept="image/*"
+        #fileInput
+        style="display: none;">
+
+      <!-- Bouton pour uploader -->
+      <button 
+        type="button" 
+        class="btn btn-upload"
+        (click)="fileInput.click()"
+        [disabled]="image.uploading">
+        <i class="fas" [ngClass]="image.uploading ? 'fa-spinner fa-spin' : 'fa-upload'"></i>
+        {{ image.uploading ? 'Upload en cours...' : (image.url ? 'Changer l\'image' : 'Choisir une image') }}
+      </button>
+
+      <!-- Divider -->
+      <div class="or-divider">ou</div>
+      
+      <!-- URL manuelle -->
+      <input 
+        type="url" 
+        [(ngModel)]="image.url"
+        [name]="'imageUrl' + i"
+        placeholder="https://exemple.com/image.jpg"
+        class="form-control"
+        [disabled]="image.uploading">
+
+      <!-- Bouton supprimer -->
+      <button 
+        type="button" 
+        class="btn-remove-image"
+        (click)="removeImage(i)"
+        *ngIf="images.length > 1"
+        [disabled]="image.uploading"
+        [attr.aria-label]="'Supprimer l\'image ' + (i + 1)">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <!-- Label indiquant l'image principale -->
+      <div *ngIf="i === 0" class="main-image-label">
+        <i class="fas fa-star"></i>
+        Image principale
+      </div>
+    </div>
+  </div>
+
+  <button 
+    type="button" 
+    class="btn btn-outline"
+    (click)="addImage()">
+    <i class="fas fa-plus"></i>
+    Ajouter une image
+  </button>
+</div>
 
       <!-- Options -->
       <div class="form-section">

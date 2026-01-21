@@ -1,40 +1,40 @@
 <nav class="navbar" [class.scrolled]="isScrolled">
   <div class="container">
     <div class="nav-content">
-      <!-- Logo -->
+      <!-- Logo Hajri Immo avec image PNG -->
       <a routerLink="/" class="logo">
-        <i class="fas fa-home"></i>
-        <span>Agence Premium</span>
+        <img src="/Logo.png" alt="Hajri Immo" class="logo-image">
+        <span>Hajri Immo</span>
       </a>
       
-      <!-- Navigation Desktop -->
+      <!-- Navigation Desktop avec icônes professionnelles -->
       <ul class="nav-links desktop-nav">
         <li>
           <a routerLink="/" 
              routerLinkActive="active" 
              [routerLinkActiveOptions]="{exact: true}">
-            <i class="fas fa-home"></i>
+            <i class="fas fa-house-chimney"></i>
             <span>Accueil</span>
           </a>
         </li>
         <li>
           <a routerLink="/biens" 
              routerLinkActive="active">
-            <i class="fas fa-building"></i>
+            <i class="fas fa-city"></i>
             <span>Nos Biens</span>
           </a>
         </li>
         <li>
           <a routerLink="/about" 
              routerLinkActive="active">
-            <i class="fas fa-info-circle"></i>
+            <i class="fas fa-shield-halved"></i>
             <span>À Propos</span>
           </a>
         </li>
         <li>
           <a routerLink="/contact" 
              routerLinkActive="active">
-            <i class="fas fa-envelope"></i>
+            <i class="fas fa-paper-plane"></i>
             <span>Contact</span>
           </a>
         </li>
@@ -42,18 +42,19 @@
 
       <!-- Actions Desktop -->
       <div class="nav-actions">
-        <!-- Contact Dropdown -->
+        <!-- Contact Dropdown avec icônes améliorées -->
         <div class="dropdown-wrapper">
           <button class="btn-contact-dropdown" (click)="toggleContactDropdown()">
-            <i class="fas fa-phone"></i>
-            <span>Contact</span>
+            <i class="fas fa-phone-volume"></i>
+            <span>Contact Rapide</span>
             <i class="fas fa-chevron-down" [class.rotated]="isContactDropdownOpen"></i>
           </button>
           
           <div class="contact-dropdown" [class.active]="isContactDropdownOpen">
+            <!-- Téléphone avec icône pro -->
             <a href="tel:+21670123456" class="dropdown-item phone">
               <div class="icon-wrapper">
-                <i class="fas fa-phone"></i>
+                <i class="fas fa-phone-volume"></i>
               </div>
               <div class="contact-details">
                 <span class="label">Téléphone</span>
@@ -61,16 +62,18 @@
               </div>
             </a>
 
-            <a href="mailto:contact&#64;agence-premium.tn" class="dropdown-item email">
+            <!-- Email avec icône pro -->
+            <a href="mailto:contact&#64;hajri-immo.tn" class="dropdown-item email">
               <div class="icon-wrapper">
-                <i class="fas fa-envelope"></i>
+                <i class="fas fa-envelope-open-text"></i>
               </div>
               <div class="contact-details">
                 <span class="label">Email</span>
-                <span class="value">contact&#64;agence-premium.tn</span>
+                <span class="value">contact&#64;hajri-immo.tn</span>
               </div>
             </a>
 
+            <!-- WhatsApp avec icône pro -->
             <a href="https://wa.me/21670123456" target="_blank" class="dropdown-item whatsapp">
               <div class="icon-wrapper">
                 <i class="fab fa-whatsapp"></i>
@@ -81,6 +84,7 @@
               </div>
             </a>
 
+            <!-- Social Links avec icônes améliorées -->
             <div class="social-links">
               <a href="#" aria-label="Facebook" target="_blank" class="social-btn facebook">
                 <i class="fab fa-facebook-f"></i>
@@ -98,14 +102,14 @@
           </div>
         </div>
 
-        <!-- Menu Mobile -->
+        <!-- Menu Mobile avec icône améliorée -->
         <button class="btn-menu" (click)="toggleMobileMenu()" [attr.aria-label]="isMobileMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'">
-          <i class="fas" [ngClass]="isMobileMenuOpen ? 'fa-times' : 'fa-bars'"></i>
+          <i class="fas" [ngClass]="isMobileMenuOpen ? 'fa-xmark' : 'fa-bars-staggered'"></i>
         </button>
       </div>
     </div>
 
-    <!-- Mobile Menu -->
+    <!-- Mobile Menu avec icônes professionnelles -->
     <div class="mobile-menu" [class.active]="isMobileMenuOpen">
       <ul class="mobile-nav-links">
         <li>
@@ -113,7 +117,7 @@
              routerLinkActive="active" 
              [routerLinkActiveOptions]="{exact: true}"
              (click)="closeMobileMenu()">
-            <i class="fas fa-home"></i>
+            <i class="fas fa-house-chimney"></i>
             <span>Accueil</span>
           </a>
         </li>
@@ -121,7 +125,7 @@
           <a routerLink="/biens" 
              routerLinkActive="active"
              (click)="closeMobileMenu()">
-            <i class="fas fa-building"></i>
+            <i class="fas fa-city"></i>
             <span>Nos Biens</span>
           </a>
         </li>
@@ -129,7 +133,7 @@
           <a routerLink="/about" 
              routerLinkActive="active"
              (click)="closeMobileMenu()">
-            <i class="fas fa-info-circle"></i>
+            <i class="fas fa-shield-halved"></i>
             <span>À Propos</span>
           </a>
         </li>
@@ -137,21 +141,25 @@
           <a routerLink="/contact" 
              routerLinkActive="active"
              (click)="closeMobileMenu()">
-            <i class="fas fa-envelope"></i>
+            <i class="fas fa-paper-plane"></i>
             <span>Contact</span>
           </a>
         </li>
       </ul>
 
+      <!-- Mobile Contact avec icônes améliorées -->
       <div class="mobile-contact">
-        <h3>Contactez-nous</h3>
+        <h3>
+          <i class="fas fa-headset"></i>
+          Contactez-nous
+        </h3>
         <a href="tel:+21670123456" class="mobile-contact-item">
-          <i class="fas fa-phone"></i>
+          <i class="fas fa-phone-volume"></i>
           <span>+216 70 123 456</span>
         </a>
-        <a href="mailto:contact&#64;agence-premium.tn" class="mobile-contact-item">
-          <i class="fas fa-envelope"></i>
-          <span>contact&#64;agence-premium.tn</span>
+        <a href="mailto:contact&#64;hajri-immo.tn" class="mobile-contact-item">
+          <i class="fas fa-envelope-open-text"></i>
+          <span>contact&#64;hajri-immo.tn</span>
         </a>
         <a href="https://wa.me/21670123456" target="_blank" class="mobile-contact-item">
           <i class="fab fa-whatsapp"></i>
@@ -159,11 +167,20 @@
         </a>
       </div>
 
+      <!-- Mobile Social -->
       <div class="mobile-social">
-        <a href="#" class="social-btn facebook"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" class="social-btn instagram"><i class="fab fa-instagram"></i></a>
-        <a href="#" class="social-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
-        <a href="https://wa.me/21670123456" class="social-btn whatsapp"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="social-btn facebook" aria-label="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="#" class="social-btn instagram" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="#" class="social-btn linkedin" aria-label="LinkedIn">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+        <a href="https://wa.me/21670123456" class="social-btn whatsapp" aria-label="WhatsApp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
       </div>
     </div>
   </div>

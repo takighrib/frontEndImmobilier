@@ -25,36 +25,45 @@
 
     <!-- Main Content -->
     <div class="detail-content">
-      <!-- Gallery -->
-      <div class="gallery-section">
-        <div class="main-image">
-          <img [src]="bien.images[currentImageIndex]" [alt]="bien.titre">
-          <span class="bien-badge" [class.badge-location]="bien.typeTransaction === 'LOCATION'">
-            {{ bien.typeTransaction === 'VENTE' ? 'À Vendre' : 'À Louer' }}
-          </span>
-          
-          <!-- Navigation Arrows -->
-          <button class="arrow arrow-left" (click)="prevImage()" *ngIf="bien.images.length > 1">
-            <i class="fas fa-chevron-left"></i>
-          </button>
-          <button class="arrow arrow-right" (click)="nextImage()" *ngIf="bien.images.length > 1">
-            <i class="fas fa-chevron-right"></i>
-          </button>
+      <!-- Colonne de gauche: Gallery + Description -->
+      <div class="gallery-column">
+        <!-- Gallery -->
+        <div class="gallery-section">
+          <div class="main-image">
+            <img [src]="bien.images[currentImageIndex].urlImage" [alt]="bien.titre">
+            <span class="bien-badge" [class.badge-location]="bien.typeTransaction === 'LOCATION'">
+              {{ bien.typeTransaction === 'VENTE' ? 'À Vendre' : 'À Louer' }}
+            </span>
+            
+            <!-- Navigation Arrows -->
+            <button class="arrow arrow-left" (click)="prevImage()" *ngIf="bien.images.length > 1">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="arrow arrow-right" (click)="nextImage()" *ngIf="bien.images.length > 1">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+
+          <!-- Thumbnails -->
+          <div class="thumbnails" *ngIf="bien.images.length > 1">
+            <div 
+              *ngFor="let image of bien.images; let i = index" 
+              class="thumbnail"
+              [class.active]="i === currentImageIndex"
+              (click)="selectImage(i)">
+              <img [src]="image.urlImage" [alt]="'Image ' + (i + 1)">
+            </div>
+          </div>
         </div>
 
-        <!-- Thumbnails -->
-        <div class="thumbnails" *ngIf="bien.images.length > 1">
-          <div 
-            *ngFor="let image of bien.images; let i = index" 
-            class="thumbnail"
-            [class.active]="i === currentImageIndex"
-            (click)="selectImage(i)">
-            <img [src]="image" [alt]="'Image ' + (i + 1)">
-          </div>
+        <!-- Description directement sous la galerie -->
+        <div class="description-section">
+          <h2>Description</h2>
+          <p>{{ bien.description }}</p>
         </div>
       </div>
 
-      <!-- Info Section -->
+      <!-- Colonne de droite: Info Section -->
       <div class="info-section">
         <h1>{{ bien.titre }}</h1>
         
@@ -74,28 +83,28 @@
         <div class="caracteristiques-grid">
           <div class="carac-item">
             <i class="fas fa-ruler-combined"></i>
-            <div>
+            <div class="carac-info">
               <div class="label">Surface</div>
               <div class="value">{{ bien.surface }}m²</div>
             </div>
           </div>
           <div class="carac-item" *ngIf="bien.nombreChambres">
             <i class="fas fa-bed"></i>
-            <div>
+            <div class="carac-info">
               <div class="label">Chambres</div>
               <div class="value">{{ bien.nombreChambres }}</div>
             </div>
           </div>
           <div class="carac-item" *ngIf="bien.nombreSallesBain">
             <i class="fas fa-bath"></i>
-            <div>
+            <div class="carac-info">
               <div class="label">Salles de bain</div>
               <div class="value">{{ bien.nombreSallesBain }}</div>
             </div>
           </div>
           <div class="carac-item" *ngIf="bien.nombrePieces">
             <i class="fas fa-home"></i>
-            <div>
+            <div class="carac-info">
               <div class="label">Pièces</div>
               <div class="value">{{ bien.nombrePieces }}</div>
             </div>
@@ -146,12 +155,6 @@
           </a>
         </div>
       </div>
-    </div>
-
-    <!-- Description -->
-    <div class="description-section">
-      <h2>Description</h2>
-      <p>{{ bien.description }}</p>
     </div>
   </div>
 </div>

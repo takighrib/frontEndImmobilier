@@ -1,5 +1,5 @@
 /* ============================================
-   NAVBAR MODERNE - Navigation Intégrée
+   NAVBAR MODERNE - Navigation Professionnelle
    ============================================ */
 
 .navbar {
@@ -7,16 +7,17 @@
   top: 0;
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+  background: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
   z-index: 1000;
   transition: all 0.3s ease;
 }
 
 .navbar.scrolled {
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.12);
   background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.12);
 }
 
 .nav-content {
@@ -27,31 +28,89 @@
   gap: 2rem;
 }
 
-/* Logo */
+/* ============================================
+   LOGO PROFESSIONNEL
+   ============================================ */
+
 .logo {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   font-size: 1.5rem;
   font-weight: 800;
-  color: #2563eb;
+  color: white;
   text-decoration: none;
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
   font-family: 'Inter Tight', sans-serif;
   flex-shrink: 0;
+  position: relative;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.navbar.scrolled .logo {
+  color: #78350f;
+  text-shadow: none;
 }
 
 .logo:hover {
   transform: scale(1.05);
-  color: #2563eb;
 }
 
+.navbar.scrolled .logo:hover {
+  color: #92400e;
+}
+
+/* Icône du logo avec effet premium */
 .logo i {
   font-size: 2rem;
-  color: #2563eb;
+  color: white;
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.3));
+  transition: all 0.3s ease;
 }
 
-/* Navigation Desktop */
+/* Image du logo PNG */
+.logo-image {
+  height: 3.5rem;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.3));
+  transition: all 0.3s ease;
+}
+
+.navbar.scrolled .logo-image {
+  filter: drop-shadow(0 2px 4px rgba(217, 119, 6, 0.2));
+}
+
+.logo:hover .logo-image {
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+  transform: rotate(-5deg);
+}
+
+.navbar.scrolled .logo:hover .logo-image {
+  filter: drop-shadow(0 4px 8px rgba(217, 119, 6, 0.3));
+}
+
+.navbar.scrolled .logo i {
+  background: linear-gradient(135deg, #d97706, #92400e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 4px rgba(217, 119, 6, 0.2));
+}
+
+.logo:hover i {
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+  transform: rotate(-5deg);
+}
+
+.navbar.scrolled .logo:hover i {
+  filter: drop-shadow(0 4px 8px rgba(217, 119, 6, 0.3));
+}
+
+/* ============================================
+   NAVIGATION DESKTOP - ICÔNES PROFESSIONNELLES
+   ============================================ */
+
 .desktop-nav {
   display: flex;
   list-style: none;
@@ -69,15 +128,22 @@
 .desktop-nav a {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
-  color: #1f2937;
+  gap: 0.625rem;
+  padding: 0.875rem 1.5rem;
+  color: white;
   text-decoration: none;
   font-weight: 600;
   font-size: 0.95rem;
-  border-radius: 0.75rem;
-  transition: all 0.3s ease;
+  border-radius: 0.875rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
+  overflow: hidden;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.navbar.scrolled .desktop-nav a {
+  color: #57534e;
+  text-shadow: none;
 }
 
 .desktop-nav a::before {
@@ -88,35 +154,90 @@
   transform: translateX(-50%);
   width: 0;
   height: 3px;
-  background: linear-gradient(135deg, #2563eb, #1e40af);
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
   border-radius: 10px;
-  transition: width 0.3s ease;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.navbar.scrolled .desktop-nav a::before {
+  background: linear-gradient(90deg, #d97706, #b45309);
+}
+
+.desktop-nav a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.navbar.scrolled .desktop-nav a::after {
+  background: linear-gradient(135deg, rgba(217, 119, 6, 0.05), rgba(180, 83, 9, 0.05));
+}
+
+/* Icônes de navigation avec style professionnel */
 .desktop-nav a i {
-  font-size: 1.1rem;
-  color: #2563eb;
+  font-size: 1.15rem;
+  color: white;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+}
+
+.navbar.scrolled .desktop-nav a i {
+  color: #d97706;
+  filter: drop-shadow(0 1px 2px rgba(217, 119, 6, 0.15));
 }
 
 .desktop-nav a:hover,
 .desktop-nav a.active {
-  color: #2563eb;
-  background: rgba(37, 99, 235, 0.05);
+  color: white;
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.navbar.scrolled .desktop-nav a:hover,
+.navbar.scrolled .desktop-nav a.active {
+  color: #78350f;
+  background: rgba(217, 119, 6, 0.08);
 }
 
 .desktop-nav a:hover::before,
 .desktop-nav a.active::before {
-  width: 80%;
+  width: 75%;
 }
 
-/* Actions Navbar */
+.desktop-nav a:hover::after,
+.desktop-nav a.active::after {
+  opacity: 1;
+}
+
+.desktop-nav a:hover i,
+.desktop-nav a.active i {
+  transform: scale(1.15) translateY(-1px);
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.4));
+}
+
+.navbar.scrolled .desktop-nav a:hover i,
+.navbar.scrolled .desktop-nav a.active i {
+  filter: drop-shadow(0 2px 4px rgba(217, 119, 6, 0.25));
+}
+
+/* ============================================
+   ACTIONS NAVBAR
+   ============================================ */
+
 .nav-actions {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-/* Contact Dropdown */
+/* ============================================
+   BOUTON CONTACT DROPDOWN - STYLE PRO
+   ============================================ */
+
 .dropdown-wrapper {
   position: relative;
 }
@@ -124,46 +245,80 @@
 .btn-contact-dropdown {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.875rem 1.5rem;
-  background: linear-gradient(135deg, #2563eb, #1e40af);
+  gap: 0.625rem;
+  padding: 0.875rem 1.75rem;
+  background: linear-gradient(135deg, #d97706 0%, #92400e 100%);
   color: white;
   border: none;
-  border-radius: 0.75rem;
-  font-weight: 600;
+  border-radius: 0.875rem;
+  font-weight: 700;
   font-size: 0.95rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 15px rgba(217, 119, 6, 0.35), 
+              0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-contact-dropdown::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.btn-contact-dropdown:hover::before {
+  opacity: 1;
 }
 
 .btn-contact-dropdown:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 30px rgba(217, 119, 6, 0.45), 
+              0 0 0 1px rgba(255, 255, 255, 0.15) inset;
 }
 
+.btn-contact-dropdown:active {
+  transform: translateY(-1px) scale(1);
+}
+
+/* Icône téléphone dans le bouton */
+.btn-contact-dropdown i.fa-phone {
+  font-size: 1rem;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
+}
+
+/* Chevron avec animation */
 .btn-contact-dropdown i.fa-chevron-down {
   font-size: 0.75rem;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
 }
 
 .btn-contact-dropdown i.fa-chevron-down.rotated {
   transform: rotate(180deg);
 }
 
+/* ============================================
+   CONTACT DROPDOWN - DESIGN PREMIUM
+   ============================================ */
+
 .contact-dropdown {
   position: absolute;
   top: calc(100% + 1rem);
   right: 0;
-  width: 320px;
+  width: 340px;
   background: white;
-  border-radius: 1rem;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-  padding: 1rem;
+  border-radius: 1.25rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15),
+              0 0 0 1px rgba(0, 0, 0, 0.03);
+  padding: 1.25rem;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-10px);
-  transition: all 0.3s ease;
+  transform: translateY(-15px);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 100;
 }
 
@@ -177,13 +332,24 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1rem;
+  padding: 1.125rem 1rem;
   background: #f9fafb;
-  border-radius: 0.75rem;
-  margin-bottom: 0.75rem;
+  border-radius: 0.875rem;
+  margin-bottom: 0.875rem;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.dropdown-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(217, 119, 6, 0.05), rgba(22, 163, 74, 0.05));
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .dropdown-item:last-of-type {
@@ -192,26 +358,47 @@
 
 .dropdown-item:hover {
   transform: translateX(5px);
-  border-color: #2563eb;
+  border-color: #d97706;
   background: white;
-  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.1);
+  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.12);
 }
 
+.dropdown-item:hover::before {
+  opacity: 1;
+}
+
+/* Icônes dans le dropdown avec style professionnel */
 .icon-wrapper {
-  width: 45px;
-  height: 45px;
-  border-radius: 0.5rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 0.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   flex-shrink: 0;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.icon-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 0.875rem;
+  padding: 2px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), transparent);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .dropdown-item.phone .icon-wrapper {
-  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-  color: #2563eb;
+  background: linear-gradient(135deg, #fed7aa, #fdba74);
+  color: #d97706;
 }
 
 .dropdown-item.email .icon-wrapper {
@@ -225,53 +412,91 @@
 }
 
 .dropdown-item:hover .icon-wrapper {
-  transform: scale(1.1) rotate(5deg);
+  transform: scale(1.15) rotate(5deg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item:hover .icon-wrapper::before {
+  opacity: 1;
+}
+
+.dropdown-item:hover .icon-wrapper i {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
 }
 
 .contact-details {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  position: relative;
+  z-index: 1;
 }
 
 .contact-details .label {
   font-size: 0.75rem;
   color: #6b7280;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
 .contact-details .value {
-  font-size: 0.95rem;
+  font-size: 0.975rem;
   color: #1f2937;
   font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
-/* Social Links in Dropdown */
+/* ============================================
+   SOCIAL LINKS DANS DROPDOWN - STYLE PRO
+   ============================================ */
+
 .contact-dropdown .social-links {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0.5rem;
-  padding-top: 0.5rem;
+  gap: 0.625rem;
+  padding-top: 0.875rem;
   border-top: 2px solid #e5e7eb;
 }
 
 .social-btn {
-  width: 45px;
-  height: 45px;
-  border-radius: 0.5rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 0.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.social-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.social-btn:hover::before {
+  opacity: 1;
 }
 
 .social-btn:hover {
-  transform: translateY(-3px) scale(1.05);
+  transform: translateY(-5px) scale(1.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.social-btn i {
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
 }
 
 .social-btn.facebook {
@@ -290,30 +515,88 @@
   background: linear-gradient(135deg, #25D366, #1fb855);
 }
 
-/* Menu Mobile Button */
+/* ============================================
+   BOUTON MENU MOBILE - STYLE PRO
+   ============================================ */
+
 .btn-menu {
   display: none;
-  width: 50px;
-  height: 50px;
-  border-radius: 0.75rem;
-  border: 2px solid #e5e7eb;
-  background: white;
-  color: #2563eb;
-  font-size: 1.25rem;
+  width: 52px;
+  height: 52px;
+  border-radius: 0.875rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  color: white;
+  font-size: 1.35rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   align-items: center;
   justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.navbar.scrolled .btn-menu {
+  border: 2px solid #e5e7eb;
+  background: white;
+  color: #d97706;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.btn-menu::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.navbar.scrolled .btn-menu::before {
+  background: linear-gradient(135deg, #d97706, #92400e);
+}
+
+.btn-menu:hover::before {
+  opacity: 1;
+}
+
+.btn-menu i {
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+}
+
+.navbar.scrolled .btn-menu i {
+  filter: none;
 }
 
 .btn-menu:hover {
-  background: #2563eb;
-  color: white;
-  border-color: #2563eb;
-  transform: scale(1.05);
+  border-color: white;
+  transform: scale(1.08);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Mobile Menu */
+.navbar.scrolled .btn-menu:hover {
+  border-color: #d97706;
+  box-shadow: 0 4px 15px rgba(217, 119, 6, 0.25);
+}
+
+.btn-menu:hover i {
+  transform: scale(1.1);
+}
+
+.navbar.scrolled .btn-menu:hover i {
+  color: white;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+/* ============================================
+   MOBILE MENU
+   ============================================ */
+
 .mobile-menu {
   display: none;
   position: absolute;
@@ -324,7 +607,7 @@
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.4s ease;
+  transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .mobile-menu.active {
@@ -339,38 +622,67 @@
 }
 
 .mobile-nav-links li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.625rem;
 }
 
 .mobile-nav-links a {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1rem;
+  padding: 1.125rem 1rem;
   color: #1f2937;
   text-decoration: none;
   font-weight: 600;
-  border-radius: 0.75rem;
-  transition: all 0.3s ease;
+  border-radius: 0.875rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   background: #f9fafb;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.mobile-nav-links a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 70%;
+  background: linear-gradient(90deg, #d97706, #b45309);
+  border-radius: 0 10px 10px 0;
+  transition: width 0.3s ease;
 }
 
 .mobile-nav-links a i {
-  color: #2563eb;
-  font-size: 1.25rem;
-  width: 24px;
+  color: #d97706;
+  font-size: 1.35rem;
+  width: 28px;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 1px 2px rgba(217, 119, 6, 0.2));
+  position: relative;
+  z-index: 1;
 }
 
 .mobile-nav-links a:hover,
 .mobile-nav-links a.active {
-  background: #2563eb;
+  background: #d97706;
   color: white;
   transform: translateX(5px);
+  border-color: #92400e;
+  box-shadow: 0 4px 15px rgba(217, 119, 6, 0.25);
+}
+
+.mobile-nav-links a:hover::before,
+.mobile-nav-links a.active::before {
+  width: 4px;
 }
 
 .mobile-nav-links a:hover i,
 .mobile-nav-links a.active i {
   color: white;
+  transform: scale(1.1);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 .mobile-contact {
@@ -380,51 +692,61 @@
 
 .mobile-contact h3 {
   font-size: 0.875rem;
-  font-weight: 700;
+  font-weight: 800;
   color: #6b7280;
   text-transform: uppercase;
   margin-bottom: 1rem;
+  letter-spacing: 0.05em;
 }
 
 .mobile-contact-item {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 0.875rem;
+  padding: 1rem;
   background: #f9fafb;
-  border-radius: 0.75rem;
+  border-radius: 0.875rem;
   color: #1f2937;
   text-decoration: none;
   font-weight: 600;
-  margin-bottom: 0.5rem;
-  transition: all 0.3s ease;
+  margin-bottom: 0.625rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 2px solid transparent;
 }
 
 .mobile-contact-item i {
-  color: #2563eb;
-  font-size: 1.25rem;
-  width: 24px;
+  color: #d97706;
+  font-size: 1.35rem;
+  width: 28px;
+  filter: drop-shadow(0 1px 2px rgba(217, 119, 6, 0.2));
 }
 
 .mobile-contact-item:hover {
-  background: #2563eb;
+  background: #d97706;
   color: white;
   transform: translateX(5px);
+  border-color: #92400e;
+  box-shadow: 0 4px 15px rgba(217, 119, 6, 0.25);
 }
 
 .mobile-contact-item:hover i {
   color: white;
+  transform: scale(1.1);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 .mobile-social {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.875rem;
   padding: 1rem;
   justify-content: center;
   border-top: 2px solid #e5e7eb;
 }
 
-/* Overlay */
+/* ============================================
+   OVERLAY
+   ============================================ */
+
 .navbar-overlay {
   position: fixed;
   top: 0;
@@ -432,7 +754,7 @@
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(6px);
   z-index: 999;
   opacity: 0;
   visibility: hidden;
@@ -454,8 +776,12 @@
   }
 
   .desktop-nav a {
-    padding: 0.75rem 1rem;
+    padding: 0.875rem 1.125rem;
     font-size: 0.9rem;
+  }
+  
+  .desktop-nav a i {
+    font-size: 1.05rem;
   }
 }
 
@@ -483,14 +809,61 @@
   .logo i {
     font-size: 1.5rem;
   }
+
+  .logo-image {
+    height: 2.75rem;
+  }
 }
 
-/* Accessibility */
+@media (max-width: 480px) {
+  .logo {
+    font-size: 1.125rem;
+  }
+  
+  .logo i {
+    font-size: 1.35rem;
+  }
+
+  .logo-image {
+    height: 2.25rem;
+  }
+  
+  .btn-menu {
+    width: 48px;
+    height: 48px;
+    font-size: 1.25rem;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
 @media (prefers-reduced-motion: reduce) {
   .navbar,
   .contact-dropdown,
   .mobile-menu,
-  .navbar-overlay {
+  .navbar-overlay,
+  .desktop-nav a,
+  .btn-contact-dropdown,
+  .dropdown-item,
+  .social-btn {
     transition: none;
+  }
+}
+
+/* ============================================
+   HIGH CONTRAST MODE
+   ============================================ */
+
+@media (prefers-contrast: high) {
+  .navbar {
+    border-bottom: 2px solid #000;
+  }
+  
+  .desktop-nav a,
+  .btn-menu,
+  .mobile-nav-links a {
+    border-width: 2px;
   }
 }

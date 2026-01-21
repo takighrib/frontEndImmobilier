@@ -73,7 +73,7 @@ export class BienService {
    */
  getImagePrincipale(bien: Bien): string {
   if (!bien.images || bien.images.length === 0) {
-    return 'assets/images/placeholder.jpg';
+    return 'assets/placeholder.jpg';
   }
   return bien.images[0].urlImage;
 }
