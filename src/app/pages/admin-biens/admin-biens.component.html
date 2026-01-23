@@ -1,9 +1,9 @@
 <div class="admin-biens-page">
-   <section class="about-hero">
+  <section class="about-hero">
     <div class="hero-overlay"></div>
     <div class="container hero-content">
-      <h1>À Propos de Nous</h1>
-      <p>Votre partenaire immobilier de confiance depuis plus de 10 ans</p>
+      <h1>Gestion des Biens Immobiliers</h1>
+      <p>Administrez facilement votre catalogue de propriétés</p>
     </div>
   </section>
 
@@ -12,28 +12,27 @@
     <div class="container">
       <div class="content-grid">
         <div class="text-content">
-          <h2>Qui Sommes-Nous ?</h2>
+          <h2>Tableau de Bord</h2>
           <p class="lead">
-            Agence Immobilière Premium est votre partenaire de confiance pour tous vos projets immobiliers en Tunisie.
+            Gérez efficacement votre portefeuille immobilier avec notre interface intuitive.
           </p>
-      
           <p>
-            Notre connaissance approfondie du marché tunisien, combinée à notre réseau étendu de partenaires, 
-            nous permet de vous proposer les meilleures opportunités et de maximiser la valeur de vos transactions.
+            Ajoutez, modifiez et suivez tous vos biens en temps réel. Notre système vous permet 
+            de gérer les statuts, les prix et toutes les caractéristiques de vos propriétés.
           </p>
           <div class="cta-buttons">
-            <a routerLink="/contact" class="btn btn-primary">
-              <i class="fas fa-envelope"></i>
-              Contactez-nous
+            <a routerLink="/admin/biens/nouveau" class="btn btn-primary">
+              <i class="fas fa-plus"></i>
+              Ajouter un Bien
             </a>
-            <a routerLink="/biens" class="btn btn-outline">
-              <i class="fas fa-home"></i>
-              Voir nos biens
+            <a routerLink="/admin/dashboard" class="btn btn-outline">
+              <i class="fas fa-chart-line"></i>
+              Voir le Dashboard
             </a>
           </div>
         </div>
         <div class="image-content">
-          <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=800&fit=crop" alt="Notre agence">
+          <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=800&fit=crop" alt="Gestion immobilière">
         </div>
       </div>
     </div>
@@ -97,6 +96,11 @@
         <option value="VENTE">Vente</option>
         <option value="LOCATION">Location</option>
       </select>
+
+      <a routerLink="/admin/biens/nouveau" class="btn-add-bien">
+        <i class="fas fa-plus-circle"></i>
+        <span>Nouveau Bien</span>
+      </a>
     </div>
 
     <!-- Loading -->
@@ -131,7 +135,7 @@
           <tr *ngFor="let bien of biensFiltered" class="table-row">
             <td>
               <div class="bien-image-cell">
-                <img [src]="bien.images[0] || 'assets/placeholder.jpg'" [alt]="bien.titre">
+                <img [src]="bien.images[0]?.urlImage || 'assets/placeholder.jpg'" [alt]="bien.titre">
               </div>
             </td>
             <td>

@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
+  // Routes publiques
   {
     path: '',
     loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent),
@@ -14,7 +15,6 @@ export const routes: Routes = [
   },
   {
     path: 'bien/:id',
-    // ✅ CORRECTION ICI - Importer depuis bien-detail, pas biens-list
     loadComponent: () => import('./pages/bien-detail/bien-detail.component').then(m => m.BienDetailComponent),
     title: 'Détail du Bien - Agence Immobilière Premium'
   },
@@ -29,12 +29,15 @@ export const routes: Routes = [
     title: 'À Propos - Agence Immobilière Premium'
   },
 
+  // Route de connexion admin (publique)
   {
     path: 'admin/login',
     loadComponent: () => import('./pages/admin-login/admin-login.component')
       .then(m => m.AdminLoginComponent),
     title: 'Connexion Admin - Agence Immobilière'
   },
+
+  // Routes admin protégées par AuthGuard
   {
     path: 'admin/dashboard',
     loadComponent: () => import('./pages/admin-dashboard/admin-dashboard.component')
@@ -63,7 +66,15 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     title: 'Modifier Bien - Admin'
   },
+  {
+    path: 'admin/contacts',
+    loadComponent: () => import('./pages/admin-contact/admin-contacts.component')
+      .then(m => m.AdminContactsComponent),
+    canActivate: [AuthGuard],
+    title: 'Demandes de Contact - Admin'
+  },
 
+  // Redirection par défaut
   {
     path: '**',
     redirectTo: '',

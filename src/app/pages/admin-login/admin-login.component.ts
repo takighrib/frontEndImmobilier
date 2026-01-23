@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { AuthService, LoginRequest } from '../../services/auth.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { AuthService, LoginRequest } from '../../services/auth.service';
   templateUrl: './admin-login.component.html',
   styleUrl: './admin-login.component.css'
 })
-export class AdminLoginComponent {
+export class AdminLoginComponent implements OnInit {
   credentials: LoginRequest = {
     username: '',
     password: ''
@@ -20,14 +20,31 @@ export class AdminLoginComponent {
   loading = false;
   error = '';
   showPassword = false;
+  returnUrl = '/admin/dashboard';
 
   constructor(
     private authService: AuthService,
-    private router: Router
-  ) {
-    // Rediriger si déjà connecté
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    // Récupérer le returnUrl
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/admin/dashboard';
+
+    // Rediriger si déjà connecté (avec validation du token)
     if (this.authService.isAuthenticated()) {
-      this.router.navigate(['/admin/dashboard']);
+      this.authService.validateToken().subscribe({
+        next: (isValid) => {
+          if (isValid) {
+            this.router.navigate([this.returnUrl]);
+          }
+        },
+        error: () => {
+          // Token invalide, rester sur la page de login
+          this.authService.logout();
+        }
+      });
     }
   }
 
@@ -43,7 +60,8 @@ export class AdminLoginComponent {
     this.authService.login(this.credentials).subscribe({
       next: (response) => {
         this.loading = false;
-        this.router.navigate(['/admin/dashboard']);
+        // Rediriger vers la page demandée ou le dashboard
+        this.router.navigate([this.returnUrl]);
       },
       error: (err) => {
         this.loading = false;

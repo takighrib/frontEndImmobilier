@@ -1,0 +1,259 @@
+<div class="admin-contacts-page">
+  <!-- Hero Section -->
+  <section class="contacts-hero">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <h1>Demandes de Contact</h1>
+      <p>Gérez toutes les demandes reçues depuis le formulaire de contact</p>
+    </div>
+  </section>
+
+  <div class="container">
+    <!-- Stats rapides -->
+    <div class="stats-cards" *ngIf="!loading">
+      <div class="stat-card">
+        <div class="stat-icon blue">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">{{ contacts.length }}</div>
+          <div class="stat-label">Total Demandes</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon yellow">
+          <i class="fas fa-clock"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">{{ contactsNonTraites }}</div>
+          <div class="stat-label">En Attente</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon green">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-number">{{ contactsTraites }}</div>
+          <div class="stat-label">Traitées</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filtres -->
+    <div class="filters-bar" *ngIf="!loading">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input 
+          type="text" 
+          placeholder="Rechercher par nom, email ou téléphone..."
+          [(ngModel)]="searchTerm"
+          (input)="filterContacts()">
+      </div>
+      
+      <select [(ngModel)]="filterTraite" (change)="filterContacts()" class="filter-select">
+        <option value="">Tous les statuts</option>
+        <option value="non-traite">En attente</option>
+        <option value="traite">Traitées</option>
+      </select>
+
+      <a routerLink="/admin/dashboard" class="btn-back">
+        <i class="fas fa-arrow-left"></i>
+        <span>Dashboard</span>
+      </a>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading">
+      <div class="spinner"></div>
+      <p>Chargement des demandes...</p>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="error-box">
+      <i class="fas fa-exclamation-triangle"></i>
+      <p>{{ error }}</p>
+      <button class="btn btn-primary" (click)="loadContacts()">Réessayer</button>
+    </div>
+
+    <!-- Table des contacts -->
+    <div *ngIf="!loading && !error" class="contacts-table-container">
+      <table class="contacts-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Contact</th>
+            <th>Coordonnées</th>
+            <th>Message</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- ✅ CORRIGÉ : isTraite() au lieu de contact.traite -->
+          <tr *ngFor="let contact of contactsFiltered" class="table-row" [class.non-traite]="!isTraite(contact)">
+            <td>
+              <div class="contact-date">
+                <i class="far fa-calendar-alt"></i>
+                <!-- ✅ CORRIGÉ : dateDemande au lieu de dateEnvoi -->
+                {{ formatDate(contact.dateDemande) }}
+              </div>
+            </td>
+            <td>
+              <div class="contact-name">
+                <i class="fas fa-user"></i>
+                {{ contact.prenom }} {{ contact.nom }}
+              </div>
+            </td>
+            <td>
+              <div class="contact-details">
+                <div class="contact-email">
+                  <i class="fas fa-envelope"></i>
+                  <a [href]="'mailto:' + contact.email">{{ contact.email }}</a>
+                </div>
+                <div class="contact-phone">
+                  <i class="fas fa-phone"></i>
+                  <a [href]="'tel:' + contact.telephone">{{ contact.telephone }}</a>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="message-preview">
+                {{ contact.message?.substring(0, 80) }}{{ contact.message && contact.message.length > 80 ? '...' : '' }}
+                <button class="btn-view-more" (click)="openModal(contact)" *ngIf="contact.message && contact.message.length > 80">
+                  <i class="fas fa-eye"></i> Voir plus
+                </button>
+              </div>
+            </td>
+            <td>
+              <!-- ✅ CORRIGÉ : isTraite() au lieu de contact.traite -->
+              <button 
+                class="statut-toggle"
+                [class.traite]="isTraite(contact)"
+                (click)="toggleTraite(contact)"
+                [title]="isTraite(contact) ? 'Marquer comme non traité' : 'Marquer comme traité'">
+                <i class="fas" [ngClass]="isTraite(contact) ? 'fa-check-circle' : 'fa-clock'"></i>
+                {{ isTraite(contact) ? 'Traitée' : 'En attente' }}
+              </button>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <button 
+                  class="btn-action btn-view" 
+                  (click)="openModal(contact)"
+                  title="Voir détails">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <a 
+                  class="btn-action btn-email" 
+                  [href]="'mailto:' + contact.email"
+                  title="Envoyer un email">
+                  <i class="fas fa-reply"></i>
+                </a>
+                <a 
+                  class="btn-action btn-phone" 
+                  [href]="'tel:' + contact.telephone"
+                  title="Appeler">
+                  <i class="fas fa-phone"></i>
+                </a>
+                <button 
+                  class="btn-action btn-delete" 
+                  (click)="deleteContact(contact)"
+                  title="Supprimer">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Aucun résultat -->
+      <div *ngIf="contactsFiltered.length === 0" class="no-results">
+        <i class="fas fa-inbox"></i>
+        <h3>Aucune demande trouvée</h3>
+        <p *ngIf="searchTerm || filterTraite">Essayez de modifier vos critères de recherche</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal détails contact -->
+<div class="modal-overlay" [class.active]="showModal" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()" *ngIf="selectedContact">
+    <button class="btn-close-modal" (click)="closeModal()">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <div class="modal-header">
+      <h2>
+        <i class="fas fa-envelope-open-text"></i>
+        Détails de la demande
+      </h2>
+      <!-- ✅ CORRIGÉ : isTraite() au lieu de selectedContact.traite -->
+      <span class="modal-status" [class.traite]="isTraite(selectedContact)">
+        <i class="fas" [ngClass]="isTraite(selectedContact) ? 'fa-check-circle' : 'fa-clock'"></i>
+        {{ isTraite(selectedContact) ? 'Traitée' : 'En attente' }}
+      </span>
+    </div>
+
+    <div class="modal-body">
+      <div class="info-grid">
+        <div class="info-item">
+          <label><i class="fas fa-user"></i> Nom complet</label>
+          <p>{{ selectedContact.prenom }} {{ selectedContact.nom }}</p>
+        </div>
+
+        <div class="info-item">
+          <label><i class="fas fa-calendar"></i> Date d'envoi</label>
+          <!-- ✅ CORRIGÉ : dateDemande au lieu de dateEnvoi -->
+          <p>{{ formatDate(selectedContact.dateDemande) }}</p>
+        </div>
+
+        <div class="info-item">
+          <label><i class="fas fa-envelope"></i> Email</label>
+          <p><a [href]="'mailto:' + selectedContact.email">{{ selectedContact.email }}</a></p>
+        </div>
+
+        <div class="info-item">
+          <label><i class="fas fa-phone"></i> Téléphone</label>
+          <p><a [href]="'tel:' + selectedContact.telephone">{{ selectedContact.telephone }}</a></p>
+        </div>
+
+        <!-- ✅ CORRIGÉ : getBienId() au lieu de selectedContact.bienId -->
+        <div class="info-item full-width" *ngIf="getBienId(selectedContact)">
+          <label><i class="fas fa-home"></i> Bien concerné</label>
+          <p>
+            <a [routerLink]="['/bien', getBienId(selectedContact)]" class="btn-link">
+              Voir le bien #{{ getBienId(selectedContact) }}
+              <i class="fas fa-external-link-alt"></i>
+            </a>
+          </p>
+        </div>
+
+        <div class="info-item full-width" *ngIf="selectedContact.message">
+          <label><i class="fas fa-comment-dots"></i> Message</label>
+          <div class="message-full">{{ selectedContact.message }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <!-- ✅ CORRIGÉ : isTraite() au lieu de selectedContact.traite -->
+      <button 
+        class="btn btn-secondary"
+        (click)="toggleTraite(selectedContact); closeModal()">
+        <i class="fas" [ngClass]="isTraite(selectedContact) ? 'fa-undo' : 'fa-check'"></i>
+        {{ isTraite(selectedContact) ? 'Marquer non traité' : 'Marquer traité' }}
+      </button>
+      <a 
+        [href]="'mailto:' + selectedContact.email"
+        class="btn btn-primary">
+        <i class="fas fa-reply"></i>
+        Répondre par email
+      </a>
+    </div>
+  </div>
+</div>

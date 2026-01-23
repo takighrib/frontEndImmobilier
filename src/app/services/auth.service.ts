@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, tap } from 'rxjs';
+import { Observable, BehaviorSubject, tap, catchError, of, map } from 'rxjs';
 
 export interface LoginRequest {
   username: string;
@@ -60,8 +60,22 @@ export class AuthService {
     return userJson ? JSON.parse(userJson) : null;
   }
 
+  // ✅ NOUVELLE MÉTHODE - Valider le token côté serveur
   validateToken(): Observable<boolean> {
-    return this.http.post<boolean>(`${this.apiUrl}/validate`, {});
+    const token = this.getToken();
+    if (!token) {
+      return of(false);
+    }
+
+    return this.http.post<boolean>(`${this.apiUrl}/validate`, {})
+      .pipe(
+        map(() => true),
+        catchError(() => {
+          // Si le token est invalide, nettoyer le localStorage
+          this.logout();
+          return of(false);
+        })
+      );
   }
 
   initDefaultAdmin(): Observable<string> {

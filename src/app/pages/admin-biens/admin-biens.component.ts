@@ -119,4 +119,12 @@ export class AdminBiensComponent implements OnInit {
   get biensLocation(): number {
     return this.biens.filter(b => b.typeTransaction === 'LOCATION').length;
   }
+
+  // ✅ NOUVELLE MÉTHODE pour éviter le warning Angular
+  getImagePrincipale(bien: Bien): string {
+    if (bien.images && bien.images.length > 0 && bien.images[0].urlImage) {
+      return bien.images[0].urlImage;
+    }
+    return 'assets/placeholder.jpg';
+  }
 }
