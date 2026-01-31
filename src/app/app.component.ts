@@ -1,20 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { filter } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, FooterComponent],
+  imports: [RouterOutlet, NavbarComponent, FooterComponent, CommonModule],
   template: `
     <app-navbar></app-navbar>
     <router-outlet></router-outlet>
     <app-footer></app-footer>
     
-    <!-- WhatsApp Float Button -->
+    <!-- WhatsApp Float Button avec message dynamique -->
     <a 
-      href="https://wa.me/21670123456" 
+      [href]="whatsappLink" 
       class="whatsapp-float" 
       target="_blank"
       rel="noopener noreferrer"
@@ -22,9 +25,9 @@ import { FooterComponent } from './components/footer/footer.component';
       <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- ✅ NOUVEAU: Messenger Float Button -->
+    <!-- Messenger Float Button avec votre page Facebook -->
     <a 
-      href="https://m.me/YOUR_PAGE_USERNAME" 
+      [href]="messengerLink" 
       class="messenger-float" 
       target="_blank"
       rel="noopener noreferrer"
@@ -69,11 +72,11 @@ import { FooterComponent } from './components/footer/footer.component';
         0 0 0 1px rgba(255, 255, 255, 0.2) inset;
     }
 
-    /* ✅ NOUVEAU: Messenger Float Button */
+    /* Messenger Float Button */
     .messenger-float {
       position: fixed;
       bottom: 2rem;
-      right: 6.5rem; /* Positionné à gauche de WhatsApp */
+      right: 6.5rem;
       width: 60px;
       height: 60px;
       background: linear-gradient(135deg, #00B2FF, #006AFF);
@@ -88,7 +91,7 @@ import { FooterComponent } from './components/footer/footer.component';
         0 0 0 1px rgba(255, 255, 255, 0.1) inset;
       z-index: 999;
       transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      animation: pulse 2s infinite 0.5s; /* Délai pour alterner l'animation */
+      animation: pulse 2s infinite 0.5s;
       text-decoration: none;
     }
 
@@ -122,7 +125,7 @@ import { FooterComponent } from './components/footer/footer.component';
       }
 
       .messenger-float {
-        right: 4.5rem; /* Ajusté pour mobile */
+        right: 4.5rem;
       }
     }
 
@@ -133,6 +136,79 @@ import { FooterComponent } from './components/footer/footer.component';
     }
   `]
 })
-export class AppComponent {
-  title = 'Agence Immobilière Premium';
+export class AppComponent implements OnInit {
+  title = 'Hajri Immo - Agence Immobilière';
+  
+  // ========================================
+  // 📱 CONFIGURATION WHATSAPP
+  // ========================================
+  private whatsappNumber = '21670123456'; // ⚠️ REMPLACEZ par votre vrai numéro WhatsApp
+  
+  // ========================================
+  // 💬 CONFIGURATION MESSENGER (VOTRE PAGE)
+  // ========================================
+  private facebookPageUsername = 'fedy.hajri.908970'; // ✅ Votre page Facebook
+  
+  // Liens dynamiques
+  whatsappLink = '';
+  messengerLink = '';
+  
+  // Message par défaut
+  private defaultMessage = 'Bonjour, je souhaite obtenir des informations sur vos biens immobiliers.';
+  
+  constructor(private router: Router) {
+    // Initialiser les liens
+    this.updateLinks(this.defaultMessage);
+  }
+  
+  ngOnInit(): void {
+    // Écouter les changements de route pour adapter les messages
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      this.updateLinksBasedOnRoute(event.url);
+    });
+  }
+  
+  /**
+   * Met à jour les liens selon la route active
+   */
+  private updateLinksBasedOnRoute(url: string): void {
+    let message = this.defaultMessage;
+    
+    // Page d'accueil
+    if (url === '/' || url === '') {
+      message = 'Bonjour, je visite votre site Hajri Immo et j\'aimerais obtenir des informations.';
+    }
+    // Page de détail d'un bien
+    else if (url.includes('/bien/')) {
+      const bienId = url.split('/bien/')[1]?.split('?')[0];
+      message = `Bonjour, je suis intéressé(e) par le bien référence #${bienId} sur votre site Hajri Immo. Pouvez-vous me donner plus d'informations ?`;
+    }
+    // Page liste des biens
+    else if (url.includes('/biens')) {
+      message = 'Bonjour, je consulte vos biens sur Hajri Immo. Pouvez-vous m\'aider dans ma recherche ?';
+    }
+    // Page contact
+    else if (url.includes('/contact')) {
+      message = 'Bonjour, je souhaite vous contacter via votre site Hajri Immo pour discuter de mes besoins immobiliers.';
+    }
+    // Page à propos
+    else if (url.includes('/about')) {
+      message = 'Bonjour, j\'aimerais en savoir plus sur Hajri Immo et vos services.';
+    }
+    
+    this.updateLinks(message);
+  }
+  
+  /**
+   * Génère les liens WhatsApp et Messenger
+   */
+  private updateLinks(message: string): void {
+    // WhatsApp avec message pré-rempli
+    this.whatsappLink = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(message)}`;
+    
+    // Messenger (le message ne peut pas être pré-rempli via URL)
+    this.messengerLink = `https://m.me/${this.facebookPageUsername}`;
+  }
 }

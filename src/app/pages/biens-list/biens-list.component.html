@@ -1,19 +1,28 @@
 <div class="biens-list-page">
-  <div class="container">
-    <!-- Header avec bouton filtres -->
-    <div class="page-header">
-      <div class="header-content">
-        <div>
-          <h1>Nos Biens Immobiliers</h1>
-          <p>Découvrez notre catalogue complet de {{ biens.length }} propriété(s)</p>
-        </div>
+  <!-- Hero Header en haut de la page -->
+  <div class="page-header">
+    <div class="header-background">
+      <img src="/Background2.jpeg" 
+           alt="Biens immobiliers de luxe" 
+           class="header-bg-image"
+           onerror="this.style.display='none'">
+      <div class="header-overlay"></div>
+    </div>
+    <div class="header-content">
+      <div class="header-text">
+        <h1>Nos Biens Immobiliers</h1>
+        <p>Découvrez notre catalogue complet de {{ biens.length }} propriété(s)</p>
         <button class="btn-filters" (click)="toggleFilterSidebar()">
           <i class="fas fa-sliders-h"></i>
-          <span>Filtres</span>
+          <span>Filtres de recherche</span>
           <span class="filter-badge" *ngIf="activeFiltersCount > 0">{{ activeFiltersCount }}</span>
         </button>
       </div>
     </div>
+  </div>
+
+  <!-- Contenu principal -->
+  <div class="container">
 
     <!-- Loading -->
     <div *ngIf="loading" class="loading">
@@ -58,8 +67,8 @@
             </div>
           </div>
           
-          <!-- Caractéristiques supplémentaires -->
-          <div class="bien-features" *ngIf="bien.jardin || bien.garage || bien.piscine || bien.parking">
+          <!-- Caractéristiques supplémentaires - TOUS LES ÉQUIPEMENTS -->
+          <div class="bien-features" *ngIf="bien.jardin || bien.garage || bien.piscine || bien.parking || bien.climatisation || bien.meuble">
             <span class="feature" *ngIf="bien.jardin">
               <i class="fas fa-tree"></i> Jardin
             </span>
@@ -71,6 +80,12 @@
             </span>
             <span class="feature" *ngIf="bien.parking">
               <i class="fas fa-parking"></i> Parking
+            </span>
+            <span class="feature" *ngIf="bien.climatisation">
+              <i class="fas fa-snowflake"></i> Clim
+            </span>
+            <span class="feature" *ngIf="bien.meuble">
+              <i class="fas fa-couch"></i> Meublé
             </span>
           </div>
 

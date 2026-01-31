@@ -1,185 +1,192 @@
 <div class="contact-page">
-  <div class="container">
-    <!-- Header -->
-    <div class="page-header">
-      <h1>Contactez-nous</h1>
-      <p>Notre équipe est à votre disposition pour répondre à toutes vos questions</p>
+  <!-- Hero Header en haut de la page -->
+  <div class="page-header">
+    <div class="header-background">
+      <img src="assets/images/contact-header.jpg" 
+           alt="Contactez-nous" 
+           class="header-bg-image"
+           onerror="this.style.display='none'">
+      <div class="header-overlay"></div>
     </div>
+    <div class="header-content">
+      <div class="header-text">
+        <h1>Contactez-nous</h1>
+        <p>Notre équipe est à votre disposition pour répondre à toutes vos questions</p>
+      </div>
+    </div>
+  </div>
 
-    <div class="contact-content">
-      <!-- Formulaire -->
-      <div class="form-section">
-        <!-- Message de succès -->
-        <div *ngIf="success" class="alert alert-success">
-          <i class="fas fa-check-circle"></i>
-          <div>
-            <h4>Message envoyé avec succès !</h4>
-            <p>Nous vous répondrons dans les plus brefs délais.</p>
-          </div>
+  <!-- Contenu principal -->
+  <div class="contact-content">
+    <!-- Formulaire -->
+    <div class="form-section">
+      <!-- Message de succès -->
+      <div *ngIf="success" class="alert alert-success">
+        <i class="fas fa-check-circle"></i>
+        <div>
+          <h4>Message envoyé avec succès !</h4>
+          <p>Nous vous répondrons dans les plus brefs délais.</p>
         </div>
+      </div>
 
-        <!-- Message d'erreur -->
-        <div *ngIf="error" class="alert alert-error">
-          <i class="fas fa-exclamation-triangle"></i>
-          <div>
-            <h4>Erreur</h4>
-            <p>{{ error }}</p>
-          </div>
+      <!-- Message d'erreur -->
+      <div *ngIf="error" class="alert alert-error">
+        <i class="fas fa-exclamation-triangle"></i>
+        <div>
+          <h4>Erreur</h4>
+          <p>{{ error }}</p>
         </div>
+      </div>
 
-        <form (ngSubmit)="onSubmit()" #contactForm="ngForm">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="prenom">Prénom <span class="required">*</span></label>
-              <input
-                type="text"
-                id="prenom"
-                name="prenom"
-                [(ngModel)]="contact.prenom"
-                required
-                placeholder="Votre prénom">
-            </div>
-
-            <div class="form-group">
-              <label for="nom">Nom <span class="required">*</span></label>
-              <input
-                type="text"
-                id="nom"
-                name="nom"
-                [(ngModel)]="contact.nom"
-                required
-                placeholder="Votre nom">
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="email">Email <span class="required">*</span></label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                [(ngModel)]="contact.email"
-                required
-                placeholder="votre@email.com">
-            </div>
-
-            <div class="form-group">
-              <label for="telephone">Téléphone <span class="required">*</span></label>
-              <input
-                type="tel"
-                id="telephone"
-                name="telephone"
-                [(ngModel)]="contact.telephone"
-                required
-                placeholder="+216 XX XXX XXX">
-            </div>
+      <form (ngSubmit)="onSubmit()" #contactForm="ngForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="prenom">Prénom <span class="required">*</span></label>
+            <input
+              type="text"
+              id="prenom"
+              name="prenom"
+              [(ngModel)]="contact.prenom"
+              required
+              placeholder="Votre prénom">
           </div>
 
           <div class="form-group">
-            <label for="message">Message</label>
-            <textarea
-              id="message"
-              name="message"
-              [(ngModel)]="contact.message"
-              rows="6"
-              placeholder="Votre message..."></textarea>
+            <label for="nom">Nom <span class="required">*</span></label>
+            <input
+              type="text"
+              id="nom"
+              name="nom"
+              [(ngModel)]="contact.nom"
+              required
+              placeholder="Votre nom">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Email <span class="required">*</span></label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              [(ngModel)]="contact.email"
+              required
+              placeholder="votre@email.com">
           </div>
 
-          <div class="form-actions">
-            <button type="submit" class="btn btn-primary" [disabled]="loading || !contactForm.valid">
-              <i class="fas fa-paper-plane" *ngIf="!loading"></i>
-              <i class="fas fa-spinner fa-spin" *ngIf="loading"></i>
-              {{ loading ? 'Envoi en cours...' : 'Envoyer le message' }}
-            </button>
-            <button type="button" class="btn btn-outline" (click)="resetForm()" [disabled]="loading">
-              <i class="fas fa-redo"></i>
-              Réinitialiser
-            </button>
+          <div class="form-group">
+            <label for="telephone">Téléphone <span class="required">*</span></label>
+            <input
+              type="tel"
+              id="telephone"
+              name="telephone"
+              [(ngModel)]="contact.telephone"
+              required
+              placeholder="+216 XX XXX XXX">
           </div>
-        </form>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            [(ngModel)]="contact.message"
+            rows="6"
+            placeholder="Votre message..."></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" [disabled]="loading || !contactForm.valid">
+            <i class="fas fa-paper-plane" *ngIf="!loading"></i>
+            <i class="fas fa-spinner fa-spin" *ngIf="loading"></i>
+            {{ loading ? 'Envoi en cours...' : 'Envoyer le message' }}
+          </button>
+          <button type="button" class="btn btn-outline" (click)="resetForm()" [disabled]="loading">
+            <i class="fas fa-redo"></i>
+            Réinitialiser
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Informations de contact -->
+    <div class="info-section">
+      <div class="info-card">
+        <h3>Nos Coordonnées</h3>
+        
+        <div class="info-item">
+          <div class="icon-circle">
+            <i class="fas fa-phone"></i>
+          </div>
+          <div>
+            <h4>Téléphone</h4>
+            <a href="tel:+21670123456">+216 70 123 456</a>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="icon-circle">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div>
+            <h4>Email</h4>
+            <a href="mailto:contact@agence-premium.tn">contact&#64;agence-premium.tn</a>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="icon-circle">
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+          <div>
+            <h4>Adresse</h4>
+            <p>Avenue Habib Bourguiba<br>Tunis, Tunisie</p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="icon-circle whatsapp">
+            <i class="fab fa-whatsapp"></i>
+          </div>
+          <div>
+            <h4>WhatsApp</h4>
+            <a href="https://wa.me/21670123456" target="_blank">+216 70 123 456</a>
+          </div>
+        </div>
       </div>
 
-      <!-- Informations de contact -->
-      <div class="info-section">
-        <div class="info-card">
-          <h3>Nos Coordonnées</h3>
-          
-          <div class="info-item">
-            <div class="icon-circle">
-              <i class="fas fa-phone"></i>
-            </div>
-            <div>
-              <h4>Téléphone</h4>
-              <a href="tel:+21670123456">+216 70 123 456</a>
-            </div>
+      <div class="hours-card">
+        <h3>Horaires d'ouverture</h3>
+        <div class="hours-list">
+          <div class="hours-item">
+            <span class="day">Lundi - Vendredi</span>
+            <span class="time">9h00 - 18h00</span>
           </div>
-
-          <div class="info-item">
-            <div class="icon-circle">
-              <i class="fas fa-envelope"></i>
-            </div>
-            <div>
-              <h4>Email</h4>
-              <a href="mailto:contact@agence-premium.tn">contactagence-premium.tn</a>
-            </div>
+          <div class="hours-item">
+            <span class="day">Samedi</span>
+            <span class="time">9h00 - 13h00</span>
           </div>
-
-          <div class="info-item">
-            <div class="icon-circle">
-              <i class="fas fa-map-marker-alt"></i>
-            </div>
-            <div>
-              <h4>Adresse</h4>
-              <p>Avenue Habib Bourguiba<br>Tunis, Tunisie</p>
-            </div>
-          </div>
-
-          <div class="info-item">
-            <div class="icon-circle whatsapp">
-              <i class="fab fa-whatsapp"></i>
-            </div>
-            <div>
-              <h4>WhatsApp</h4>
-              <a href="https://wa.me/21670123456" target="_blank">+216 70 123 456</a>
-            </div>
+          <div class="hours-item">
+            <span class="day">Dimanche</span>
+            <span class="time">Fermé</span>
           </div>
         </div>
+      </div>
 
-        <div class="hours-card">
-          <h3>Horaires d'ouverture</h3>
-          <div class="hours-list">
-            <div class="hours-item">
-              <span class="day">Lundi - Vendredi</span>
-              <span class="time">9h00 - 18h00</span>
-            </div>
-            <div class="hours-item">
-              <span class="day">Samedi</span>
-              <span class="time">9h00 - 13h00</span>
-            </div>
-            <div class="hours-item">
-              <span class="day">Dimanche</span>
-              <span class="time">Fermé</span>
-            </div>
-          </div>
-        </div>
+      <div class="social-card">
+        <h3>Suivez-nous</h3>
+        <div class="social-links">
+          <a href="#" class="social-btn facebook">
+            <i class="fab fa-facebook-f"></i>
+            <span>Facebook</span>
+          </a>
+          <a href="#" class="social-btn instagram">
+            <i class="fab fa-instagram"></i>
+            <span>Instagram</span>
+          </a>
 
-        <div class="social-card">
-          <h3>Suivez-nous</h3>
-          <div class="social-links">
-            <a href="#" class="social-btn facebook">
-              <i class="fab fa-facebook-f"></i>
-              <span>Facebook</span>
-            </a>
-            <a href="#" class="social-btn instagram">
-              <i class="fab fa-instagram"></i>
-              <span>Instagram</span>
-            </a>
-            <a href="#" class="social-btn linkedin">
-              <i class="fab fa-linkedin-in"></i>
-              <span>LinkedIn</span>
-            </a>
-          </div>
         </div>
       </div>
     </div>
