@@ -7,7 +7,7 @@ import { Bien } from '../models/bien.model';
   providedIn: 'root'
 })
 export class AdminBienService {
-  private apiUrl = 'http://localhost:8080/api/biens';
+  private apiUrl = '/api/biens';
 
   constructor(private http: HttpClient) {}
 

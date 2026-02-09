@@ -20,7 +20,7 @@ export interface ContactWithId {
   providedIn: 'root'
 })
 export class ContactService {
-  private apiUrl = 'http://localhost:8080/api/contact';
+  private apiUrl = '/api/contact';
 
   constructor(private http: HttpClient) { }
 
