@@ -25,7 +25,7 @@
 
     <!-- Main Content -->
     <div class="detail-content">
-      <!-- Colonne de gauche: Gallery + Description -->
+      <!-- Colonne gauche: Gallery + Description -->
       <div class="gallery-column">
         <!-- Gallery -->
         <div class="gallery-section">
@@ -36,10 +36,10 @@
             </span>
             
             <!-- Navigation Arrows -->
-            <button class="arrow arrow-left" (click)="prevImage()" *ngIf="bien.images.length > 1">
+            <button class="arrow arrow-left" (click)="prevImage()" *ngIf="bien.images.length > 1" aria-label="Image précédente">
               <i class="fas fa-chevron-left"></i>
             </button>
-            <button class="arrow arrow-right" (click)="nextImage()" *ngIf="bien.images.length > 1">
+            <button class="arrow arrow-right" (click)="nextImage()" *ngIf="bien.images.length > 1" aria-label="Image suivante">
               <i class="fas fa-chevron-right"></i>
             </button>
           </div>
@@ -50,20 +50,21 @@
               *ngFor="let image of bien.images; let i = index" 
               class="thumbnail"
               [class.active]="i === currentImageIndex"
-              (click)="selectImage(i)">
-              <img [src]="image.urlImage" [alt]="'Image ' + (i + 1)">
+              (click)="selectImage(i)"
+              [attr.aria-label]="'Sélectionner image ' + (i + 1)">
+              <img [src]="image.urlImage" [alt]="'Aperçu ' + (i + 1)">
             </div>
           </div>
         </div>
 
-        <!-- Description directement sous la galerie -->
+        <!-- Description -->
         <div class="description-section">
           <h2>Description</h2>
           <p>{{ bien.description }}</p>
         </div>
       </div>
 
-      <!-- Colonne de droite: Info Section -->
+      <!-- Colonne droite: Info Section -->
       <div class="info-section">
         <h1>{{ bien.titre }}</h1>
         
@@ -75,17 +76,17 @@
         <div class="prix-container">
           <div class="prix">
             {{ bienService.formatPrix(bien.prix) }} 
-            {{ bien.typeTransaction === 'LOCATION' ? 'DT/mois' : 'DT' }}
+            <span class="prix-unite">{{ bien.typeTransaction === 'LOCATION' ? 'DT/mois' : 'DT' }}</span>
           </div>
         </div>
 
-        <!-- Caractéristiques principales -->
+        <!-- Caractéristiques -->
         <div class="caracteristiques-grid">
           <div class="carac-item">
             <i class="fas fa-ruler-combined"></i>
             <div class="carac-info">
               <div class="label">Surface</div>
-              <div class="value">{{ bien.surface }}m²</div>
+              <div class="value">{{ bien.surface }} m²</div>
             </div>
           </div>
           <div class="carac-item" *ngIf="bien.nombreChambres">
@@ -112,29 +113,36 @@
         </div>
 
         <!-- Équipements -->
-        <div class="equipements" *ngIf="bien.jardin || bien.garage || bien.piscine || bien.climatisation || bien.parking || bien.balcon">
+        <div class="equipements" *ngIf="bien.jardin || bien.garage || bien.piscine || bien.climatisation || bien.parking || bien.balcon || bien.meuble">
           <h3>Équipements</h3>
           <div class="equipements-grid">
             <div class="equipement" *ngIf="bien.jardin">
-              <i class="fas fa-tree"></i> Jardin
+              <i class="fas fa-tree"></i>
+              <span>Jardin</span>
             </div>
             <div class="equipement" *ngIf="bien.garage">
-              <i class="fas fa-warehouse"></i> Garage
+              <i class="fas fa-warehouse"></i>
+              <span>Garage</span>
             </div>
             <div class="equipement" *ngIf="bien.piscine">
-              <i class="fas fa-swimming-pool"></i> Piscine
+              <i class="fas fa-swimming-pool"></i>
+              <span>Piscine</span>
             </div>
             <div class="equipement" *ngIf="bien.climatisation">
-              <i class="fas fa-snowflake"></i> Climatisation
+              <i class="fas fa-snowflake"></i>
+              <span>Climatisation</span>
             </div>
             <div class="equipement" *ngIf="bien.parking">
-              <i class="fas fa-parking"></i> Parking
+              <i class="fas fa-parking"></i>
+              <span>Parking</span>
             </div>
             <div class="equipement" *ngIf="bien.balcon">
-              <i class="fas fa-building"></i> Balcon
+              <i class="fas fa-building"></i>
+              <span>Balcon</span>
             </div>
             <div class="equipement" *ngIf="bien.meuble">
-              <i class="fas fa-couch"></i> Meublé
+              <i class="fas fa-couch"></i>
+              <span>Meublé</span>
             </div>
           </div>
         </div>
@@ -143,15 +151,15 @@
         <div class="contact-buttons">
           <a href="tel:+21670123456" class="btn btn-primary">
             <i class="fas fa-phone"></i>
-            Appeler
+            <span>Appeler</span>
           </a>
-          <a [href]="getWhatsAppLink()" class="btn btn-success" target="_blank">
+          <a [href]="getWhatsAppLink()" class="btn btn-whatsapp" target="_blank" rel="noopener">
             <i class="fab fa-whatsapp"></i>
-            WhatsApp
+            <span>WhatsApp</span>
           </a>
           <a routerLink="/contact" [queryParams]="{bienId: bien.id}" class="btn btn-outline">
             <i class="fas fa-envelope"></i>
-            Email
+            <span>Email</span>
           </a>
         </div>
       </div>
