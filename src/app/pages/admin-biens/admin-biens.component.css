@@ -959,42 +959,47 @@
     height: 300px;
   }
 
-  /* MASQUER LE TABLEAU - ACTIVER MODE CARTE */
+  /* FORCER L'AFFICHAGE DES CARTES */
   .biens-table-container {
     overflow-x: visible;
+    padding: 1rem;
   }
 
-  .biens-table {
+  .biens-table thead {
     display: none;
   }
 
-  /* TRANSFORMER EN CARTES */
+  .biens-table,
   .biens-table tbody {
     display: block;
+    width: 100%;
   }
 
-  .table-row {
-    display: block !important;
+  .biens-table tbody tr {
+    display: block;
     background: white;
     border-radius: 1rem;
-    padding: 1.25rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-    border: 1px solid #f1f5f9 !important;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid #f1f5f9;
   }
 
-  .table-row:hover {
+  .biens-table tbody tr:hover {
     background: white;
     transform: none;
   }
 
-  .table-row td {
+  .biens-table td {
     display: block;
+    width: 100%;
     padding: 0.75rem 0;
     border: none;
+    text-align: left;
   }
 
-  .table-row td::before {
+  /* Labels avant chaque donnée */
+  .biens-table td::before {
     content: attr(data-label);
     font-weight: 700;
     color: #475569;
@@ -1005,21 +1010,27 @@
     letter-spacing: 0.05em;
   }
 
-  /* IMAGE EN HAUT DE LA CARTE */
+  /* Masquer le label pour l'image */
+  .biens-table td:first-child::before {
+    display: none;
+  }
+
+  /* IMAGE EN PLEINE LARGEUR */
   .bien-image-cell {
     width: 100%;
     height: 200px;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
     border-radius: 0.75rem;
   }
 
   /* TITRE */
   .bien-title {
-    font-size: 1.125rem;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
   }
 
   .bien-subtitle {
-    font-size: 0.9375rem;
+    font-size: 1rem;
   }
 
   /* VILLE */
@@ -1029,17 +1040,18 @@
 
   /* BADGE */
   .badge {
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
     padding: 0.5rem 1rem;
+    display: inline-block;
   }
 
   /* PRIX */
   .bien-prix {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
   }
 
   .prix-unit {
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
   }
 
   /* SELECT STATUT */
@@ -1047,7 +1059,7 @@
     width: 100%;
     min-width: 100%;
     padding: 0.75rem 2rem 0.75rem 1rem;
-    font-size: 0.9375rem;
+    font-size: 1rem;
   }
 
   /* TOGGLE BUTTON */
@@ -1055,29 +1067,42 @@
     width: 100%;
     height: 50px;
     border-radius: 0.75rem;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
   }
 
-  /* ACTIONS - TOUJOURS VISIBLES EN BAS */
+  /* ⭐ ACTIONS - TOUJOURS VISIBLES ⭐ */
   .action-buttons {
     display: flex !important;
+    flex-direction: row !important;
     gap: 0.75rem;
-    margin-top: 0.5rem;
+    margin-top: 1rem;
     padding-top: 1rem;
     border-top: 2px solid #f1f5f9;
     justify-content: space-between;
+    width: 100%;
   }
 
   .btn-action {
     flex: 1;
-    width: auto;
-    height: 48px;
-    font-size: 1rem;
+    width: auto !important;
+    min-width: 0;
+    height: 50px !important;
+    font-size: 1.125rem;
     border-radius: 0.75rem;
+    padding: 0;
   }
 
   .btn-action i {
-    font-size: 1.125rem;
+    font-size: 1.25rem;
+  }
+
+  /* Forcer l'affichage des boutons */
+  .btn-view,
+  .btn-edit,
+  .btn-delete {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 }
 
@@ -1099,20 +1124,22 @@
     font-size: 2rem;
   }
 
-  .table-row {
-    padding: 1rem;
+  .biens-table tbody tr {
+    padding: 1.25rem;
   }
 
   .bien-image-cell {
     height: 180px;
   }
 
+  /* Boutons en colonne sur très petits écrans */
   .action-buttons {
-    flex-direction: column;
+    flex-direction: column !important;
   }
 
   .btn-action {
-    width: 100%;
+    width: 100% !important;
+    height: 48px !important;
   }
 }
 
