@@ -12,6 +12,8 @@
   --success-dark: #15803d;
   --whatsapp: #25D366;
   --whatsapp-dark: #128C7E;
+  --email: #3b82f6;
+  --email-dark: #2563eb;
   
   --slate-50: #f8fafc;
   --slate-100: #f1f5f9;
@@ -409,66 +411,135 @@
 .contact-buttons {
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;
+  gap: 1rem;
 }
 
 .btn {
-  padding: 1rem 1.5rem;
+  padding: 1.1rem 1.75rem;
   border-radius: var(--radius-md);
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.05rem;
   border: none;
   cursor: pointer;
-  transition: all var(--transition);
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
+  gap: 0.875rem;
   text-decoration: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.btn:hover::before {
+  left: 100%;
 }
 
 .btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 .btn:active {
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .btn i {
-  font-size: 1.2em;
-  transition: transform var(--transition);
+  font-size: 1.3em;
+  transition: transform 0.3s ease;
 }
 
 .btn:hover i {
   transform: scale(1.15);
 }
 
-/* Bouton Principal (Téléphone) */
+.btn span {
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+/* Bouton Principal - Appeler (Orange/Ambre) */
 .btn-primary {
-  background: var(--primary);
-  color: white;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #ffffff;
+  border: none;
 }
 
 .btn-primary:hover {
-  background: var(--primary-dark);
-  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.4);
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.4);
 }
 
-/* Bouton WhatsApp */
+.btn-primary:active {
+  background: linear-gradient(135deg, #b45309 0%, #92400e 100%);
+}
+
+/* Bouton WhatsApp - Vert WhatsApp */
 .btn-whatsapp {
-  background: var(--whatsapp);
-  color: white;
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color: #ffffff;
+  border: none;
 }
 
 .btn-whatsapp:hover {
-  background: var(--whatsapp-dark);
-  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+  background: linear-gradient(135deg, #20BA5A 0%, #0E7169 100%);
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
 }
 
-/* Bouton Outline (Email) */
+.btn-whatsapp:active {
+  background: linear-gradient(135deg, #1DA851 0%, #0A5C54 100%);
+}
+
+/* Bouton Email - Bleu professionnel */
+.btn-email {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: #ffffff;
+  border: none;
+}
+
+.btn-email:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+}
+
+.btn-email:active {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+}
+
+/* Alternative: Bouton Email en outline si préféré */
+.btn-email-outline {
+  background: #ffffff;
+  color: #3b82f6;
+  border: 2px solid #3b82f6;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+}
+
+.btn-email-outline:hover {
+  background: #3b82f6;
+  color: #ffffff;
+  border-color: #3b82f6;
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+}
+
+.btn-email-outline:active {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+/* Bouton Outline (Version générique) */
 .btn-outline {
   background: white;
   color: var(--slate-700);
@@ -615,6 +686,15 @@
   .prix {
     font-size: 1.75rem;
   }
+
+  .btn {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  .btn i {
+    font-size: 1.2em;
+  }
 }
 
 @media (max-width: 480px) {
@@ -640,8 +720,17 @@
     padding: 1.5rem;
   }
 
+  .contact-buttons {
+    gap: 0.875rem;
+  }
+  
   .btn {
-    padding: 0.875rem 1.25rem;
+    padding: 0.95rem 1.25rem;
+    font-size: 0.95rem;
+  }
+  
+  .btn span {
+    font-size: 0.95rem;
   }
 }
 
@@ -649,10 +738,26 @@
    ACCESSIBILITY
 ============================================ */
 .arrow:focus-visible,
-.thumbnail:focus-visible,
-.btn:focus-visible {
+.thumbnail:focus-visible {
   outline: 3px solid var(--primary);
   outline-offset: 2px;
+}
+
+.btn:focus-visible {
+  outline: 3px solid rgba(59, 130, 246, 0.5);
+  outline-offset: 3px;
+}
+
+.btn-primary:focus-visible {
+  outline-color: rgba(217, 119, 6, 0.5);
+}
+
+.btn-whatsapp:focus-visible {
+  outline-color: rgba(37, 211, 102, 0.5);
+}
+
+.btn-email:focus-visible {
+  outline-color: rgba(59, 130, 246, 0.5);
 }
 
 @media (prefers-reduced-motion: reduce) {
