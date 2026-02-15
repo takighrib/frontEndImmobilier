@@ -133,34 +133,34 @@
         </thead>
         <tbody>
           <tr *ngFor="let bien of biensFiltered" class="table-row">
-            <td>
+            <td data-label="Image">
               <div class="bien-image-cell">
                 <img [src]="bien.images[0]?.urlImage || 'assets/placeholder.jpg'" [alt]="bien.titre">
               </div>
             </td>
-            <td>
+            <td data-label="Titre">
               <div class="bien-title">{{ bien.titre }}</div>
               <div class="bien-subtitle">{{ bien.surface }}m²</div>
             </td>
-            <td>
+            <td data-label="Ville">
               <div class="bien-ville">
                 <i class="fas fa-map-marker-alt"></i>
                 {{ bien.ville }}
               </div>
             </td>
-            <td>
+            <td data-label="Type">
               <span class="badge" [class.badge-vente]="bien.typeTransaction === 'VENTE'" 
                     [class.badge-location]="bien.typeTransaction === 'LOCATION'">
                 {{ bien.typeTransaction }}
               </span>
             </td>
-            <td>
+            <td data-label="Prix">
               <div class="bien-prix">
                 {{ formatPrix(bien.prix) }}
                 <span class="prix-unit">{{ bien.typeTransaction === 'LOCATION' ? 'DT/mois' : 'DT' }}</span>
               </div>
             </td>
-            <td>
+            <td data-label="Statut">
               <select 
                 class="statut-select" 
                 [(ngModel)]="bien.statut" 
@@ -175,7 +175,7 @@
                 <option value="RESERVE">Réservé</option>
               </select>
             </td>
-            <td>
+            <td data-label="Mis en avant">
               <button 
                 class="btn-toggle" 
                 [class.active]="bien.misEnAvant"
@@ -184,7 +184,7 @@
                 <i class="fas fa-star"></i>
               </button>
             </td>
-            <td>
+            <td data-label="Actions">
               <div class="action-buttons">
                 <button 
                   class="btn-action btn-view" 
