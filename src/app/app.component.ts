@@ -25,14 +25,14 @@ import { CommonModule } from '@angular/common';
       <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- Messenger Float Button avec votre page Facebook -->
+    <!-- Instagram Float Button -->
     <a 
-      [href]="messengerLink" 
-      class="messenger-float" 
+      [href]="instagramLink" 
+      class="instagram-float" 
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Contactez-nous sur Messenger">
-      <i class="fab fa-facebook-messenger"></i>
+      aria-label="Suivez-nous sur Instagram">
+      <i class="fab fa-instagram"></i>
     </a>
   `,
   styles: [`
@@ -72,14 +72,14 @@ import { CommonModule } from '@angular/common';
         0 0 0 1px rgba(255, 255, 255, 0.2) inset;
     }
 
-    /* Messenger Float Button */
-    .messenger-float {
+    /* Instagram Float Button */
+    .instagram-float {
       position: fixed;
       bottom: 2rem;
       right: 6.5rem;
       width: 60px;
       height: 60px;
-      background: linear-gradient(135deg, #00B2FF, #006AFF);
+      background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -87,7 +87,7 @@ import { CommonModule } from '@angular/common';
       color: white;
       font-size: 2rem;
       box-shadow: 
-        0 8px 32px rgba(0, 178, 255, 0.4),
+        0 8px 32px rgba(225, 48, 108, 0.4),
         0 0 0 1px rgba(255, 255, 255, 0.1) inset;
       z-index: 999;
       transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -95,10 +95,10 @@ import { CommonModule } from '@angular/common';
       text-decoration: none;
     }
 
-    .messenger-float:hover {
+    .instagram-float:hover {
       transform: translateY(-8px) scale(1.1);
       box-shadow: 
-        0 16px 48px rgba(0, 178, 255, 0.5),
+        0 16px 48px rgba(225, 48, 108, 0.5),
         0 0 0 1px rgba(255, 255, 255, 0.2) inset;
     }
 
@@ -113,7 +113,7 @@ import { CommonModule } from '@angular/common';
 
     @media (max-width: 768px) {
       .whatsapp-float,
-      .messenger-float {
+      .instagram-float {
         width: 50px;
         height: 50px;
         font-size: 1.5rem;
@@ -124,13 +124,13 @@ import { CommonModule } from '@angular/common';
         right: 1rem;
       }
 
-      .messenger-float {
+      .instagram-float {
         right: 4.5rem;
       }
     }
 
     @media (max-width: 480px) {
-      .messenger-float {
+      .instagram-float {
         right: 4rem;
       }
     }
@@ -142,16 +142,16 @@ export class AppComponent implements OnInit {
   // ========================================
   // 📱 CONFIGURATION WHATSAPP
   // ========================================
-  private whatsappNumber = '21670123456'; // ⚠️ REMPLACEZ par votre vrai numéro WhatsApp
+  private whatsappNumber = '21628195645'; // ✅ Votre vrai numéro WhatsApp
   
   // ========================================
-  // 💬 CONFIGURATION MESSENGER (VOTRE PAGE)
+  // 📸 CONFIGURATION INSTAGRAM
   // ========================================
-  private facebookPageUsername = 'fedy.hajri.908970'; // ✅ Votre page Facebook
+  private instagramUsername = 'fedy_hajri_10'; // ✅ Votre compte Instagram
   
   // Liens dynamiques
   whatsappLink = '';
-  messengerLink = '';
+  instagramLink = '';
   
   // Message par défaut
   private defaultMessage = 'Bonjour, je souhaite obtenir des informations sur vos biens immobiliers.';
@@ -202,13 +202,13 @@ export class AppComponent implements OnInit {
   }
   
   /**
-   * Génère les liens WhatsApp et Messenger
+   * Génère les liens WhatsApp et Instagram
    */
   private updateLinks(message: string): void {
     // WhatsApp avec message pré-rempli
     this.whatsappLink = `https://wa.me/${this.whatsappNumber}?text=${encodeURIComponent(message)}`;
     
-    // Messenger (le message ne peut pas être pré-rempli via URL)
-    this.messengerLink = `https://m.me/${this.facebookPageUsername}`;
+    // Instagram - Lien vers le profil
+    this.instagramLink = `https://www.instagram.com/${this.instagramUsername}/`;
   }
 }
