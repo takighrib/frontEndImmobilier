@@ -1,7 +1,7 @@
 .admin-biens-page {
   min-height: 100vh;
   background: linear-gradient(180deg, #f8fafc 0%, #ffffff 50%, #f8fafc 100%);
-  padding-top: 200px; /* Pas de padding car hero en full screen */
+  padding-top: 200px;
 }
 
 /* ===== HERO SECTION - À PROPOS ===== */
@@ -254,6 +254,7 @@
 .image-content:hover img {
   transform: scale(1.05);
 }
+
 /* ===== BOUTON AJOUT BIEN - STYLE PREMIUM ===== */
 .btn-add-bien {
   display: inline-flex;
@@ -304,136 +305,6 @@
 
 .btn-add-bien i {
   font-size: 1.1rem;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
-}
-
-/* ===== AMÉLIORATION FILTERS BAR ===== */
-.filters-bar {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 1.25rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-  max-width: 1400px;
-  margin-left: auto;
-  margin-right: auto;
-  border: 1px solid #f1f5f9;
-  align-items: center;
-}
-
-.filters-bar > * {
-  flex: 0 0 auto;
-}
-
-.search-box {
-  flex: 1;
-  min-width: 250px;
-}
-
-.filter-select {
-  min-width: 180px;
-}
-
-/* Responsive pour le bouton */
-@media (max-width: 768px) {
-  .btn-add-bien {
-    width: 100%;
-    justify-content: center;
-  }
-  
-  .filters-bar {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .search-box,
-  .filter-select {
-    width: 100%;
-    min-width: auto;
-  }
-}
-
-/* ===== HEADER SECTION ===== */
-.biens-header {
-  background: white;
-  padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 3vw, 0);
-  border-radius: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-  margin: 0 auto 2rem;
-  max-width: 1400px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 2rem;
-  border: 1px solid rgba(217, 119, 6, 0.1);
-}
-
-.header-content h1 {
-  font-size: clamp(2rem, 4vw, 2.75rem);
-  font-weight: 900;
-  color: #0f172a;
-  margin-bottom: 0.5rem;
-  letter-spacing: -0.02em;
-}
-
-.header-content p {
-  font-size: clamp(1rem, 2vw, 1.15rem);
-  color: #64748b;
-  font-weight: 500;
-}
-
-/* ===== BOUTON FILTRES COMPACT ===== */
-.btn-filters {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-  color: white;
-  border: none;
-  border-radius: 0.875rem;
-  font-weight: 700;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 
-    0 6px 20px rgba(37, 99, 235, 0.35),
-    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
-  position: relative;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.btn-filters::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.btn-filters:hover::before {
-  opacity: 1;
-}
-
-.btn-filters:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 
-    0 10px 30px rgba(37, 99, 235, 0.45),
-    0 0 0 1px rgba(255, 255, 255, 0.15) inset;
-}
-
-.btn-filters:active {
-  transform: translateY(-1px) scale(1);
-}
-
-.btn-filters i {
-  font-size: 1rem;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
 }
 
@@ -526,11 +397,16 @@
   margin-left: auto;
   margin-right: auto;
   border: 1px solid #f1f5f9;
+  align-items: center;
+}
+
+.filters-bar > * {
+  flex: 0 0 auto;
 }
 
 .search-box {
   flex: 1;
-  min-width: 300px;
+  min-width: 250px;
   position: relative;
 }
 
@@ -941,15 +817,14 @@
   color: #64748b;
 }
 
-/* ===== RESPONSIVE ===== */
+/* ===== RESPONSIVE DESKTOP ===== */
 @media (max-width: 1200px) {
   .biens-table-container {
     margin: 0 1.5rem 2rem;
   }
   
   .stats-cards,
-  .filters-bar,
-  .biens-header {
+  .filters-bar {
     margin-left: 1.5rem;
     margin-right: 1.5rem;
   }
@@ -963,33 +838,34 @@
   .filter-select {
     min-width: calc(50% - 0.5rem);
   }
-  
-  .biens-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 }
 
+/* ===== RESPONSIVE TABLET ===== */
 @media (max-width: 768px) {
   .admin-biens-page {
     padding-top: 5.5rem;
   }
 
-  .nav-content {
+  .about-hero {
+    height: 350px;
+    background-attachment: scroll;
+  }
+
+  .who-we-are {
+    padding: 3rem 0;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .cta-buttons {
     flex-direction: column;
-    gap: 1rem;
-    padding: 0 1rem;
   }
-  
-  .nav-actions {
+
+  .btn {
     width: 100%;
-    flex-wrap: wrap;
-  }
-  
-  .nav-actions .btn,
-  .btn-filters {
-    flex: 1;
-    min-width: 120px;
   }
   
   .stats-cards {
@@ -1016,15 +892,28 @@
   
   .filter-group {
     width: 100%;
+    flex-direction: column;
   }
   
   .filter-select {
     min-width: 100%;
+    width: 100%;
+  }
+
+  .btn-add-bien {
+    width: 100%;
+    justify-content: center;
   }
   
+  /* TABLE RESPONSIVE - SCROLL HORIZONTAL */
   .biens-table-container {
     margin: 0 1rem 2rem;
-    border-radius: 1rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .biens-table {
+    min-width: 900px;
   }
   
   .biens-table th,
@@ -1033,26 +922,167 @@
   }
   
   .action-buttons {
-    flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.375rem;
   }
-  
+
   .btn-action {
     width: 36px;
     height: 36px;
+    font-size: 0.875rem;
   }
 
-  .biens-header {
-    padding: 2rem 1.5rem;
-    margin: 0 1rem 2rem;
+  .bien-image-cell {
+    width: 60px;
+    height: 45px;
+  }
+
+  .statut-select {
+    min-width: 110px;
+    padding: 0.375rem 1.5rem 0.375rem 0.625rem;
+    font-size: 0.8125rem;
+  }
+
+  .btn-toggle {
+    width: 40px;
+    height: 40px;
+    font-size: 1.125rem;
   }
 }
 
-@media (max-width: 480px) {
+/* ===== RESPONSIVE MOBILE - MODE CARTE ===== */
+@media (max-width: 640px) {
   .admin-biens-page {
     padding-top: 5rem;
   }
 
+  .about-hero {
+    height: 300px;
+  }
+
+  /* MASQUER LE TABLEAU - ACTIVER MODE CARTE */
+  .biens-table-container {
+    overflow-x: visible;
+  }
+
+  .biens-table {
+    display: none;
+  }
+
+  /* TRANSFORMER EN CARTES */
+  .biens-table tbody {
+    display: block;
+  }
+
+  .table-row {
+    display: block !important;
+    background: white;
+    border-radius: 1rem;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    border: 1px solid #f1f5f9 !important;
+  }
+
+  .table-row:hover {
+    background: white;
+    transform: none;
+  }
+
+  .table-row td {
+    display: block;
+    padding: 0.75rem 0;
+    border: none;
+  }
+
+  .table-row td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: #475569;
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* IMAGE EN HAUT DE LA CARTE */
+  .bien-image-cell {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 0.5rem;
+    border-radius: 0.75rem;
+  }
+
+  /* TITRE */
+  .bien-title {
+    font-size: 1.125rem;
+  }
+
+  .bien-subtitle {
+    font-size: 0.9375rem;
+  }
+
+  /* VILLE */
+  .bien-ville {
+    font-size: 1rem;
+  }
+
+  /* BADGE */
+  .badge {
+    font-size: 0.8125rem;
+    padding: 0.5rem 1rem;
+  }
+
+  /* PRIX */
+  .bien-prix {
+    font-size: 1.25rem;
+  }
+
+  .prix-unit {
+    font-size: 0.8125rem;
+  }
+
+  /* SELECT STATUT */
+  .statut-select {
+    width: 100%;
+    min-width: 100%;
+    padding: 0.75rem 2rem 0.75rem 1rem;
+    font-size: 0.9375rem;
+  }
+
+  /* TOGGLE BUTTON */
+  .btn-toggle {
+    width: 100%;
+    height: 50px;
+    border-radius: 0.75rem;
+    font-size: 1.25rem;
+  }
+
+  /* ACTIONS - TOUJOURS VISIBLES EN BAS */
+  .action-buttons {
+    display: flex !important;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+    border-top: 2px solid #f1f5f9;
+    justify-content: space-between;
+  }
+
+  .btn-action {
+    flex: 1;
+    width: auto;
+    height: 48px;
+    font-size: 1rem;
+    border-radius: 0.75rem;
+  }
+
+  .btn-action i {
+    font-size: 1.125rem;
+  }
+}
+
+/* ===== EXTRA SMALL MOBILE ===== */
+@media (max-width: 480px) {
   .stat-card {
     flex-direction: column;
     text-align: center;
@@ -1068,22 +1098,21 @@
   .stat-number {
     font-size: 2rem;
   }
-  
-  .nav-brand {
-    font-size: 1.25rem;
-  }
-  
-  .nav-brand i {
-    font-size: 1.5rem;
+
+  .table-row {
+    padding: 1rem;
   }
 
-  .biens-header h1 {
-    font-size: 1.75rem;
+  .bien-image-cell {
+    height: 180px;
   }
 
-  .btn-filters {
-    padding: 0.625rem 1.25rem;
-    font-size: 0.85rem;
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .btn-action {
+    width: 100%;
   }
 }
 
