@@ -1,19 +1,21 @@
 <div class="bien-detail-page">
-  <!-- Loading -->
+
+  <!-- ── Loading ──────────────────────────────────── -->
   <div *ngIf="loading" class="loading">
     <div class="spinner"></div>
     <p>Chargement...</p>
   </div>
 
-  <!-- Error -->
+  <!-- ── Error ────────────────────────────────────── -->
   <div *ngIf="error" class="error-container">
     <i class="fas fa-exclamation-triangle"></i>
     <h2>{{ error }}</h2>
     <a routerLink="/biens" class="btn btn-primary">Retour aux biens</a>
   </div>
 
-  <!-- Bien Detail -->
+  <!-- ── Bien Detail ───────────────────────────────── -->
   <div *ngIf="!loading && !error && bien" class="container">
+
     <!-- Breadcrumb -->
     <div class="breadcrumb">
       <a routerLink="/">Accueil</a>
@@ -23,31 +25,59 @@
       <span>{{ bien.titre }}</span>
     </div>
 
-    <!-- Main Content -->
+    <!-- Main Content Grid -->
     <div class="detail-content">
-      <!-- Colonne gauche: Gallery + Description -->
+
+      <!-- ── Colonne gauche : Galerie + Description ── -->
       <div class="gallery-column">
+
         <!-- Gallery -->
         <div class="gallery-section">
           <div class="main-image">
-            <img [src]="bien.images[currentImageIndex].urlImage" [alt]="bien.titre">
+            <img
+              [src]="bien.images[currentImageIndex].urlImage"
+              [alt]="bien.titre"
+              (click)="openLightbox(currentImageIndex)"
+              class="main-img-clickable"
+              title="Cliquer pour agrandir">
+
+            <!-- Badge type transaction -->
             <span class="bien-badge" [class.badge-location]="bien.typeTransaction === 'LOCATION'">
               {{ bien.typeTransaction === 'VENTE' ? 'À Vendre' : 'À Louer' }}
             </span>
-            
-            <!-- Navigation Arrows -->
-            <button class="arrow arrow-left" (click)="prevImage()" *ngIf="bien.images.length > 1" aria-label="Image précédente">
+
+            <!-- Icône zoom -->
+            <div class="zoom-hint" (click)="openLightbox(currentImageIndex)">
+              <i class="fas fa-expand-alt"></i>
+            </div>
+
+            <!-- Flèches navigation galerie -->
+            <button
+              class="arrow arrow-left"
+              (click)="prevImage()"
+              *ngIf="bien.images.length > 1"
+              aria-label="Image précédente">
               <i class="fas fa-chevron-left"></i>
             </button>
-            <button class="arrow arrow-right" (click)="nextImage()" *ngIf="bien.images.length > 1" aria-label="Image suivante">
+            <button
+              class="arrow arrow-right"
+              (click)="nextImage()"
+              *ngIf="bien.images.length > 1"
+              aria-label="Image suivante">
               <i class="fas fa-chevron-right"></i>
             </button>
+
+            <!-- Compteur images -->
+            <div class="image-counter" *ngIf="bien.images.length > 1">
+              <i class="fas fa-images"></i>
+              {{ currentImageIndex + 1 }} / {{ bien.images.length }}
+            </div>
           </div>
 
           <!-- Thumbnails -->
           <div class="thumbnails" *ngIf="bien.images.length > 1">
-            <div 
-              *ngFor="let image of bien.images; let i = index" 
+            <div
+              *ngFor="let image of bien.images; let i = index"
               class="thumbnail"
               [class.active]="i === currentImageIndex"
               (click)="selectImage(i)"
@@ -64,19 +94,23 @@
         </div>
       </div>
 
-      <!-- Colonne droite: Info Section -->
+      <!-- ── Colonne droite : Infos + Contact ─────── -->
       <div class="info-section">
+
         <h1>{{ bien.titre }}</h1>
-        
+
         <div class="location">
           <i class="fas fa-map-marker-alt"></i>
           <span>{{ bien.adresse }}, {{ bien.ville }}</span>
         </div>
 
+        <!-- Prix -->
         <div class="prix-container">
           <div class="prix">
-            {{ bienService.formatPrix(bien.prix) }} 
-            <span class="prix-unite">{{ bien.typeTransaction === 'LOCATION' ? 'DT/mois' : 'DT' }}</span>
+            {{ bienService.formatPrix(bien.prix) }}
+            <span class="prix-unite">
+              {{ bien.typeTransaction === 'LOCATION' ? 'DT/mois' : 'DT' }}
+            </span>
           </div>
         </div>
 
@@ -113,41 +147,35 @@
         </div>
 
         <!-- Équipements -->
-        <div class="equipements" *ngIf="bien.jardin || bien.garage || bien.piscine || bien.climatisation || bien.parking || bien.balcon || bien.meuble">
+        <div class="equipements"
+          *ngIf="bien.jardin || bien.garage || bien.piscine || bien.climatisation || bien.parking || bien.balcon || bien.meuble">
           <h3>Équipements</h3>
           <div class="equipements-grid">
             <div class="equipement" *ngIf="bien.jardin">
-              <i class="fas fa-tree"></i>
-              <span>Jardin</span>
+              <i class="fas fa-tree"></i><span>Jardin</span>
             </div>
             <div class="equipement" *ngIf="bien.garage">
-              <i class="fas fa-warehouse"></i>
-              <span>Garage</span>
+              <i class="fas fa-warehouse"></i><span>Garage</span>
             </div>
             <div class="equipement" *ngIf="bien.piscine">
-              <i class="fas fa-swimming-pool"></i>
-              <span>Piscine</span>
+              <i class="fas fa-swimming-pool"></i><span>Piscine</span>
             </div>
             <div class="equipement" *ngIf="bien.climatisation">
-              <i class="fas fa-snowflake"></i>
-              <span>Climatisation</span>
+              <i class="fas fa-snowflake"></i><span>Climatisation</span>
             </div>
             <div class="equipement" *ngIf="bien.parking">
-              <i class="fas fa-parking"></i>
-              <span>Parking</span>
+              <i class="fas fa-parking"></i><span>Parking</span>
             </div>
             <div class="equipement" *ngIf="bien.balcon">
-              <i class="fas fa-building"></i>
-              <span>Balcon</span>
+              <i class="fas fa-building"></i><span>Balcon</span>
             </div>
             <div class="equipement" *ngIf="bien.meuble">
-              <i class="fas fa-couch"></i>
-              <span>Meublé</span>
+              <i class="fas fa-couch"></i><span>Meublé</span>
             </div>
           </div>
         </div>
 
-        <!-- Contact Buttons -->
+        <!-- Boutons Contact -->
         <div class="contact-buttons">
           <a href="tel:+21670123456" class="btn btn-primary">
             <i class="fas fa-phone"></i>
@@ -157,12 +185,71 @@
             <i class="fab fa-whatsapp"></i>
             <span>WhatsApp</span>
           </a>
-          <a routerLink="/contact" [queryParams]="{bienId: bien.id}" class="btn btn-outline">
+          <a routerLink="/contact" [queryParams]="{bienId: bien.id}" class="btn btn-email">
             <i class="fas fa-envelope"></i>
             <span>Email</span>
           </a>
         </div>
+
       </div>
     </div>
   </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!--   LIGHTBOX MODAL                              -->
+  <!-- ══════════════════════════════════════════════ -->
+  <div
+    class="lightbox-overlay"
+    *ngIf="lightboxOpen && bien"
+    (click)="closeLightbox()"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Visionneuse d'images">
+
+    <!-- Bouton fermer -->
+    <button class="lightbox-close" (click)="closeLightbox()" aria-label="Fermer">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <!-- Flèche gauche -->
+    <button
+      class="lightbox-arrow lightbox-prev"
+      (click)="$event.stopPropagation(); lightboxPrev()"
+      *ngIf="bien.images.length > 1"
+      aria-label="Image précédente">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <!-- Image centrale -->
+    <div class="lightbox-content" (click)="$event.stopPropagation()">
+      <img
+        [src]="bien.images[lightboxIndex].urlImage"
+        [alt]="bien.titre + ' - image ' + (lightboxIndex + 1)">
+      <div class="lightbox-counter">
+        <i class="fas fa-images"></i>
+        {{ lightboxIndex + 1 }} / {{ bien.images.length }}
+      </div>
+    </div>
+
+    <!-- Flèche droite -->
+    <button
+      class="lightbox-arrow lightbox-next"
+      (click)="$event.stopPropagation(); lightboxNext()"
+      *ngIf="bien.images.length > 1"
+      aria-label="Image suivante">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+
+    <!-- Bande de miniatures en bas du lightbox -->
+    <div class="lightbox-thumbnails" *ngIf="bien.images.length > 1" (click)="$event.stopPropagation()">
+      <div
+        *ngFor="let image of bien.images; let i = index"
+        class="lightbox-thumb"
+        [class.active]="i === lightboxIndex"
+        (click)="lightboxIndex = i">
+        <img [src]="image.urlImage" [alt]="'Miniature ' + (i + 1)">
+      </div>
+    </div>
+  </div>
+
 </div>
