@@ -35,7 +35,7 @@
    PAGE CONTAINER
 ============================================ */
 .bien-detail-page {
-  padding: 6rem 0 3rem; /* 6rem = hauteur header (~80px) + 2rem d'espace */
+  padding: calc(88px + 1.5rem) 0 3rem; /* navbar: logo 3.5rem + padding 2x1rem = 88px */
   background: linear-gradient(to bottom, var(--slate-50) 0%, #ffffff 100%);
   min-height: 100vh;
 }
@@ -919,7 +919,7 @@
 
 @media (max-width: 768px) {
   .bien-detail-page {
-    padding: 5rem 0 2rem; /* header mobile généralement plus petit */
+    padding: calc(72px + 1rem) 0 2rem; /* navbar mobile: logo 2.75rem + padding */
   }
 
   .breadcrumb {
@@ -976,7 +976,7 @@
 }
 
 @media (max-width: 480px) {
-  .bien-detail-page { padding: 4.5rem 0 1.75rem; }
+.bien-detail-page { padding: calc(64px + 0.75rem) 0 1.75rem; } /* navbar 480px: logo 2.25rem */
 
   .breadcrumb span { max-width: 160px; }
 
