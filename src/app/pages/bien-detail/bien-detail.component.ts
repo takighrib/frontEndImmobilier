@@ -21,6 +21,9 @@ export class BienDetailComponent implements OnInit, OnDestroy {
   lightboxOpen = false;
   lightboxIndex = 0;
 
+  // Description expand/collapse
+  descriptionExpanded = false;
+
   private keydownListener = (e: KeyboardEvent) => {
     if (!this.lightboxOpen) return;
     if (e.key === 'Escape') this.closeLightbox();
@@ -98,6 +101,11 @@ export class BienDetailComponent implements OnInit, OnDestroy {
     if (this.bien) {
       this.lightboxIndex = (this.lightboxIndex - 1 + this.bien.images.length) % this.bien.images.length;
     }
+  }
+
+  // ── Description toggle ──────────────────────────────
+  toggleDescription(): void {
+    this.descriptionExpanded = !this.descriptionExpanded;
   }
 
   // ── Utilitaires ─────────────────────────────────────
