@@ -35,7 +35,7 @@
    PAGE CONTAINER
 ============================================ */
 .bien-detail-page {
-  padding: 2rem 0 3rem;
+  padding: 6rem 0 3rem; /* 6rem = hauteur header (~80px) + 2rem d'espace */
   background: linear-gradient(to bottom, var(--slate-50) 0%, #ffffff 100%);
   min-height: 100vh;
 }
@@ -919,7 +919,7 @@
 
 @media (max-width: 768px) {
   .bien-detail-page {
-    padding: 1rem 0 2rem;
+    padding: 5rem 0 2rem; /* header mobile généralement plus petit */
   }
 
   .breadcrumb {
@@ -976,7 +976,7 @@
 }
 
 @media (max-width: 480px) {
-  .bien-detail-page { padding: 0.75rem 0 1.75rem; }
+  .bien-detail-page { padding: 4.5rem 0 1.75rem; }
 
   .breadcrumb span { max-width: 160px; }
 
