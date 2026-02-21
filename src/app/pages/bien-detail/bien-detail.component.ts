@@ -53,6 +53,43 @@ export class BienDetailComponent implements OnInit, OnDestroy {
       next: (data) => {
         this.bien = data;
         this.loading = false;
+          console.group(`🏠 Bien #${data.id} — ${data.titre}`);
+      console.log('📋 Type bien:',        data.typeBien);
+      console.log('🔄 Transaction:',      data.typeTransaction);
+      console.log('📍 Localisation:',     `${data.adresse}, ${data.ville} ${data.codePostal}`);
+      console.log('💰 Prix:',             data.prix, 'DT');
+      console.log('📐 Surface:',          data.surface, 'm²');
+      console.log('🏷️  Statut:',          data.statut);
+      console.log('⭐ Mis en avant:',     data.misEnAvant);
+
+      console.group('🛏️  Caractéristiques');
+      console.log('Pièces:',              data.nombrePieces ?? 'N/A');
+      console.log('Chambres:',            data.nombreChambres ?? 'N/A');
+      console.log('Salles de bain:',      data.nombreSallesBain ?? 'N/A');
+      console.log('Étage:',              (data as any).etage ?? 'N/A');
+      console.log('Nombre étages:',      (data as any).nombreEtages ?? 'N/A');
+      console.groupEnd();
+
+      console.group('🔧 Équipements');
+      console.log('Jardin:',              data.jardin       ?? false);
+      console.log('Garage:',              data.garage       ?? false);
+      console.log('Piscine:',             data.piscine      ?? false);
+      console.log('Climatisation:',       data.climatisation ?? false);
+      console.log('Parking:',             data.parking      ?? false);
+      console.log('Balcon:',              data.balcon       ?? false);
+      console.log('Meublé:',             data.meuble       ?? false);
+      console.log('Ascenseur:',           (data as any).ascenseur ?? false);
+      console.log('Gardien:',             (data as any).gardien   ?? false);
+      console.groupEnd();
+
+      console.group(`🖼️  Images (${data.images?.length ?? 0})`);
+      data.images?.forEach((img: any, i: number) => {
+        console.log(`  [${i}] ${img.urlImage} — principale: ${img.estPrincipale}`);
+      });
+      console.groupEnd();
+
+      console.log('📦 Objet complet:', data);
+      console.groupEnd();
       },
       error: (err) => {
         console.error('Erreur chargement bien:', err);
