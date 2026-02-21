@@ -175,6 +175,7 @@ export class AdminBienFormComponent implements OnInit {
 
     onSubmit(): void {
         console.log('Images avant soumission:', this.images);
+  console.log('Bien envoyé:', JSON.stringify(this.bien));
 
         // Les URLs sont déjà au bon format /assets/images/xxx.png
         this.bien.images = this.images
