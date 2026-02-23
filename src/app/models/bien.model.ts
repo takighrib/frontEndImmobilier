@@ -37,6 +37,15 @@ export interface Bien {
   balcon?: boolean;
   parking?: boolean;
   meuble?: boolean;
+
+  nombreEtages?: number;
+  gardien?: boolean;
+  superficieBureau?: number;
+  nombreBureaux?: number;
+  securite?: boolean;
+  typeConstruction?: string;
+  viabilise?: boolean;
+  zonage?: string;
 }
 
 export interface Contact {

@@ -46,6 +46,14 @@ export class AdminBienFormComponent implements OnInit {
         balcon: false,
         meuble: false,
         ascenseur: false,
+         nombreEtages: undefined,
+    gardien: false,
+    superficieBureau: undefined,
+    nombreBureaux: undefined,
+    securite: false,
+    typeConstruction: '',
+    viabilise: false,
+    zonage: '',
     };
 
     images: ImageData[] = [{ url: '', uploading: false }];

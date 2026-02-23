@@ -231,6 +231,99 @@
               class="form-control">
           </div>
         </div>
+
+        <!-- ✅ Spécifique Appartement -->
+        <div *ngIf="bien.typeBien === 'Appartement'" class="form-row">
+          <div class="form-group">
+            <label for="etage">Étage</label>
+            <input 
+              type="number" 
+              id="etage"
+              name="etage"
+              [(ngModel)]="bien.etage"
+              placeholder="Ex: 3"
+              class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="nombreEtages">Nombre d'étages (immeuble)</label>
+            <input 
+              type="number" 
+              id="nombreEtages"
+              name="nombreEtages"
+              [(ngModel)]="bien.nombreEtages"
+              placeholder="Ex: 5"
+              class="form-control">
+          </div>
+        </div>
+
+        <!-- ✅ Spécifique Bureau -->
+        <div *ngIf="bien.typeBien === 'Bureau'" class="form-row">
+          <div class="form-group">
+            <label for="superficieBureau">Superficie bureau (m²)</label>
+            <input 
+              type="number" 
+              id="superficieBureau"
+              name="superficieBureau"
+              [(ngModel)]="bien.superficieBureau"
+              placeholder="Ex: 150"
+              class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="nombreBureaux">Nombre de bureaux</label>
+            <input 
+              type="number" 
+              id="nombreBureaux"
+              name="nombreBureaux"
+              [(ngModel)]="bien.nombreBureaux"
+              placeholder="Ex: 5"
+              class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="etage">Étage</label>
+            <input 
+              type="number" 
+              id="etage"
+              name="etage"
+              [(ngModel)]="bien.etage"
+              placeholder="Ex: 2"
+              class="form-control">
+          </div>
+        </div>
+
+        <!-- ✅ Spécifique Terrain -->
+        <div *ngIf="bien.typeBien === 'Terrain'" class="form-row">
+          <div class="form-group">
+            <label for="typeConstruction">Type de construction</label>
+            <select 
+              id="typeConstruction"
+              name="typeConstruction"
+              [(ngModel)]="bien.typeConstruction"
+              class="form-control">
+              <option value="">-- Sélectionner --</option>
+              <option value="Constructible">Constructible</option>
+              <option value="Agricole">Agricole</option>
+              <option value="Industriel">Industriel</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="zonage">Zonage</label>
+            <select 
+              id="zonage"
+              name="zonage"
+              [(ngModel)]="bien.zonage"
+              class="form-control">
+              <option value="">-- Sélectionner --</option>
+              <option value="Résidentiel">Résidentiel</option>
+              <option value="Commercial">Commercial</option>
+              <option value="Industriel">Industriel</option>
+              <option value="Mixte">Mixte</option>
+            </select>
+          </div>
+        </div>
       </div>
 
       <!-- Équipements -->
@@ -296,83 +389,106 @@
             <i class="fas fa-elevator"></i>
             <span>Ascenseur</span>
           </label>
+
+          <!-- ✅ Spécifique Villa -->
+          <label *ngIf="bien.typeBien === 'Villa'" class="checkbox-label">
+            <input type="checkbox" name="gardien" [(ngModel)]="bien.gardien">
+            <span class="checkbox-custom"></span>
+            <i class="fas fa-user-shield"></i>
+            <span>Gardien</span>
+          </label>
+
+          <!-- ✅ Spécifique Bureau -->
+          <label *ngIf="bien.typeBien === 'Bureau'" class="checkbox-label">
+            <input type="checkbox" name="securite" [(ngModel)]="bien.securite">
+            <span class="checkbox-custom"></span>
+            <i class="fas fa-shield-alt"></i>
+            <span>Sécurité</span>
+          </label>
+
+          <!-- ✅ Spécifique Terrain -->
+          <label *ngIf="bien.typeBien === 'Terrain'" class="checkbox-label">
+            <input type="checkbox" name="viabilise" [(ngModel)]="bien.viabilise">
+            <span class="checkbox-custom"></span>
+            <i class="fas fa-plug"></i>
+            <span>Viabilisé</span>
+          </label>
         </div>
       </div>
 
       <!-- Images -->
-      <!-- Images -->
-<div class="form-section">
-  <h3 class="section-title">
-    <i class="fas fa-image"></i>
-    Images
-  </h3>
+      <div class="form-section">
+        <h3 class="section-title">
+          <i class="fas fa-image"></i>
+          Images
+        </h3>
 
-  <div class="images-container">
-    <div *ngFor="let image of images; let i = index" class="image-input-group">
-      
-      <!-- Prévisualisation de l'image -->
-      <div *ngIf="image.url" class="image-preview">
-        <img [src]="image.url" [alt]="'Aperçu image ' + (i + 1)" />
+        <div class="images-container">
+          <div *ngFor="let image of images; let i = index" class="image-input-group">
+            
+            <!-- Prévisualisation de l'image -->
+            <div *ngIf="image.url" class="image-preview">
+              <img [src]="image.url" [alt]="'Aperçu image ' + (i + 1)" />
+            </div>
+
+            <!-- Input file caché -->
+            <input 
+              type="file" 
+              [id]="'fileInput' + i"
+              (change)="onFileSelected($event, i)"
+              accept="image/*"
+              #fileInput
+              style="display: none;">
+
+            <!-- Bouton pour uploader -->
+            <button 
+              type="button" 
+              class="btn btn-upload"
+              (click)="fileInput.click()"
+              [disabled]="image.uploading">
+              <i class="fas" [ngClass]="image.uploading ? 'fa-spinner fa-spin' : 'fa-upload'"></i>
+              {{ image.uploading ? 'Upload en cours...' : (image.url ? 'Changer l\'image' : 'Choisir une image') }}
+            </button>
+
+            <!-- Divider -->
+            <div class="or-divider">ou</div>
+            
+            <!-- URL manuelle -->
+            <input 
+              type="url" 
+              [(ngModel)]="image.url"
+              [name]="'imageUrl' + i"
+              placeholder="https://exemple.com/image.jpg"
+              class="form-control"
+              [disabled]="image.uploading">
+
+            <!-- Bouton supprimer -->
+            <button 
+              type="button" 
+              class="btn-remove-image"
+              (click)="removeImage(i)"
+              *ngIf="images.length > 1"
+              [disabled]="image.uploading"
+              [attr.aria-label]="'Supprimer l\'image ' + (i + 1)">
+              <i class="fas fa-times"></i>
+            </button>
+
+            <!-- Label indiquant l'image principale -->
+            <div *ngIf="i === 0" class="main-image-label">
+              <i class="fas fa-star"></i>
+              Image principale
+            </div>
+          </div>
+        </div>
+
+        <button 
+          type="button" 
+          class="btn btn-outline"
+          (click)="addImage()">
+          <i class="fas fa-plus"></i>
+          Ajouter une image
+        </button>
       </div>
-
-      <!-- Input file caché -->
-      <input 
-        type="file" 
-        [id]="'fileInput' + i"
-        (change)="onFileSelected($event, i)"
-        accept="image/*"
-        #fileInput
-        style="display: none;">
-
-      <!-- Bouton pour uploader -->
-      <button 
-        type="button" 
-        class="btn btn-upload"
-        (click)="fileInput.click()"
-        [disabled]="image.uploading">
-        <i class="fas" [ngClass]="image.uploading ? 'fa-spinner fa-spin' : 'fa-upload'"></i>
-        {{ image.uploading ? 'Upload en cours...' : (image.url ? 'Changer l\'image' : 'Choisir une image') }}
-      </button>
-
-      <!-- Divider -->
-      <div class="or-divider">ou</div>
-      
-      <!-- URL manuelle -->
-      <input 
-        type="url" 
-        [(ngModel)]="image.url"
-        [name]="'imageUrl' + i"
-        placeholder="https://exemple.com/image.jpg"
-        class="form-control"
-        [disabled]="image.uploading">
-
-      <!-- Bouton supprimer -->
-      <button 
-        type="button" 
-        class="btn-remove-image"
-        (click)="removeImage(i)"
-        *ngIf="images.length > 1"
-        [disabled]="image.uploading"
-        [attr.aria-label]="'Supprimer l\'image ' + (i + 1)">
-        <i class="fas fa-times"></i>
-      </button>
-
-      <!-- Label indiquant l'image principale -->
-      <div *ngIf="i === 0" class="main-image-label">
-        <i class="fas fa-star"></i>
-        Image principale
-      </div>
-    </div>
-  </div>
-
-  <button 
-    type="button" 
-    class="btn btn-outline"
-    (click)="addImage()">
-    <i class="fas fa-plus"></i>
-    Ajouter une image
-  </button>
-</div>
 
       <!-- Options -->
       <div class="form-section">
