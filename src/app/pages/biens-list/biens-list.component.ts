@@ -20,7 +20,7 @@ export class BiensListComponent implements OnInit {
   // État de la sidebar
   isFilterSidebarOpen = false;
 
-  // Filtres
+  // Filtres de base
   villeFilter = '';
   prixMinFilter: number | null = null;
   prixMaxFilter: number | null = null;
@@ -29,13 +29,19 @@ export class BiensListComponent implements OnInit {
   surfaceMaxFilter: number | null = null;
   nombreChambresFilter: number | null = null;
   
-  // Filtres avancés
+  // Filtres équipements
   jardinFilter = false;
   garageFilter = false;
   piscineFilter = false;
   parkingFilter = false;
   climatisationFilter = false;
   meubleFilter = false;
+  // ✅ Ajouts manquants
+  balconFilter = false;
+  ascenseurFilter = false;
+  gardienFilter = false;
+  securiteFilter = false;
+  viabiliseFilter = false;
 
   constructor(public bienService: BienService) {}
 
@@ -60,11 +66,7 @@ export class BiensListComponent implements OnInit {
 
   toggleFilterSidebar(): void {
     this.isFilterSidebarOpen = !this.isFilterSidebarOpen;
-    if (this.isFilterSidebarOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    document.body.style.overflow = this.isFilterSidebarOpen ? 'hidden' : '';
   }
 
   closeFilterSidebar(): void {
@@ -76,8 +78,6 @@ export class BiensListComponent implements OnInit {
     this.loading = true;
     this.closeFilterSidebar();
     
-    // Appliquer les filtres localement pour démonstration
-    // Dans une vraie app, envoyer tous les filtres au backend
     this.bienService.searchBiens(
       this.villeFilter || undefined,
       this.prixMaxFilter || undefined,
@@ -97,16 +97,10 @@ export class BiensListComponent implements OnInit {
 
   applyAdvancedFilters(biens: Bien[]): Bien[] {
     return biens.filter(bien => {
-      // Filtre prix min
+      // Filtres numériques
       if (this.prixMinFilter && bien.prix < this.prixMinFilter) return false;
-      
-      // Filtre surface min
       if (this.surfaceMinFilter && bien.surface < this.surfaceMinFilter) return false;
-      
-      // Filtre surface max
       if (this.surfaceMaxFilter && bien.surface > this.surfaceMaxFilter) return false;
-      
-      // Filtre nombre de chambres
       if (this.nombreChambresFilter && bien.nombreChambres !== this.nombreChambresFilter) return false;
       
       // Filtres équipements
@@ -116,6 +110,12 @@ export class BiensListComponent implements OnInit {
       if (this.parkingFilter && !bien.parking) return false;
       if (this.climatisationFilter && !bien.climatisation) return false;
       if (this.meubleFilter && !bien.meuble) return false;
+      // ✅ Ajouts manquants
+      if (this.balconFilter && !bien.balcon) return false;
+      if (this.ascenseurFilter && !bien.ascenseur) return false;
+      if (this.gardienFilter && !bien.gardien) return false;
+      if (this.securiteFilter && !bien.securite) return false;
+      if (this.viabiliseFilter && !bien.viabilise) return false;
       
       return true;
     });
@@ -135,6 +135,12 @@ export class BiensListComponent implements OnInit {
     this.parkingFilter = false;
     this.climatisationFilter = false;
     this.meubleFilter = false;
+    // ✅ Ajouts manquants
+    this.balconFilter = false;
+    this.ascenseurFilter = false;
+    this.gardienFilter = false;
+    this.securiteFilter = false;
+    this.viabiliseFilter = false;
     this.loadBiens();
   }
 
@@ -153,6 +159,12 @@ export class BiensListComponent implements OnInit {
     if (this.parkingFilter) count++;
     if (this.climatisationFilter) count++;
     if (this.meubleFilter) count++;
+    // ✅ Ajouts manquants
+    if (this.balconFilter) count++;
+    if (this.ascenseurFilter) count++;
+    if (this.gardienFilter) count++;
+    if (this.securiteFilter) count++;
+    if (this.viabiliseFilter) count++;
     return count;
   }
 }
