@@ -46,14 +46,14 @@ export class AdminBienFormComponent implements OnInit {
         balcon: false,
         meuble: false,
         ascenseur: false,
-         nombreEtages: undefined,
-    gardien: false,
-    superficieBureau: undefined,
-    nombreBureaux: undefined,
-    securite: false,
-    typeConstruction: '',
-    viabilise: false,
-    zonage: '',
+        nombreEtages: undefined,
+        gardien: false,
+        superficieBureau: undefined,
+        nombreBureaux: undefined,
+        securite: false,
+        typeConstruction: '',
+        viabilise: false,
+        zonage: '',
     };
 
     images: ImageData[] = [{ url: '', uploading: false }];
@@ -85,11 +85,26 @@ export class AdminBienFormComponent implements OnInit {
         this.loading = true;
         this.bienService.getBienById(this.bienId).subscribe({
             next: (data) => {
-                this.bien = data;
+                // ✅ Forcer tous les booléens pour éviter null/undefined venant du backend
+                this.bien = {
+                    ...data,
+                    jardin: data.jardin ?? false,
+                    garage: data.garage ?? false,
+                    piscine: data.piscine ?? false,
+                    climatisation: data.climatisation ?? false,
+                    parking: data.parking ?? false,
+                    balcon: data.balcon ?? false,
+                    meuble: data.meuble ?? false,
+                    ascenseur: data.ascenseur ?? false,
+                    gardien: data.gardien ?? false,
+                    securite: data.securite ?? false,
+                    viabilise: data.viabilise ?? false,
+                    misEnAvant: data.misEnAvant ?? false,
+                };
+
                 if (data.images && data.images.length > 0) {
-                    // Les URLs sont déjà au bon format depuis la DB
                     this.images = data.images.map((img: any) => ({
-                        url: img.urlImage, // Déjà au format /assets/images/xxx.png
+                        url: img.urlImage,
                         uploading: false
                     }));
                 }
@@ -103,14 +118,8 @@ export class AdminBienFormComponent implements OnInit {
         });
     }
 
-    /**
-     * Extrait le nom du fichier depuis l'URL
-     * /assets/images/xxx.png -> xxx.png
-     */
     extractFilename(url: string): string {
         if (!url) return '';
-        
-        // Extraire seulement le nom du fichier
         const parts = url.split('/');
         return parts[parts.length - 1];
     }
@@ -119,14 +128,12 @@ export class AdminBienFormComponent implements OnInit {
         const input = event.target as HTMLInputElement;
         if (input.files && input.files.length > 0) {
             const file = input.files[0];
-            
-            // Vérifier le type de fichier
+
             if (!file.type.startsWith('image/')) {
                 alert('Veuillez sélectionner une image');
                 return;
             }
 
-            // Vérifier la taille (max 10MB)
             if (file.size > 10 * 1024 * 1024) {
                 alert('L\'image ne doit pas dépasser 10MB');
                 return;
@@ -138,10 +145,9 @@ export class AdminBienFormComponent implements OnInit {
 
     uploadImage(file: File, index: number): void {
         this.images[index].uploading = true;
-        
+
         this.imageUploadService.uploadImage(file).subscribe({
             next: (response) => {
-                // Le backend retourne déjà /assets/images/xxx.png
                 this.images[index].url = response.url;
                 this.images[index].uploading = false;
                 console.log('Image uploadée:', response);
@@ -160,43 +166,26 @@ export class AdminBienFormComponent implements OnInit {
 
     removeImage(index: number): void {
         const imageUrl = this.images[index].url;
-        
-        // Si c'est une image uploadée (commence par /assets/images/)
+
         if (imageUrl && imageUrl.startsWith('/assets/images/')) {
             const filename = this.extractFilename(imageUrl);
-            
             console.log('Suppression de l\'image:', filename);
-            
+
             this.imageUploadService.deleteImage(filename).subscribe({
                 next: () => console.log('Image supprimée du serveur'),
                 error: (err) => console.error('Erreur suppression:', err)
             });
         }
-        
+
         this.images.splice(index, 1);
-        
-        // Garder au moins un champ d'image
+
         if (this.images.length === 0) {
             this.images.push({ url: '', uploading: false });
         }
     }
 
     onSubmit(): void {
-        console.log('Images avant soumission:', this.images);
-  console.log('Bien envoyé:', JSON.stringify(this.bien));
-
-        // Les URLs sont déjà au bon format /assets/images/xxx.png
-        this.bien.images = this.images
-            .filter(img => img.url && img.url.trim() !== '')
-            .map((img, index) => ({
-                urlImage: img.url.trim(), // Déjà au bon format
-                ordre: index,
-                estPrincipale: index === 0
-            }));
-
-        console.log('Images pour la base de données:', this.bien.images);
-
-        // Validation des champs obligatoires
+        // ✅ Validation des champs obligatoires
         if (
             !this.bien.titre ||
             !this.bien.ville ||
@@ -208,10 +197,39 @@ export class AdminBienFormComponent implements OnInit {
             return;
         }
 
+        // ✅ Construire l'objet final avec les booléens forcés
+        const bienToSend: Bien = {
+            ...this.bien,
+            // Booléens garantis non null
+            jardin: this.bien.jardin ?? false,
+            garage: this.bien.garage ?? false,
+            piscine: this.bien.piscine ?? false,
+            climatisation: this.bien.climatisation ?? false,
+            parking: this.bien.parking ?? false,
+            balcon: this.bien.balcon ?? false,
+            meuble: this.bien.meuble ?? false,
+            ascenseur: this.bien.ascenseur ?? false,
+            gardien: this.bien.gardien ?? false,
+            securite: this.bien.securite ?? false,
+            viabilise: this.bien.viabilise ?? false,
+            misEnAvant: this.bien.misEnAvant ?? false,
+            // Images
+            images: this.images
+                .filter(img => img.url && img.url.trim() !== '')
+                .map((img, index) => ({
+                    urlImage: img.url.trim(),
+                    ordre: index,
+                    estPrincipale: index === 0
+                }))
+        } as Bien;
+
+        console.log('Bien envoyé:', JSON.stringify(bienToSend));
+        console.log('meuble:', bienToSend.meuble, 'ascenseur:', bienToSend.ascenseur, 'gardien:', bienToSend.gardien);
+
         this.submitting = true;
 
         if (this.isEditMode && this.bienId != null) {
-            this.adminBienService.updateBien(this.bienId, this.bien as Bien).subscribe({
+            this.adminBienService.updateBien(this.bienId, bienToSend).subscribe({
                 next: () => {
                     alert('Bien mis à jour avec succès !');
                     this.router.navigate(['/admin/biens']);
@@ -223,7 +241,7 @@ export class AdminBienFormComponent implements OnInit {
                 }
             });
         } else {
-            this.adminBienService.createBien(this.bien as Bien).subscribe({
+            this.adminBienService.createBien(bienToSend).subscribe({
                 next: () => {
                     alert('Bien créé avec succès !');
                     this.router.navigate(['/admin/biens']);
