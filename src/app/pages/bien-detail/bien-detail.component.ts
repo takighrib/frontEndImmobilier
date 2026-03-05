@@ -148,6 +148,6 @@ export class BienDetailComponent implements OnInit, OnDestroy {
   // ── Utilitaires ─────────────────────────────────────
   getWhatsAppLink(): string {
     const message = `Bonjour, je suis intéressé par le bien: ${this.bien?.titre}`;
-    return `https://wa.me/21670123456?text=${encodeURIComponent(message)}`;
+    return `https://wa.me/21628195645?text=${encodeURIComponent(message)}`;
   }
 }
