@@ -103,10 +103,11 @@
                 <p class="desc-subtitle">Informations détaillées fournies par l'agence</p>
               </div>
             </div>
-            <!-- Badge référence -->
+            <!-- Badge Référence -->
             <div class="desc-ref">
               <span class="ref-label">Référence</span>
-<span class="ref-value">{{ bien.reference || '#' + bien.id }}</span>
+        <span class="ref-value">
+          {{ bien.reference || '#' + bien.id }}</span>
             </div>
           </div>
 
@@ -208,32 +209,44 @@
 
         <!-- Équipements -->
         <div class="equipements"
-          *ngIf="bien.jardin || bien.garage || bien.piscine || bien.climatisation || bien.parking || bien.balcon || bien.meuble">
-          <h3>Équipements</h3>
-          <div class="equipements-grid">
-            <div class="equipement" *ngIf="bien.jardin">
-              <i class="fas fa-tree"></i><span>Jardin</span>
-            </div>
-            <div class="equipement" *ngIf="bien.garage">
-              <i class="fas fa-warehouse"></i><span>Garage</span>
-            </div>
-            <div class="equipement" *ngIf="bien.piscine">
-              <i class="fas fa-swimming-pool"></i><span>Piscine</span>
-            </div>
-            <div class="equipement" *ngIf="bien.climatisation">
-              <i class="fas fa-snowflake"></i><span>Climatisation</span>
-            </div>
-            <div class="equipement" *ngIf="bien.parking">
-              <i class="fas fa-parking"></i><span>Parking</span>
-            </div>
-            <div class="equipement" *ngIf="bien.balcon">
-              <i class="fas fa-building"></i><span>Balcon</span>
-            </div>
-            <div class="equipement" *ngIf="bien.meuble">
-              <i class="fas fa-couch"></i><span>Meublé</span>
-            </div>
-          </div>
-        </div>
+  *ngIf="bien.jardin || bien.garage || bien.piscine || bien.climatisation || bien.parking || bien.balcon || bien.meuble || bien.ascenseur || bien.gardien || bien.securite || bien.viabilise">
+  <h3>Équipements</h3>
+  <div class="equipements-grid">
+    <div class="equipement" *ngIf="bien.jardin">
+      <i class="fas fa-tree"></i><span>Jardin</span>
+    </div>
+    <div class="equipement" *ngIf="bien.garage">
+      <i class="fas fa-warehouse"></i><span>Garage</span>
+    </div>
+    <div class="equipement" *ngIf="bien.piscine">
+      <i class="fas fa-swimming-pool"></i><span>Piscine</span>
+    </div>
+    <div class="equipement" *ngIf="bien.climatisation">
+      <i class="fas fa-snowflake"></i><span>Climatisation</span>
+    </div>
+    <div class="equipement" *ngIf="bien.parking">
+      <i class="fas fa-parking"></i><span>Parking</span>
+    </div>
+    <div class="equipement" *ngIf="bien.balcon">
+      <i class="fas fa-building"></i><span>Balcon</span>
+    </div>
+    <div class="equipement" *ngIf="bien.meuble">
+      <i class="fas fa-couch"></i><span>Meublé</span>
+    </div>
+    <div class="equipement" *ngIf="bien.ascenseur">
+      <i class="fas fa-elevator"></i><span>Ascenseur</span>
+    </div>
+    <div class="equipement" *ngIf="bien.gardien">
+      <i class="fas fa-user-shield"></i><span>Gardien</span>
+    </div>
+    <div class="equipement" *ngIf="bien.securite">
+      <i class="fas fa-shield-alt"></i><span>Sécurité</span>
+    </div>
+    <div class="equipement" *ngIf="bien.viabilise">
+      <i class="fas fa-plug"></i><span>Viabilisé</span>
+    </div>
+  </div>
+</div>
 
         <!-- Boutons Contact -->
         <div class="contact-buttons">
