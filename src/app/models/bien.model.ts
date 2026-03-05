@@ -5,7 +5,7 @@
 export interface Bien {
   id: number;
   titre: string;
-  
+  reference?: string;
   description: string;
   adresse: string;
   ville: string;
