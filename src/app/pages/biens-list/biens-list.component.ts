@@ -92,10 +92,24 @@ loadBiens(): void {
       this.prixMaxFilter || undefined,
       this.typeTransactionFilter || undefined
     ).subscribe({
-      next: (data) => {
-        this.biens = this.applyAdvancedFilters(data);
-        this.loading = false;
-      },
+    next: (data) => {
+  const filtered = this.applyAdvancedFilters(data);
+  this.biens = filtered.map(bien => ({
+    ...bien,
+    jardin: bien.jardin ?? false,
+    garage: bien.garage ?? false,
+    piscine: bien.piscine ?? false,
+    climatisation: bien.climatisation ?? false,
+    parking: bien.parking ?? false,
+    balcon: bien.balcon ?? false,
+    meuble: bien.meuble ?? false,
+    ascenseur: bien.ascenseur ?? false,
+    gardien: bien.gardien ?? false,
+    securite: bien.securite ?? false,
+    viabilise: bien.viabilise ?? false,
+  }));
+  this.loading = false;
+},
       error: (err) => {
         console.error('Erreur recherche:', err);
         this.error = 'Erreur lors de la recherche';
