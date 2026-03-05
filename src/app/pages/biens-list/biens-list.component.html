@@ -40,22 +40,42 @@
     <!-- Liste des biens -->
     <div *ngIf="!loading && !error" class="biens-grid">
       <div *ngFor="let bien of biens" class="bien-card" [routerLink]="['/bien', bien.id]">
+
+        <!-- Image -->
         <div class="bien-image">
           <img [src]="bienService.getImagePrincipale(bien)" [alt]="bien.titre">
+
+          <!-- Badge Vente / Location -->
           <span class="bien-badge" [class.badge-location]="bien.typeTransaction === 'LOCATION'">
             {{ bien.typeTransaction === 'VENTE' ? 'À Vendre' : 'À Louer' }}
           </span>
+
+          <!-- Prix flottant sur l'image -->
+          <div class="bien-prix-overlay">
+            {{ bienService.formatPrix(bien.prix) }}
+            <span class="bien-prix-overlay-unit">
+              {{ bien.typeTransaction === 'LOCATION' ? ' DT/mois' : ' DT' }}
+            </span>
+          </div>
         </div>
+
+        <!-- Contenu -->
         <div class="bien-content">
+
+          <!-- Titre -->
           <h3 class="bien-title">{{ bien.titre }}</h3>
+
+          <!-- Localisation -->
           <div class="bien-location">
             <i class="fas fa-map-marker-alt"></i>
             <span>{{ bien.ville }}{{ bien.quartier ? ', ' + bien.quartier : '' }}</span>
           </div>
+
+          <!-- Détails : Surface / Chambres / SDB -->
           <div class="bien-details">
             <div class="detail-item">
               <i class="fas fa-ruler-combined"></i>
-              <span>{{ bien.surface }}m²</span>
+              <span>{{ bien.surface }} m²</span>
             </div>
             <div class="detail-item" *ngIf="bien.nombreChambres">
               <i class="fas fa-bed"></i>
@@ -65,49 +85,37 @@
               <i class="fas fa-bath"></i>
               <span>{{ bien.nombreSallesBain }} sdb</span>
             </div>
-          </div>
-          
-          <!-- Caractéristiques supplémentaires - TOUS LES ÉQUIPEMENTS -->
-          <div class="bien-features" *ngIf="bien.jardin || bien.garage || bien.piscine || bien.parking || bien.climatisation || bien.meuble || bien.balcon || bien.ascenseur || bien.gardien || bien.securite || bien.viabilise">
-            <span class="feature" *ngIf="bien.jardin">
-              <i class="fas fa-tree"></i> Jardin
-            </span>
-            <span class="feature" *ngIf="bien.garage">
-              <i class="fas fa-warehouse"></i> Garage
-            </span>
-            <span class="feature" *ngIf="bien.piscine">
-              <i class="fas fa-swimming-pool"></i> Piscine
-            </span>
-            <span class="feature" *ngIf="bien.parking">
-              <i class="fas fa-parking"></i> Parking
-            </span>
-            <span class="feature" *ngIf="bien.climatisation">
-              <i class="fas fa-snowflake"></i> Clim
-            </span>
-            <span class="feature" *ngIf="bien.meuble">
-              <i class="fas fa-couch"></i> Meublé
-            </span>
-            <span class="feature" *ngIf="bien.balcon">
-              <i class="fas fa-building"></i> Balcon
-            </span>
-            <span class="feature" *ngIf="bien.ascenseur">
-              <i class="fas fa-elevator"></i> Ascenseur
-            </span>
-            <span class="feature" *ngIf="bien.gardien">
-              <i class="fas fa-user-shield"></i> Gardien
-            </span>
-            <span class="feature" *ngIf="bien.securite">
-              <i class="fas fa-shield-alt"></i> Sécurité
-            </span>
-            <span class="feature" *ngIf="bien.viabilise">
-              <i class="fas fa-plug"></i> Viabilisé
-            </span>
+            <div class="detail-item" *ngIf="bien.nombrePieces">
+              <i class="fas fa-home"></i>
+              <span>{{ bien.nombrePieces }} p.</span>
+            </div>
           </div>
 
-          <div class="bien-prix">
-            {{ bienService.formatPrix(bien.prix) }} 
-            {{ bien.typeTransaction === 'LOCATION' ? 'DT/mois' : 'DT' }}
+          <!-- Équipements -->
+          <div class="bien-features"
+            *ngIf="bien.jardin || bien.garage || bien.piscine || bien.parking || bien.climatisation || bien.meuble || bien.balcon || bien.ascenseur || bien.gardien || bien.securite || bien.viabilise">
+            <span class="feature" *ngIf="bien.jardin"><i class="fas fa-tree"></i> Jardin</span>
+            <span class="feature" *ngIf="bien.garage"><i class="fas fa-warehouse"></i> Garage</span>
+            <span class="feature" *ngIf="bien.piscine"><i class="fas fa-swimming-pool"></i> Piscine</span>
+            <span class="feature" *ngIf="bien.parking"><i class="fas fa-parking"></i> Parking</span>
+            <span class="feature" *ngIf="bien.climatisation"><i class="fas fa-snowflake"></i> Clim</span>
+            <span class="feature" *ngIf="bien.meuble"><i class="fas fa-couch"></i> Meublé</span>
+            <span class="feature" *ngIf="bien.balcon"><i class="fas fa-building"></i> Balcon</span>
+            <span class="feature" *ngIf="bien.ascenseur"><i class="fas fa-elevator"></i> Ascenseur</span>
+            <span class="feature" *ngIf="bien.gardien"><i class="fas fa-user-shield"></i> Gardien</span>
+            <span class="feature" *ngIf="bien.securite"><i class="fas fa-shield-alt"></i> Sécurité</span>
+            <span class="feature" *ngIf="bien.viabilise"><i class="fas fa-plug"></i> Viabilisé</span>
           </div>
+
+          <!-- Footer : Prix + Bouton -->
+          <div class="bien-prix-footer">
+            <div class="bien-prix">
+              {{ bienService.formatPrix(bien.prix) }}
+              <span class="bien-prix-unit">{{ bien.typeTransaction === 'LOCATION' ? 'DT/mois' : 'DT' }}</span>
+            </div>
+            <span class="btn-voir">Voir <i class="fas fa-arrow-right"></i></span>
+          </div>
+
         </div>
       </div>
     </div>
@@ -185,30 +193,14 @@
           <i class="fas fa-tag"></i>
           Prix (DT)
         </h3>
-
         <div class="form-row">
           <div class="form-group">
             <label for="prixMin">Prix min</label>
-            <input 
-              type="number" 
-              id="prixMin"
-              [(ngModel)]="prixMinFilter"
-              name="prixMin"
-              placeholder="Min"
-              class="form-control"
-              min="0">
+            <input type="number" id="prixMin" [(ngModel)]="prixMinFilter" name="prixMin" placeholder="Min" class="form-control" min="0">
           </div>
-
           <div class="form-group">
             <label for="prixMax">Prix max</label>
-            <input 
-              type="number" 
-              id="prixMax"
-              [(ngModel)]="prixMaxFilter"
-              name="prixMax"
-              placeholder="Max"
-              class="form-control"
-              min="0">
+            <input type="number" id="prixMax" [(ngModel)]="prixMaxFilter" name="prixMax" placeholder="Max" class="form-control" min="0">
           </div>
         </div>
       </div>
@@ -219,30 +211,14 @@
           <i class="fas fa-ruler-combined"></i>
           Surface (m²)
         </h3>
-
         <div class="form-row">
           <div class="form-group">
             <label for="surfaceMin">Surface min</label>
-            <input 
-              type="number" 
-              id="surfaceMin"
-              [(ngModel)]="surfaceMinFilter"
-              name="surfaceMin"
-              placeholder="Min"
-              class="form-control"
-              min="0">
+            <input type="number" id="surfaceMin" [(ngModel)]="surfaceMinFilter" name="surfaceMin" placeholder="Min" class="form-control" min="0">
           </div>
-
           <div class="form-group">
             <label for="surfaceMax">Surface max</label>
-            <input 
-              type="number" 
-              id="surfaceMax"
-              [(ngModel)]="surfaceMaxFilter"
-              name="surfaceMax"
-              placeholder="Max"
-              class="form-control"
-              min="0">
+            <input type="number" id="surfaceMax" [(ngModel)]="surfaceMaxFilter" name="surfaceMax" placeholder="Max" class="form-control" min="0">
           </div>
         </div>
       </div>
@@ -253,13 +229,8 @@
           <i class="fas fa-bed"></i>
           Nombre de chambres
         </h3>
-
         <div class="form-group">
-          <select 
-            id="nombreChambres"
-            [(ngModel)]="nombreChambresFilter"
-            name="nombreChambres"
-            class="form-control">
+          <select id="nombreChambres" [(ngModel)]="nombreChambresFilter" name="nombreChambres" class="form-control">
             <option [ngValue]="null">Tous</option>
             <option [ngValue]="1">1 chambre</option>
             <option [ngValue]="2">2 chambres</option>
@@ -270,89 +241,67 @@
         </div>
       </div>
 
-      <!-- Équipements (une seule fois, avec tous les 11 équipements) -->
+      <!-- Équipements -->
       <div class="filter-section">
         <h3 class="section-title">
           <i class="fas fa-check-circle"></i>
           Équipements
         </h3>
-
         <div class="checkbox-group">
           <label class="checkbox-label">
             <input type="checkbox" [(ngModel)]="jardinFilter" name="jardin">
             <span class="checkbox-custom"></span>
-            <i class="fas fa-tree"></i>
-            <span>Jardin</span>
+            <i class="fas fa-tree"></i><span>Jardin</span>
           </label>
-
           <label class="checkbox-label">
             <input type="checkbox" [(ngModel)]="garageFilter" name="garage">
             <span class="checkbox-custom"></span>
-            <i class="fas fa-warehouse"></i>
-            <span>Garage</span>
+            <i class="fas fa-warehouse"></i><span>Garage</span>
           </label>
-
           <label class="checkbox-label">
             <input type="checkbox" [(ngModel)]="piscineFilter" name="piscine">
             <span class="checkbox-custom"></span>
-            <i class="fas fa-swimming-pool"></i>
-            <span>Piscine</span>
+            <i class="fas fa-swimming-pool"></i><span>Piscine</span>
           </label>
-
           <label class="checkbox-label">
             <input type="checkbox" [(ngModel)]="parkingFilter" name="parking">
             <span class="checkbox-custom"></span>
-            <i class="fas fa-parking"></i>
-            <span>Parking</span>
+            <i class="fas fa-parking"></i><span>Parking</span>
           </label>
-
           <label class="checkbox-label">
             <input type="checkbox" [(ngModel)]="climatisationFilter" name="climatisation">
             <span class="checkbox-custom"></span>
-            <i class="fas fa-snowflake"></i>
-            <span>Climatisation</span>
+            <i class="fas fa-snowflake"></i><span>Climatisation</span>
           </label>
-
           <label class="checkbox-label">
             <input type="checkbox" [(ngModel)]="meubleFilter" name="meuble">
             <span class="checkbox-custom"></span>
-            <i class="fas fa-couch"></i>
-            <span>Meublé</span>
+            <i class="fas fa-couch"></i><span>Meublé</span>
           </label>
-
           <label class="checkbox-label">
             <input type="checkbox" [(ngModel)]="balconFilter" name="balcon">
             <span class="checkbox-custom"></span>
-            <i class="fas fa-building"></i>
-            <span>Balcon</span>
+            <i class="fas fa-building"></i><span>Balcon</span>
           </label>
-
           <label class="checkbox-label">
             <input type="checkbox" [(ngModel)]="ascenseurFilter" name="ascenseur">
             <span class="checkbox-custom"></span>
-            <i class="fas fa-elevator"></i>
-            <span>Ascenseur</span>
+            <i class="fas fa-elevator"></i><span>Ascenseur</span>
           </label>
-
           <label class="checkbox-label">
             <input type="checkbox" [(ngModel)]="gardienFilter" name="gardien">
             <span class="checkbox-custom"></span>
-            <i class="fas fa-user-shield"></i>
-            <span>Gardien</span>
+            <i class="fas fa-user-shield"></i><span>Gardien</span>
           </label>
-
           <label class="checkbox-label">
             <input type="checkbox" [(ngModel)]="securiteFilter" name="securite">
             <span class="checkbox-custom"></span>
-            <i class="fas fa-shield-alt"></i>
-            <span>Sécurité</span>
+            <i class="fas fa-shield-alt"></i><span>Sécurité</span>
           </label>
-
           <label class="checkbox-label">
             <input type="checkbox" [(ngModel)]="viabiliseFilter" name="viabilise">
             <span class="checkbox-custom"></span>
-            <i class="fas fa-plug"></i>
-            <span>Viabilisé</span>
+            <i class="fas fa-plug"></i><span>Viabilisé</span>
           </label>
         </div>
       </div>
