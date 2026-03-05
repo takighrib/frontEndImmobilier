@@ -1,6 +1,6 @@
 <div class="bien-detail-page">
 
-  <!-- ── Loading ──────────────────────────────────── -->
+  <!-- ── Loading ─────────────────────────────────── -->
   <div *ngIf="loading" class="loading">
     <div class="spinner"></div>
     <p>Chargement...</p>
@@ -18,7 +18,7 @@
 
     <!-- Breadcrumb -->
     <div class="breadcrumb">
-      <a routerLink="/">Accueil</a>
+      <a routerLink="/"><i class="fas fa-home"></i></a>
       <i class="fas fa-chevron-right"></i>
       <a routerLink="/biens">Biens</a>
       <i class="fas fa-chevron-right"></i>
@@ -35,39 +35,36 @@
         <div class="gallery-section">
           <div class="main-image">
 
-            <!-- Image cliquable → Lightbox -->
             <img
               [src]="bien.images[currentImageIndex].urlImage"
               [alt]="bien.titre"
               (click)="openLightbox(currentImageIndex)"
               style="cursor: zoom-in; width: 100%; height: 100%; object-fit: cover; display: block;">
 
-            <!-- Badge type transaction -->
+            <!-- Badge pill gauche — identique biens-list -->
             <span class="bien-badge" [class.badge-location]="bien.typeTransaction === 'LOCATION'">
               {{ bien.typeTransaction === 'VENTE' ? 'À Vendre' : 'À Louer' }}
             </span>
 
-            <!-- Icône zoom au survol -->
+            <!-- Icône zoom -->
             <div class="zoom-hint" (click)="openLightbox(currentImageIndex)">
               <i class="fas fa-expand-alt"></i>
             </div>
 
-            <!-- Compteur images -->
+            <!-- Compteur -->
             <div class="image-counter" *ngIf="bien.images.length > 1">
               <i class="fas fa-images"></i>
               {{ currentImageIndex + 1 }} / {{ bien.images.length }}
             </div>
 
-            <!-- Flèches navigation -->
-            <button
-              class="arrow arrow-left"
+            <!-- Flèches -->
+            <button class="arrow arrow-left"
               (click)="prevImage()"
               *ngIf="bien.images.length > 1"
               aria-label="Image précédente">
               <i class="fas fa-chevron-left"></i>
             </button>
-            <button
-              class="arrow arrow-right"
+            <button class="arrow arrow-right"
               (click)="nextImage()"
               *ngIf="bien.images.length > 1"
               aria-label="Image suivante">
@@ -89,10 +86,9 @@
           </div>
         </div>
 
-        <!-- ── Description Professionnelle ────────── -->
+        <!-- ── Description ────────────────────────── -->
         <div class="description-section">
 
-          <!-- Header -->
           <div class="desc-header">
             <div class="desc-title-group">
               <div class="desc-icon">
@@ -100,31 +96,26 @@
               </div>
               <div>
                 <h2>Description du bien</h2>
-                <p class="desc-subtitle">Informations détaillées fournies par l'agence</p>
+                <p class="desc-subtitle">Informations fournies par l'agence</p>
               </div>
             </div>
-            <!-- Badge Référence -->
             <div class="desc-ref">
               <span class="ref-label">Référence</span>
-        <span class="ref-value">
-          {{ bien.reference || '#' + bien.id }}</span>
+              <span class="ref-value">{{ bien.reference || '#' + bien.id }}</span>
             </div>
           </div>
 
-          <!-- Séparateur décoratif -->
           <div class="desc-divider">
             <span class="divider-line"></span>
             <span class="divider-dot"><i class="fas fa-home"></i></span>
             <span class="divider-line"></span>
           </div>
 
-          <!-- Corps texte avec expand/collapse -->
           <div class="desc-body" [class.expanded]="descriptionExpanded">
             <p>{{ bien.description }}</p>
             <div class="desc-fade" *ngIf="!descriptionExpanded"></div>
           </div>
 
-          <!-- Bouton Voir plus / Voir moins -->
           <button
             class="btn-toggle-desc"
             (click)="toggleDescription()"
@@ -135,7 +126,6 @@
               [class.fa-chevron-up]="descriptionExpanded"></i>
           </button>
 
-          <!-- Footer méta-infos -->
           <div class="desc-footer">
             <div class="desc-meta-item">
               <i class="fas fa-building"></i>
@@ -152,12 +142,16 @@
           </div>
 
         </div>
-        <!-- Fin Description -->
-
       </div>
 
       <!-- ── Colonne droite : Info + Contact ──────── -->
       <div class="info-section">
+
+        <!-- Badge type -->
+        <span class="bien-badge" [class.badge-location]="bien.typeTransaction === 'LOCATION'">
+          {{ bien.typeTransaction === 'VENTE' ? 'À Vendre' : 'À Louer' }}
+        </span>
+
         <h1>{{ bien.titre }}</h1>
 
         <div class="location">
@@ -209,46 +203,48 @@
 
         <!-- Équipements -->
         <div class="equipements"
-  *ngIf="bien.jardin || bien.garage || bien.piscine || bien.climatisation || bien.parking || bien.balcon || bien.meuble || bien.ascenseur || bien.gardien || bien.securite || bien.viabilise">
-  <h3>Équipements</h3>
-  <div class="equipements-grid">
-    <div class="equipement" *ngIf="bien.jardin">
-      <i class="fas fa-tree"></i><span>Jardin</span>
-    </div>
-    <div class="equipement" *ngIf="bien.garage">
-      <i class="fas fa-warehouse"></i><span>Garage</span>
-    </div>
-    <div class="equipement" *ngIf="bien.piscine">
-      <i class="fas fa-swimming-pool"></i><span>Piscine</span>
-    </div>
-    <div class="equipement" *ngIf="bien.climatisation">
-      <i class="fas fa-snowflake"></i><span>Climatisation</span>
-    </div>
-    <div class="equipement" *ngIf="bien.parking">
-      <i class="fas fa-parking"></i><span>Parking</span>
-    </div>
-    <div class="equipement" *ngIf="bien.balcon">
-      <i class="fas fa-building"></i><span>Balcon</span>
-    </div>
-    <div class="equipement" *ngIf="bien.meuble">
-      <i class="fas fa-couch"></i><span>Meublé</span>
-    </div>
-    <div class="equipement" *ngIf="bien.ascenseur">
-      <i class="fas fa-elevator"></i><span>Ascenseur</span>
-    </div>
-    <div class="equipement" *ngIf="bien.gardien">
-      <i class="fas fa-user-shield"></i><span>Gardien</span>
-    </div>
-    <div class="equipement" *ngIf="bien.securite">
-      <i class="fas fa-shield-alt"></i><span>Sécurité</span>
-    </div>
-    <div class="equipement" *ngIf="bien.viabilise">
-      <i class="fas fa-plug"></i><span>Viabilisé</span>
-    </div>
-  </div>
-</div>
+          *ngIf="bien.jardin || bien.garage || bien.piscine || bien.climatisation ||
+                 bien.parking || bien.balcon || bien.meuble || bien.ascenseur ||
+                 bien.gardien || bien.securite || bien.viabilise">
+          <h3>Équipements</h3>
+          <div class="equipements-grid">
+            <div class="equipement" *ngIf="bien.jardin">
+              <i class="fas fa-tree"></i><span>Jardin</span>
+            </div>
+            <div class="equipement" *ngIf="bien.garage">
+              <i class="fas fa-warehouse"></i><span>Garage</span>
+            </div>
+            <div class="equipement" *ngIf="bien.piscine">
+              <i class="fas fa-swimming-pool"></i><span>Piscine</span>
+            </div>
+            <div class="equipement" *ngIf="bien.climatisation">
+              <i class="fas fa-snowflake"></i><span>Climatisation</span>
+            </div>
+            <div class="equipement" *ngIf="bien.parking">
+              <i class="fas fa-parking"></i><span>Parking</span>
+            </div>
+            <div class="equipement" *ngIf="bien.balcon">
+              <i class="fas fa-building"></i><span>Balcon</span>
+            </div>
+            <div class="equipement" *ngIf="bien.meuble">
+              <i class="fas fa-couch"></i><span>Meublé</span>
+            </div>
+            <div class="equipement" *ngIf="bien.ascenseur">
+              <i class="fas fa-elevator"></i><span>Ascenseur</span>
+            </div>
+            <div class="equipement" *ngIf="bien.gardien">
+              <i class="fas fa-user-shield"></i><span>Gardien</span>
+            </div>
+            <div class="equipement" *ngIf="bien.securite">
+              <i class="fas fa-shield-alt"></i><span>Sécurité</span>
+            </div>
+            <div class="equipement" *ngIf="bien.viabilise">
+              <i class="fas fa-plug"></i><span>Viabilisé</span>
+            </div>
+          </div>
+        </div>
 
-        <!-- Boutons Contact -->
+        <!-- Contact -->
         <div class="contact-buttons">
           <a href="tel:+21628195645" class="btn btn-primary">
             <i class="fas fa-phone"></i>
@@ -260,7 +256,7 @@
           </a>
           <a routerLink="/contact" [queryParams]="{bienId: bien.id}" class="btn btn-outline">
             <i class="fas fa-envelope"></i>
-            <span>Email</span>
+            <span>Envoyer un message</span>
           </a>
         </div>
 
@@ -268,23 +264,17 @@
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════════════ -->
-  <!--   LIGHTBOX MODAL                              -->
-  <!-- ══════════════════════════════════════════════ -->
+  <!-- ── LIGHTBOX ──────────────────────────────────── -->
   <div
     class="lightbox-overlay"
     *ngIf="lightboxOpen && bien"
     (click)="closeLightbox()"
-    role="dialog"
-    aria-modal="true"
-    aria-label="Visionneuse d'images">
+    role="dialog" aria-modal="true" aria-label="Visionneuse d'images">
 
-    <!-- Bouton fermer -->
     <button class="lightbox-close" (click)="closeLightbox()" aria-label="Fermer">
       <i class="fas fa-times"></i>
     </button>
 
-    <!-- Flèche gauche -->
     <button
       class="lightbox-arrow lightbox-prev"
       (click)="$event.stopPropagation(); lightboxPrev()"
@@ -293,7 +283,6 @@
       <i class="fas fa-chevron-left"></i>
     </button>
 
-    <!-- Image centrale -->
     <div class="lightbox-content" (click)="$event.stopPropagation()">
       <img
         [src]="bien.images[lightboxIndex].urlImage"
@@ -304,7 +293,6 @@
       </div>
     </div>
 
-    <!-- Flèche droite -->
     <button
       class="lightbox-arrow lightbox-next"
       (click)="$event.stopPropagation(); lightboxNext()"
@@ -313,7 +301,6 @@
       <i class="fas fa-chevron-right"></i>
     </button>
 
-    <!-- Miniatures lightbox -->
     <div
       class="lightbox-thumbnails"
       *ngIf="bien.images.length > 1"
