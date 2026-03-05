@@ -1,19 +1,23 @@
-<!-- Hero Section -->
+<!-- ============================================
+   HERO SECTION
+============================================ -->
 <section class="hero">
-  <div class="hero-overlay"></div>
   <div class="hero-content">
     <h1 class="hero-title">Trouvez la Propriété de Vos Rêves</h1>
     <p class="hero-subtitle">Découvrez notre sélection exclusive de biens immobiliers en Tunisie</p>
-    <a routerLink="/biens" class="btn btn-hero">
+    <a routerLink="/biens" class="btn-hero">
       Voir tous les biens
       <i class="fas fa-arrow-right"></i>
     </a>
   </div>
 </section>
 
-<!-- Biens à la Une -->
+<!-- ============================================
+   FEATURED SECTION
+============================================ -->
 <section class="featured-section">
   <div class="container">
+
     <div class="section-header">
       <h2>Biens à la Une</h2>
       <p>Découvrez notre sélection de propriétés exceptionnelles</p>
@@ -29,28 +33,48 @@
     <div *ngIf="error" class="error-message">
       <i class="fas fa-exclamation-triangle"></i>
       <p>{{ error }}</p>
-      <button class="btn" (click)="loadBiens()">Réessayer</button>
+      <button class="btn btn-primary" (click)="loadBiens()">Réessayer</button>
     </div>
 
     <!-- Biens Grid -->
-    <div *ngIf="!loading && !error" class="biens-grid">
+    <div *ngIf="!loading && !error && biensFeatured.length > 0" class="biens-grid">
       <div *ngFor="let bien of biensFeatured" class="bien-card" [routerLink]="['/bien', bien.id]">
+
+        <!-- Image -->
         <div class="bien-image">
           <img [src]="bienService.getImagePrincipale(bien)" [alt]="bien.titre">
+
+          <!-- Badge pill gauche -->
           <span class="bien-badge" [class.badge-location]="bien.typeTransaction === 'LOCATION'">
             {{ bien.typeTransaction === 'VENTE' ? 'À Vendre' : 'À Louer' }}
           </span>
+
+          <!-- Prix flottant sur l'image -->
+          <div class="bien-prix-overlay">
+            {{ bienService.formatPrix(bien.prix) }}
+            <span class="bien-prix-overlay-unit">
+              {{ bien.typeTransaction === 'LOCATION' ? ' DT/mois' : ' DT' }}
+            </span>
+          </div>
         </div>
+
+        <!-- Contenu -->
         <div class="bien-content">
+
+          <!-- Titre -->
           <h3 class="bien-title">{{ bien.titre }}</h3>
+
+          <!-- Localisation -->
           <div class="bien-location">
             <i class="fas fa-map-marker-alt"></i>
             <span>{{ bien.ville }}{{ bien.quartier ? ', ' + bien.quartier : '' }}</span>
           </div>
+
+          <!-- Détails -->
           <div class="bien-details">
             <div class="detail-item">
               <i class="fas fa-ruler-combined"></i>
-              <span>{{ bien.surface }}m²</span>
+              <span>{{ bien.surface }} m²</span>
             </div>
             <div class="detail-item" *ngIf="bien.nombreChambres">
               <i class="fas fa-bed"></i>
@@ -60,39 +84,73 @@
               <i class="fas fa-bath"></i>
               <span>{{ bien.nombreSallesBain }} sdb</span>
             </div>
+            <div class="detail-item" *ngIf="bien.nombrePieces">
+              <i class="fas fa-home"></i>
+              <span>{{ bien.nombrePieces }} p.</span>
+            </div>
           </div>
-          <div class="bien-prix">
-            {{ bienService.formatPrix(bien.prix) }} 
-            {{ bien.typeTransaction === 'LOCATION' ? 'DT/mois' : 'DT' }}
+
+          <!-- Équipements -->
+          <div class="bien-features"
+            *ngIf="bien.jardin || bien.garage || bien.piscine || bien.parking ||
+                   bien.climatisation || bien.meuble || bien.balcon ||
+                   bien.ascenseur || bien.gardien || bien.securite || bien.viabilise">
+            <span class="feature" *ngIf="bien.jardin"><i class="fas fa-tree"></i> Jardin</span>
+            <span class="feature" *ngIf="bien.garage"><i class="fas fa-warehouse"></i> Garage</span>
+            <span class="feature" *ngIf="bien.piscine"><i class="fas fa-swimming-pool"></i> Piscine</span>
+            <span class="feature" *ngIf="bien.parking"><i class="fas fa-parking"></i> Parking</span>
+            <span class="feature" *ngIf="bien.climatisation"><i class="fas fa-snowflake"></i> Clim</span>
+            <span class="feature" *ngIf="bien.meuble"><i class="fas fa-couch"></i> Meublé</span>
+            <span class="feature" *ngIf="bien.balcon"><i class="fas fa-building"></i> Balcon</span>
+            <span class="feature" *ngIf="bien.ascenseur"><i class="fas fa-elevator"></i> Ascenseur</span>
+            <span class="feature" *ngIf="bien.gardien"><i class="fas fa-user-shield"></i> Gardien</span>
+            <span class="feature" *ngIf="bien.securite"><i class="fas fa-shield-alt"></i> Sécurité</span>
+            <span class="feature" *ngIf="bien.viabilise"><i class="fas fa-plug"></i> Viabilisé</span>
           </div>
+
+          <!-- Footer : Prix + Bouton Voir -->
+          <div class="bien-prix-footer">
+            <div class="bien-prix">
+              {{ bienService.formatPrix(bien.prix) }}
+              <span class="bien-prix-unit">
+                {{ bien.typeTransaction === 'LOCATION' ? 'DT/mois' : 'DT' }}
+              </span>
+            </div>
+            <span class="btn-voir">Voir <i class="fas fa-arrow-right"></i></span>
+          </div>
+
         </div>
       </div>
     </div>
 
-    <!-- Message si aucun bien -->
+    <!-- Aucun bien -->
     <div *ngIf="!loading && !error && biensFeatured.length === 0" class="no-results">
       <i class="fas fa-home"></i>
       <p>Aucun bien disponible pour le moment</p>
     </div>
 
-    <!-- Bouton Voir Plus -->
-    <div *ngIf="biensFeatured.length > 0" class="text-center" style="margin-top: 3rem;">
-      <a routerLink="/biens" class="btn btn-primary btn-lg">
+    <!-- Voir tous -->
+    <div *ngIf="!loading && biensFeatured.length > 0" class="voir-tous-wrap">
+      <a routerLink="/biens" class="btn-voir-tous">
         Voir tous les biens
         <i class="fas fa-arrow-right"></i>
       </a>
     </div>
+
   </div>
 </section>
 
-<!-- Section À Propos (optionnel) -->
+<!-- ============================================
+   ABOUT PREVIEW
+============================================ -->
 <section class="about-preview">
   <div class="container">
     <div class="about-content">
+
       <div class="about-text">
         <h2>Votre Partenaire Immobilier de Confiance</h2>
         <p>
-          Avec plus de 10 ans d'expérience dans le secteur immobilier tunisien, 
+          Avec plus de 10 ans d'expérience dans le secteur immobilier tunisien,
           nous vous accompagnons dans tous vos projets : achat, vente ou location.
         </p>
         <div class="stats">
@@ -111,24 +169,28 @@
         </div>
         <a routerLink="/about" class="btn btn-outline">En savoir plus</a>
       </div>
+
       <div class="about-image">
-        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600" alt="Agence">
+        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600" alt="Agence immobilière">
       </div>
+
     </div>
   </div>
 </section>
 
-<!-- Section Contact -->
+<!-- ============================================
+   CONTACT CTA
+============================================ -->
 <section class="contact-cta">
   <div class="container">
     <h2>Une Question ? Contactez-nous !</h2>
     <p>Notre équipe est à votre disposition pour répondre à toutes vos questions</p>
     <div class="cta-buttons">
-      <a href="tel:+21628195645" class="btn btn-white">
+      <a href="tel:+21628195645" class="btn-white">
         <i class="fas fa-phone"></i>
         +216 28 195 645
       </a>
-      <a routerLink="/contact" class="btn btn-outline-white">
+      <a routerLink="/contact" class="btn-outline-white">
         <i class="fas fa-envelope"></i>
         Nous contacter
       </a>
