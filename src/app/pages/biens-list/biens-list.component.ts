@@ -49,20 +49,29 @@ export class BiensListComponent implements OnInit {
     this.loadBiens();
   }
 
-  loadBiens(): void {
-    this.loading = true;
-    this.bienService.getAllBiens().subscribe({
-      next: (data) => {
-        this.biens = data;
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Erreur chargement biens:', err);
-        this.error = 'Erreur lors du chargement des biens';
-        this.loading = false;
-      }
-    });
-  }
+loadBiens(): void {
+  this.loading = true;
+  this.bienService.getAllBiens().subscribe({
+    next: (data) => {
+      this.biens = data.map(bien => ({
+        ...bien,
+        jardin: bien.jardin ?? false,
+        garage: bien.garage ?? false,
+        piscine: bien.piscine ?? false,
+        climatisation: bien.climatisation ?? false,
+        parking: bien.parking ?? false,
+        balcon: bien.balcon ?? false,
+        meuble: bien.meuble ?? false,
+        ascenseur: bien.ascenseur ?? false,
+        gardien: bien.gardien ?? false,
+        securite: bien.securite ?? false,
+        viabilise: bien.viabilise ?? false,
+      }));
+      this.loading = false;
+    },
+    // ...
+  });
+}
 
   toggleFilterSidebar(): void {
     this.isFilterSidebarOpen = !this.isFilterSidebarOpen;
